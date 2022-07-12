@@ -72,7 +72,7 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
             tvContent.text = item.issueTitle
             val stateResId = when(item.state){
                 "open" -> R.drawable.ic_issue_state_open
-                "closed" -> R.drawable.ic_issue_state_open
+                "closed" -> R.drawable.ic_issue_state_closed
                 else -> R.drawable.ic_issue_state_error
             }
             ivState.setImageResource(stateResId)

@@ -5,6 +5,9 @@ import co.kr.woowahan_repo.BuildConfig
 import timber.log.Timber
 
 class WoowahanRepoApplication: Application() {
+
+    val appContainer = AppContainer()
+
     override fun onCreate() {
         super.onCreate()
 

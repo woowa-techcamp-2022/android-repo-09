@@ -100,6 +100,15 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
                 Timber.tag("processLastUpdateDate").d("raw day => $day")
                 val year = day/365
                 return when {
+                    day <1 -> {
+                        val hour = TimeUnit.MILLISECONDS.toHours(mill)
+                        if(hour>0)
+                            "${hour}시간전"
+                        else{
+                            val min = TimeUnit.MILLISECONDS.toMinutes(mill)
+                            "${min}분전"
+                        }
+                    }
                     year>0 -> {
                         Timber.tag("processLastUpdateDate").d("${year}년전")
                         "${year}년전"

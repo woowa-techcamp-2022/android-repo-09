@@ -32,6 +32,11 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
         setUpViewModel()
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchIssues()
+    }
+
     private fun setUpRecyclerView() {
         binding.rvIssues.apply {
             layoutManager = LinearLayoutManager(context)

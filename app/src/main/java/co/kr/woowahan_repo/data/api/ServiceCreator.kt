@@ -23,4 +23,8 @@ object ServiceCreator {
         .build()
 
     val githubOAuthAccessTokenService = retrofit.create(GithubOAuthAccessTokenService::class.java)
+
+    fun <T>createService(service: Class<T>): T {
+        return retrofit.create(service)
+    }
 }

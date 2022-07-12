@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ViewIssueItemBinding
 import co.kr.woowahan_repo.domain.GithubIssueModel
 import timber.log.Timber
@@ -52,7 +53,7 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
     }
 
     class IssueItemViewHolder(
-        binding: ViewIssueItemBinding
+        private val binding: ViewIssueItemBinding
     ): RecyclerView.ViewHolder(binding.root){
         companion object {
             fun from(parent: ViewGroup): IssueItemViewHolder{
@@ -66,8 +67,15 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
             }
         }
 
-        fun bind(item: GithubIssueModel){
-
+        fun bind(item: GithubIssueModel)= with(binding){
+            tvTitle.text = item.repositoryName
+            tvContent.text = item.issueTitle
+            val stateResId = when(item.state){
+                "open" -> R.drawable.ic_issue_state_open
+                "closed" -> R.drawable.ic_issue_state_open
+                else -> R.drawable.ic_issue_state_error
+            }
+            ivState.setImageResource(stateResId)
         }
     }
 }

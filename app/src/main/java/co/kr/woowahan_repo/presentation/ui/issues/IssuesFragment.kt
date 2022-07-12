@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.application.WoowahanRepoApplication
@@ -40,6 +41,9 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
     private fun setUpRecyclerView() {
         binding.rvIssues.apply {
             layoutManager = LinearLayoutManager(context)
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+                setDrawable(context.resources.getDrawable(R.drawable.stroke_issue_item_divider, null))
+            })
             adapter = issuesAdapter
         }
     }

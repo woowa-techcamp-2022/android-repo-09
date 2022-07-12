@@ -21,7 +21,7 @@ class IssuesViewModel(
         fetchIssues()
     }
 
-    private fun fetchIssues(){
+    fun fetchIssues(){
         _dataLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {

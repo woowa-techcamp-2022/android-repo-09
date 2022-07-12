@@ -10,7 +10,8 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
             GithubIssueModel(
                 it.repository.name,
                 it.title,
-                it.state
+                it.state,
+                it.repository.updatedAt
             )
         }
     }

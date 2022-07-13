@@ -92,20 +92,20 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
         private fun processLastUpdateDate(lastUpdateAt: String): String{
             try {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-                val lastUpdate: Date = dateFormat.parse(lastUpdateAt)!!
-                Timber.tag("processLastUpdateDate").d(lastUpdate.toString())
+                val lastUpdateDate: Date = dateFormat.parse(lastUpdateAt)!!
+                Timber.tag("processLastUpdateDate").d(lastUpdateDate.toString())
                 val now = Calendar.getInstance()
-                val mill = now.timeInMillis - lastUpdate.time
-                val day = TimeUnit.MILLISECONDS.toDays(mill)
+                val lastUpdateDateMill = now.timeInMillis - lastUpdateDate.time
+                val day = TimeUnit.MILLISECONDS.toDays(lastUpdateDateMill)
                 Timber.tag("processLastUpdateDate").d("raw day => $day")
                 val year = day/365
                 return when {
                     day <1 -> {
-                        val hour = TimeUnit.MILLISECONDS.toHours(mill)
+                        val hour = TimeUnit.MILLISECONDS.toHours(lastUpdateDateMill)
                         if(hour>0)
                             "${hour}시간전"
                         else{
-                            val min = TimeUnit.MILLISECONDS.toMinutes(mill)
+                            val min = TimeUnit.MILLISECONDS.toMinutes(lastUpdateDateMill)
                             "${min}분전"
                         }
                     }

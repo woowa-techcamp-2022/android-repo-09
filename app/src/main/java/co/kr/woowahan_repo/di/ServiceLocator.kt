@@ -12,9 +12,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ServiceLocator {
     var accessToken: String = ""
 
-    fun getAuthInterceptor() = AuthInterceptor(accessToken)
+    private fun getAuthInterceptor() = AuthInterceptor(accessToken)
 
-    fun getOAuthClient() = OkHttpClient.Builder()
+    private fun getOAuthClient() = OkHttpClient.Builder()
         .addInterceptor(
             HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -22,7 +22,7 @@ object ServiceLocator {
         )
         .build()
 
-    fun getApiClient() = OkHttpClient.Builder()
+    private fun getApiClient() = OkHttpClient.Builder()
         .addInterceptor(getAuthInterceptor())
         .addInterceptor(
             HttpLoggingInterceptor().apply {
@@ -31,13 +31,13 @@ object ServiceLocator {
         )
         .build()
 
-    fun getOAuthRetrofit(): Retrofit = Retrofit.Builder()
+    private fun getOAuthRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(BuildConfig.GITHUB_OAUTH_BASE_URL)
         .client(getOAuthClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun getApiRetrofit(): Retrofit = Retrofit.Builder()
+    private fun getApiRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(BuildConfig.GITHUB_API_BASE_URL)
         .client(getApiClient())
         .addConverterFactory(GsonConverterFactory.create())

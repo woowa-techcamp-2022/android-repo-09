@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/menu_issue_state_open"
+            android:title="@string/title_open"
+            />
+
+        <item android:id="@+id/menu_issue_state_closed"
+            android:title="@string/title_closed"
+            />
+
+        <item android:id="@+id/menu_issue_state_all"
+            android:title="@string/title_all"
+            />
+    </group>
+</menu>

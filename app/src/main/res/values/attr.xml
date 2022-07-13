@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="popupMenuChooseView">
+        <attr name="pop_up_menu_title" format="string"/>
+        <attr name="pop_up_menu_default_value" format="string"/>
+    </declare-styleable>
+</resources>

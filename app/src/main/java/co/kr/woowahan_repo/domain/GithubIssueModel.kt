@@ -9,7 +9,16 @@ data class GithubIssueModel(
     val lastUpdateDate: String // 2011-01-26T19:14:43Z, "yyyy-MM-dd'T'HH:mm:ss'Z'"
 ) {
     companion object {
-        fun getDummyDate(): String{
+        fun getDummy(state: IssueState, seed: Int? = null): GithubIssueModel{
+            val seedValue = seed ?: Random.nextInt(100)
+            return GithubIssueModel(
+                "Repository Name[$seedValue]",
+                "Issue Title[$seedValue]",
+                if(state == IssueState.All) IssueState.values()[Random.nextInt(2)] else state,
+                getDummyDate()
+            )
+        }
+        private fun getDummyDate(): String{
             val example1 = "2011-01-26T19:14:43Z"
             val example2 = "2022-01-26T19:14:43Z"
             val example3 = "2022-06-26T19:14:43Z"

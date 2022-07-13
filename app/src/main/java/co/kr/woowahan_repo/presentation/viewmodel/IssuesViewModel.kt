@@ -15,9 +15,9 @@ class IssuesViewModel(
     private val _viewState = MutableLiveData<IssuesViewState>()
     val viewState: LiveData<IssuesViewState> = _viewState
 
-    private var issueState: String = "open" // all closed
+    private var issueState: GithubIssueModel.IssueState = GithubIssueModel.IssueState.Open
     fun changeState(type: String){
-        issueState = type
+        issueState = GithubIssueModel.IssueState.get(type)
         fetchIssues()
     }
 
@@ -26,7 +26,7 @@ class IssuesViewModel(
         viewModelScope.launch {
             kotlin.runCatching {
                 issuesRepository.fetchIssues(
-                    issueState, 1
+                    issueState.key, 1
                 )
             }.onSuccess {
                 Timber.tag("Api Success").d(it.toString())

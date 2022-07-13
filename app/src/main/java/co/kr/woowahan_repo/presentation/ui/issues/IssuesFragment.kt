@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.application.WoowahanRepoApplication
 import co.kr.woowahan_repo.databinding.FragmentIssuesBinding
+import co.kr.woowahan_repo.domain.GithubIssueModel
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModel
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModelFactory
@@ -57,15 +58,15 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
             val state = when(it.itemId){
                 R.id.menu_issue_state_open -> {
                     Timber.tag("PopupMenu Issue State Click").d("open")
-                    "open"
+                    GithubIssueModel.IssueState.Open.key
                 }
                 R.id.menu_issue_state_closed -> {
                     Timber.tag("PopupMenu Issue State Click").d("closed")
-                    "closed"
+                    GithubIssueModel.IssueState.Closed.key
                 }
                 R.id.menu_issue_state_all -> {
                     Timber.tag("PopupMenu Issue State Click").d("all")
-                    "all"
+                    GithubIssueModel.IssueState.All.key
                 }
                 else -> null
             }

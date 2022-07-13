@@ -5,7 +5,7 @@ import kotlin.random.Random
 data class GithubIssueModel(
     val repositoryName: String,
     val issueTitle: String,
-    val state: String,
+    val state: IssueState,
     val lastUpdateDate: String // 2011-01-26T19:14:43Z, "yyyy-MM-dd'T'HH:mm:ss'Z'"
 ) {
     companion object {
@@ -17,6 +17,23 @@ data class GithubIssueModel(
                 example1, example2, example3
             )
             return examples[Random.nextInt(examples.size)]
+        }
+    }
+    enum class IssueState(
+        val key: String
+    ){
+        Open("open"),
+        Closed("closed"),
+        All("all"),
+        Unknown("unknown");
+        companion object {
+            fun get(any: String): IssueState {
+                values().forEach {
+                    if(any == it.key || any == it.toString())
+                        return it
+                }
+                return Unknown
+            }
         }
     }
 }

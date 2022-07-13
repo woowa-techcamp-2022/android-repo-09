@@ -79,8 +79,8 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
             tvTitle.text = item.repositoryName
             tvContent.text = item.issueTitle
             val stateResId = when(item.state){
-                "open" -> R.drawable.ic_issue_state_open
-                "closed" -> R.drawable.ic_issue_state_closed
+                GithubIssueModel.IssueState.Open -> R.drawable.ic_issue_state_open
+                GithubIssueModel.IssueState.Closed -> R.drawable.ic_issue_state_closed
                 else -> R.drawable.ic_issue_state_error
             }
             ivState.setImageResource(stateResId)

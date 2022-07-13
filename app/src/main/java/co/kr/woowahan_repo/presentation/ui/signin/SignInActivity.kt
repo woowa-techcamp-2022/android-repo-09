@@ -57,14 +57,15 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Toast.makeText(applicationContext, "onNewIntent", Toast.LENGTH_LONG).show()
-        Timber.d("onNewIntent called => ${intent?.dataString}")
-        intent?.dataString?.let {
-            val start = it.indexOf("code")
-            Timber.d("start => $start")
-            val code = it.substring(start+5, it.length)
-            Timber.d("code => $code")
-            viewModel.getGithubOAuthAccessToken(code)
-        }
+        Toast.makeText(applicationContext, "Github 로그인", Toast.LENGTH_LONG).show()
+        Timber.d("onNewIntent called => data[${intent?.data}], dataString[${intent?.dataString}]")
+        intent?.data?.let { processUrlScheme(it) }
+    }
+
+    private fun processUrlScheme(uri: Uri){
+        val scheme = uri.scheme
+        val code = uri.getQueryParameter("code")
+        Timber.tag("process url scheme").d("scheme[$scheme], code[$code]")
+        viewModel.getGithubOAuthAccessToken(scheme, code)
     }
 }

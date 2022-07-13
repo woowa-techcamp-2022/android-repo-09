@@ -18,15 +18,26 @@ class SignInViewModel : ViewModel() {
     val viewState: LiveData<SignInViewState> = _viewState
 
     private val oAuthRepository = ServiceLocator.getGithubOAuthRepository()
+    private val appScheme = "camp-09"
 
-    fun getGithubOAuthAccessToken(code: String) {
+    fun getGithubOAuthAccessToken(scheme: String?, code: String?) {
+        when {
+            scheme.isNullOrBlank() || scheme != appScheme -> {
+                _viewState.value = SignInViewState.OAuthFail(Throwable("호출 경로가 유효하지 않습니다"))
+                return
+            }
+            code.isNullOrBlank() -> {
+                _viewState.value = SignInViewState.OAuthFail(Throwable("인증 코드가 유효하지 않습니다"))
+                return
+            }
+        }
         _dataLoading.value = true
         viewModelScope.launch {
             runCatching {
                 oAuthRepository.requestAccessToken(
                     BuildConfig.GITHUB_CLIENT_ID,
                     BuildConfig.GITHUB_SECRETS,
-                    code
+                    code!!
                 )
             }.onSuccess {
                 Timber.tag("Success").d(it.accessToken)

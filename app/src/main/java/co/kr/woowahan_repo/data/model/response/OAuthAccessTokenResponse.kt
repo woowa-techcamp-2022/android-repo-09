@@ -1,5 +1,6 @@
 package co.kr.woowahan_repo.data.model.response
 
+import co.kr.woowahan_repo.domain.OAuthAccessTokenInfo
 import com.google.gson.annotations.SerializedName
 
 data class OAuthAccessTokenResponse(
@@ -8,4 +9,10 @@ data class OAuthAccessTokenResponse(
     val scope: String,
     @SerializedName("token_type")
     val tokenType: String
-)
+){
+    fun toEntity(): OAuthAccessTokenInfo {
+        return OAuthAccessTokenInfo(
+            accessToken, scope, tokenType
+        )
+    }
+}

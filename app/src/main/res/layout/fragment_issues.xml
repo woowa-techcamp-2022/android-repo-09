@@ -8,14 +8,29 @@
         android:background="@color/black_111723"
         >
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_issues"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <co.kr.woowahan_repo.presentation.ui.view.PopupMenuChooseView
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+
+            android:layout_marginTop="12dp"
+            app:pop_up_menu_title="@string/title_filter"
+            app:pop_up_menu_default_value="@string/title_optional"
+            android:layout_marginHorizontal="24dp"
+            android:id="@+id/pop_up_menu_choose_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            app:layout_constraintTop_toBottomOf="@id/pop_up_menu_choose_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+
+            android:id="@+id/rvIssues"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             />
 
         <ProgressBar

@@ -13,6 +13,7 @@ import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModel
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 
 class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
     override val TAG: String get() = "IssuesFragment"
@@ -48,8 +49,29 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
         }
     }
 
-    private fun setListener(){
-        
+    private fun setListener()= with(binding){
+        popUpMenuChooseView.setUpPopupMenu(
+            requireActivity(),
+            R.menu.menu_issue_state
+        ) {
+            val state = when(it.itemId){
+                R.id.menu_issue_state_open -> {
+                    Timber.tag("PopupMenu Issue State Click").d("open")
+                    "open"
+                }
+                R.id.menu_issue_state_closed -> {
+                    Timber.tag("PopupMenu Issue State Click").d("closed")
+                    "closed"
+                }
+                R.id.menu_issue_state_all -> {
+                    Timber.tag("PopupMenu Issue State Click").d("all")
+                    "all"
+                }
+                else -> null
+            }
+            viewModel.changeState(requireNotNull(state))
+            true
+        }
     }
 
     private fun setUpViewModel(){

@@ -3,6 +3,7 @@ package co.kr.woowahan_repo.di
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
 import co.kr.woowahan_repo.data.service.GithubOAuthAccessTokenService
+import co.kr.woowahan_repo.data.service.NotificationsService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ServiceLocator {
     var accessToken: String = ""
 
-    fun getAuthInterceptor() = AuthInterceptor()
+    fun getAuthInterceptor() = AuthInterceptor(accessToken)
 
     fun getOAuthClient() = OkHttpClient.Builder()
         .addInterceptor(
@@ -44,4 +45,7 @@ object ServiceLocator {
 
     fun getOAuthAccessTokenService(): GithubOAuthAccessTokenService =
         getOAuthRetrofit().create(GithubOAuthAccessTokenService::class.java)
+
+    fun getNotificationsService(): NotificationsService =
+        getApiRetrofit().create(NotificationsService::class.java)
 }

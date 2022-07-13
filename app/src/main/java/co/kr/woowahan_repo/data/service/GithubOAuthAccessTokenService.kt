@@ -1,7 +1,7 @@
 package co.kr.woowahan_repo.data.service
 
-import co.kr.woowahan_repo.data.model.OAuthAccessTokenRequest
-import co.kr.woowahan_repo.data.model.OAuthAccessTokenResponse
+import co.kr.woowahan_repo.data.model.request.OAuthAccessTokenRequest
+import co.kr.woowahan_repo.data.model.response.OAuthAccessTokenResponse
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST

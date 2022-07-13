@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="27dp"
+        android:paddingEnd="24dp"
+        android:paddingVertical="16dp"
+        android:background="@color/black_111723"
+        >
+
+        <ImageView
+            android:id="@+id/iv_state"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_issue_state_open"
+            />
+
+        <TextView
+            app:layout_constraintEnd_toStartOf="@id/tv_date"
+            app:layout_constraintStart_toEndOf="@id/iv_state"
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:textColor="@color/grey_74869B"
+            android:textSize="14sp"
+            android:layout_marginStart="11dp"
+            android:layout_marginEnd="11dp"
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:textColor="@color/grey_74869B"
+            android:textSize="14sp"
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:id="@+id/tv_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

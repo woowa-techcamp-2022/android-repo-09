@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Woowahan-Repo</string>
+
+    <!-- use at issues fragment -->
+    <string name="title_filter">Filter</string>
+    <string name="title_option">Option</string>
+
+    <!-- use at menu issue state -->
+    <string name="title_open">Open</string>
+    <string name="title_closed">Closed</string>
+    <string name="title_all">All</string>
 </resources>

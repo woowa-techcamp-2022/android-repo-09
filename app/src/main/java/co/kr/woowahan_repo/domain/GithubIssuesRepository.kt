@@ -1,6 +1,4 @@
-package co.kr.woowahan_repo.data.model
-
-import co.kr.woowahan_repo.domain.GithubIssueModel
+package co.kr.woowahan_repo.domain
 
 interface GithubIssuesRepository {
     suspend fun fetchIssues(state: String, page: Int): List<GithubIssueModel>

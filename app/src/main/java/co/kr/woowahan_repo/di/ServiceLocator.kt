@@ -2,6 +2,7 @@ package co.kr.woowahan_repo.di
 
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
+import co.kr.woowahan_repo.data.service.GithubIssuesService
 import co.kr.woowahan_repo.data.service.GithubOAuthAccessTokenService
 import co.kr.woowahan_repo.data.service.NotificationsService
 import okhttp3.OkHttpClient
@@ -48,4 +49,7 @@ object ServiceLocator {
 
     fun getNotificationsService(): NotificationsService =
         getApiRetrofit().create(NotificationsService::class.java)
+
+    fun getGithubIssuesService(): GithubIssuesService =
+        getApiRetrofit().create(GithubIssuesService::class.java)
 }

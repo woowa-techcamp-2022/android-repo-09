@@ -15,7 +15,7 @@
 
             android:layout_marginTop="12dp"
             app:pop_up_menu_title="@string/title_filter"
-            app:pop_up_menu_default_value="@string/title_optional"
+            app:pop_up_menu_default_value="@string/title_option"
             android:layout_marginHorizontal="24dp"
             android:id="@+id/pop_up_menu_choose_view"
             android:layout_width="match_parent"

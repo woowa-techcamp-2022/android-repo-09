@@ -3,7 +3,7 @@
 
     <!-- use at issues fragment -->
     <string name="title_filter">Filter</string>
-    <string name="title_optional">Optional</string>
+    <string name="title_option">Option</string>
 
     <!-- use at menu issue state -->
     <string name="title_open">Open</string>

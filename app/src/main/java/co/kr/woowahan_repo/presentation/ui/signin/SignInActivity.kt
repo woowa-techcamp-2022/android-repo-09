@@ -9,6 +9,7 @@ import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivitySignInBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
+import co.kr.woowahan_repo.presentation.ui.main.MainActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SignInViewModel
 import timber.log.Timber
 
@@ -22,8 +23,12 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
 
         binding.btnSignIn.setOnClickListener {
             val url = "https://github.com/login/oauth/authorize" +
-                    "?client_id=${BuildConfig.GITHUB_CLIENT_ID}"
+                    "?client_id=${BuildConfig.GITHUB_CLIENT_ID}&scope=repo, notifications"
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        }
+
+        signInViewModel.isSuccess.observe(this) {
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 

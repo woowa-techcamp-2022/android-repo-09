@@ -79,7 +79,7 @@
                         >
                         <ImageView
                             android:src="@drawable/ic_person_circle"
-                            android:id="@+id/iv_circle"
+                            android:id="@+id/iv_profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             />

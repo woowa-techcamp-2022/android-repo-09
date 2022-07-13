@@ -20,6 +20,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.onCreate(savedInstanceState)
         setListener()
         observeData()
+        if(savedInstanceState == null){ // 기기 회전 등 이벤트로 reCreate 하는 중이 아님
+            viewModel.clickTabOne() // default select tab
+        }
     }
 
     private fun setListener()= with(binding){

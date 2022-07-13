@@ -1,6 +1,6 @@
 package co.kr.woowahan_repo.data.model.response
 
-import co.kr.woowahan_repo.domain.OAuthAccessTokenInfo
+import co.kr.woowahan_repo.domain.model.OAuthAccessTokenInfo
 import com.google.gson.annotations.SerializedName
 
 data class OAuthAccessTokenResponse(

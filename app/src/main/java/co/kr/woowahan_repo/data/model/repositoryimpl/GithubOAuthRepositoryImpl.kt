@@ -1,11 +1,11 @@
-package co.kr.woowahan_repo.data.model
+package co.kr.woowahan_repo.data.model.repositoryimpl
 
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.model.request.OAuthAccessTokenRequest
 import co.kr.woowahan_repo.data.service.GithubOAuthAccessTokenService
 import co.kr.woowahan_repo.di.ServiceLocator
-import co.kr.woowahan_repo.domain.GithubOAuthRepository
-import co.kr.woowahan_repo.domain.OAuthAccessTokenInfo
+import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
+import co.kr.woowahan_repo.domain.model.OAuthAccessTokenInfo
 
 class GithubOAuthRepositoryImpl: GithubOAuthRepository {
     private val githubAccessTokenService: GithubOAuthAccessTokenService = ServiceLocator.getOAuthAccessTokenService()

@@ -1,6 +1,5 @@
 package co.kr.woowahan_repo.presentation.ui.issues
 
-import android.icu.util.Calendar
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -10,14 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.application.util.DateUtil
 import co.kr.woowahan_repo.databinding.ViewIssueItemBinding
-import co.kr.woowahan_repo.domain.GithubIssueModel
+import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import timber.log.Timber
-import java.lang.Exception
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
-import kotlin.math.roundToInt
 
 /**
  * https://sohee1702.tistory.com/409

@@ -1,6 +1,6 @@
-package co.kr.woowahan_repo.domain
+package co.kr.woowahan_repo.domain.repository
 
-import com.google.gson.annotations.SerializedName
+import co.kr.woowahan_repo.domain.model.OAuthAccessTokenInfo
 
 interface GithubOAuthRepository {
     fun getOAuthActionViewUrl(clientId: String, scope: Array<String>): String

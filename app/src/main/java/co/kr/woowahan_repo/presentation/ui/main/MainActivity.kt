@@ -2,8 +2,6 @@ package co.kr.woowahan_repo.presentation.ui.main
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivityMainBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
@@ -18,7 +16,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setListener()
-        setUpViewModel()
+        observeData()
     }
 
     private fun setListener()= with(binding){
@@ -39,7 +37,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    private fun setUpViewModel(){
+    private fun observeData(){
         viewModel.tabOneSelected.observe(this) {
             binding.btnTab1.isSelected = it
         }

@@ -32,7 +32,7 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
 
         setUpRecyclerView()
         setListener()
-        setUpViewModel()
+        observeData()
     }
 
     override fun onStart() {
@@ -75,7 +75,7 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
         }
     }
 
-    private fun setUpViewModel(){
+    private fun observeData(){
         viewModel.dataLoading.observe(viewLifecycleOwner){
             binding.progress.isVisible = it
         }

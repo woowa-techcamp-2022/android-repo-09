@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NotificationsService {
-    @GET("issues")
+    @GET("notifications")
     suspend fun fetchNotifications(
         @Query("page") page: Int,
         @Query("per_page") perPage: Int

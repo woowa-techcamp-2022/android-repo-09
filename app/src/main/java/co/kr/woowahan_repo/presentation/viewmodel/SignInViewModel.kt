@@ -3,16 +3,18 @@ package co.kr.woowahan_repo.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.BuildConfig
-import co.kr.woowahan_repo.data.api.ServiceCreator
 import co.kr.woowahan_repo.data.model.OAuthAccessTokenRequest
+import co.kr.woowahan_repo.di.ServiceLocator
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class SignInViewModel : ViewModel() {
+    val oAuthAccessTokenService = ServiceLocator.getOAuthAccessTokenService()
+
     fun getGithubOAuthAccessToken(code: String) {
         viewModelScope.launch {
             runCatching {
-                ServiceCreator.githubOAuthAccessTokenService.requestAccessToken(
+                oAuthAccessTokenService.requestAccessToken(
                     OAuthAccessTokenRequest(
                         BuildConfig.GITHUB_CLIENT_ID,
                         BuildConfig.GITHUB_SECRETS,

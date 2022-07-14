@@ -1,7 +1,6 @@
 package co.kr.woowahan_repo.presentation.ui.search
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -16,17 +15,17 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.application.util.PagingListener
-import co.kr.woowahan_repo.databinding.ActivitySearchBinding
+import co.kr.woowahan_repo.databinding.ActivitySearchRepositoryBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
-import co.kr.woowahan_repo.presentation.viewmodel.SearchViewModel
+import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class SearchActivity : BaseActivity<ActivitySearchBinding>() {
+class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>() {
 
     override val layoutResId: Int
-        get() = R.layout.activity_search
-    private val viewModel: SearchViewModel by viewModels()
+        get() = R.layout.activity_search_repository
+    private val viewModel: SearchRepositoryViewModel by viewModels()
 
     private val searchAdapter = SearchRepositoryAdapter()
 
@@ -56,7 +55,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
     private fun setUpRecyclerView(){
         binding.rvSearch.apply {
-            layoutManager = LinearLayoutManager(this@SearchActivity)
+            layoutManager = LinearLayoutManager(this@SearchRepositoryActivity)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
                 setDrawable(context.resources.getDrawable(R.drawable.stroke_issue_item_divider, null))
             })
@@ -95,11 +94,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
         viewModel.viewState.observe(this){
             when(it){
-                is SearchViewModel.SearchViewState.ErrorMessage -> {
+                is SearchRepositoryViewModel.SearchViewState.ErrorMessage -> {
                     Toast.makeText(applicationContext, it.error?.message ?: "", Toast.LENGTH_SHORT).show()
                 }
 
-                is SearchViewModel.SearchViewState.SearchResList -> {
+                is SearchRepositoryViewModel.SearchViewState.SearchResList -> {
                     binding.layoutEmptyResponse.isVisible = it.searchResList.isNullOrEmpty()
                     /**
                      * update List 에서 withContext 코루틴을 사용하기 위해 suspend 함수로 설정했는데
@@ -110,7 +109,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
                         searchAdapter.updateList(it.searchResList ?: listOf())
                     }
                 }
-                is SearchViewModel.SearchViewState.SearchQueryFail -> {
+                is SearchRepositoryViewModel.SearchViewState.SearchQueryFail -> {
                     Timber.tag("search fail").d(it.error?.message)
                     binding.layoutEmptyResponse.isVisible = true
                     Toast.makeText(applicationContext, it.error?.message ?: "", Toast.LENGTH_SHORT).show()

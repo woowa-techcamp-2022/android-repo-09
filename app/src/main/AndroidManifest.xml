@@ -17,7 +17,7 @@
         android:theme="@style/Theme.WoowahanRepo"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.search.SearchActivity"
+            android:name=".presentation.ui.search.SearchRepositoryActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.ui.main.MainActivity"

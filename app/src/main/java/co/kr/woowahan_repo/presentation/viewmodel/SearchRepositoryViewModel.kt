@@ -8,7 +8,7 @@ import co.kr.woowahan_repo.di.ServiceLocator
 import co.kr.woowahan_repo.domain.model.GithubRepositorySearchModel
 import kotlinx.coroutines.launch
 
-class SearchViewModel: ViewModel() {
+class SearchRepositoryViewModel: ViewModel() {
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 

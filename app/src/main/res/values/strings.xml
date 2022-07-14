@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Woowahan-Repo</string>
 
+    <!-- use at sign in -->
+    <string name="sign_in_title">What’s In\nMy GitHub</string>
+
     <!-- use at main -->
     <string name="tool_bar_title">What’s In My GitHub</string>
     <string name="title_issue">Issue</string>

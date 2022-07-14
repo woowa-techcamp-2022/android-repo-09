@@ -1,8 +1,8 @@
-package co.kr.woowahan_repo.data.model
+package co.kr.woowahan_repo.data.model.repositoryimpl
 
 import co.kr.woowahan_repo.data.service.GithubIssuesService
-import co.kr.woowahan_repo.domain.GithubIssueModel
-import co.kr.woowahan_repo.domain.GithubIssuesRepository
+import co.kr.woowahan_repo.domain.model.GithubIssueModel
+import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
 
 class GithubIssuesRepositoryImpl(
     private val githubIssuesService: GithubIssuesService

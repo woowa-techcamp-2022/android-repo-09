@@ -14,4 +14,8 @@
     <string name="title_open">Open</string>
     <string name="title_closed">Closed</string>
     <string name="title_all">All</string>
+
+    <!-- use at search -->
+    <string name="title_search">Search</string>
+    <string name="hit_search">Search git hub</string>
 </resources>

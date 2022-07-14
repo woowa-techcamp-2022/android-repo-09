@@ -1,5 +1,6 @@
 package co.kr.woowahan_repo.data.model.response
 
+import co.kr.woowahan_repo.domain.entity.Notification
 import com.google.gson.annotations.SerializedName
 
 data class NotificationResponse(
@@ -150,4 +151,15 @@ data class NotificationResponse(
         val type: String,
         val url: String
     )
+
+    fun toEntity(): Notification {
+        return Notification(
+            repositoryName = this.repository.fullName,
+            number = "#${this.subject.url.split('/').last()}",
+            updatedAt = this.updatedAt,
+            repositoryImage = this.repository.owner.avatarUrl,
+            title = subject.title,
+            comments = "10"
+        )
+    }
 }

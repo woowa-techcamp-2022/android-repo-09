@@ -1,10 +1,12 @@
 package co.kr.woowahan_repo.presentation.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivityMainBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
+import co.kr.woowahan_repo.presentation.ui.search.SearchRepositoryActivity
 import co.kr.woowahan_repo.presentation.viewmodel.MainViewModel
 import timber.log.Timber
 
@@ -66,6 +68,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         viewModel.showSearchEvent.observe(this){
             Timber.d("show search view")
+            startActivity(Intent(this, SearchRepositoryActivity::class.java))
         }
 
         viewModel.showProfileEvent.observe(this){

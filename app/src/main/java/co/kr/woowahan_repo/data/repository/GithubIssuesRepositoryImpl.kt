@@ -1,4 +1,4 @@
-package co.kr.woowahan_repo.data.model
+package co.kr.woowahan_repo.data.repository
 
 import co.kr.woowahan_repo.data.service.GithubIssuesService
 import co.kr.woowahan_repo.domain.entity.GithubIssueModel

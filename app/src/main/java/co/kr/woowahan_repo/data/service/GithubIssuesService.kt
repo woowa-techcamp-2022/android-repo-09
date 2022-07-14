@@ -1,6 +1,6 @@
 package co.kr.woowahan_repo.data.service
 
-import co.kr.woowahan_repo.data.model.GithubIssuesResponse
+import co.kr.woowahan_repo.data.model.response.GithubIssuesResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

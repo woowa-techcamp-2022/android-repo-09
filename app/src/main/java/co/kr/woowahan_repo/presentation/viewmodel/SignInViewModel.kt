@@ -11,27 +11,65 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class SignInViewModel : ViewModel() {
-    val oAuthAccessTokenService = ServiceLocator.getOAuthAccessTokenService()
-    private val _isSuccess = MutableLiveData<Boolean>()
-    val isSuccess: LiveData<Boolean> get() = _isSuccess
+    private val _dataLoading = MutableLiveData<Boolean>()
+    val dataLoading: LiveData<Boolean> = _dataLoading
 
-    fun getGithubOAuthAccessToken(code: String) {
+    private val _viewState = MutableLiveData<SignInViewState>()
+    val viewState: LiveData<SignInViewState> = _viewState
+
+    private val oAuthRepository = ServiceLocator.getGithubOAuthRepository()
+    private val appScheme = "camp-09"
+
+    fun getGithubOAuthAccessToken(scheme: String?, code: String?) {
+        when {
+            scheme.isNullOrBlank() || scheme != appScheme -> {
+                _viewState.value = SignInViewState.OAuthFail(Throwable("호출 경로가 유효하지 않습니다"))
+                return
+            }
+            code.isNullOrBlank() -> {
+                _viewState.value = SignInViewState.OAuthFail(Throwable("인증 코드가 유효하지 않습니다"))
+                return
+            }
+        }
+        _dataLoading.value = true
         viewModelScope.launch {
             runCatching {
-                oAuthAccessTokenService.requestAccessToken(
-                    OAuthAccessTokenRequest(
-                        BuildConfig.GITHUB_CLIENT_ID,
-                        BuildConfig.GITHUB_SECRETS,
-                        code
-                    )
+                oAuthRepository.requestAccessToken(
+                    BuildConfig.GITHUB_CLIENT_ID,
+                    BuildConfig.GITHUB_SECRETS,
+                    code!!
                 )
             }.onSuccess {
                 Timber.tag("Success").d(it.accessToken)
+                _dataLoading.value = false
                 ServiceLocator.accessToken = it.accessToken
-                _isSuccess.value = true
+                _viewState.value = SignInViewState.OAuthSuccess()
             }.onFailure {
                 Timber.tag("Error").e(it)
+                _dataLoading.value = false
+                _viewState.value = SignInViewState.OAuthFail(Throwable("인증 단계를 실패하였습니다"))
             }
         }
+    }
+
+    fun clickSignIn(){
+        val url = oAuthRepository.getOAuthActionViewUrl(
+            BuildConfig.GITHUB_CLIENT_ID,
+            arrayOf(
+                "repo",
+                "notifications"
+            )
+        )
+        Timber.tag("oauth url").d(url)
+        _viewState.value = SignInViewState.ActionViewOAuthUrl(url)
+    }
+
+    sealed class SignInViewState(
+        val url: String? = null,
+        val error: Throwable? = null
+    ) {
+        class ActionViewOAuthUrl(url: String): SignInViewState(url, null)
+        class OAuthSuccess(): SignInViewState(null)
+        class OAuthFail(error: Throwable): SignInViewState(null, error)
     }
 }

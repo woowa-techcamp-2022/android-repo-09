@@ -3,8 +3,10 @@ package co.kr.woowahan_repo.di
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
 import co.kr.woowahan_repo.data.service.GithubIssuesService
+import co.kr.woowahan_repo.data.model.repositoryimpl.GithubOAuthRepositoryImpl
 import co.kr.woowahan_repo.data.service.GithubOAuthAccessTokenService
 import co.kr.woowahan_repo.data.service.NotificationsService
+import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -46,6 +48,8 @@ object ServiceLocator {
 
     fun getOAuthAccessTokenService(): GithubOAuthAccessTokenService =
         getOAuthRetrofit().create(GithubOAuthAccessTokenService::class.java)
+
+    fun getGithubOAuthRepository(): GithubOAuthRepository = GithubOAuthRepositoryImpl()
 
     fun getNotificationsService(): NotificationsService =
         getApiRetrofit().create(NotificationsService::class.java)

@@ -1,7 +1,7 @@
 package co.kr.woowahan_repo.data.model
 
 
-import co.kr.woowahan_repo.domain.GithubIssueModel
+import co.kr.woowahan_repo.domain.entity.GithubIssueModel
 import com.google.gson.annotations.SerializedName
 
 class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponseItem>(){

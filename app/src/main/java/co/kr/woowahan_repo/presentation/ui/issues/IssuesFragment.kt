@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.application.WoowahanRepoApplication
 import co.kr.woowahan_repo.databinding.FragmentIssuesBinding
-import co.kr.woowahan_repo.domain.GithubIssueModel
+import co.kr.woowahan_repo.domain.entity.GithubIssueModel
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModel
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModelFactory

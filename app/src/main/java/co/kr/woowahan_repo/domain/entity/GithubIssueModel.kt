@@ -1,4 +1,4 @@
-package co.kr.woowahan_repo.domain
+package co.kr.woowahan_repo.domain.entity
 
 import kotlin.random.Random
 
@@ -9,7 +9,7 @@ data class GithubIssueModel(
     val lastUpdateDate: String // 2011-01-26T19:14:43Z, "yyyy-MM-dd'T'HH:mm:ss'Z'"
 ) {
     companion object {
-        fun getDummy(state: IssueState, seed: Int? = null): GithubIssueModel{
+        fun getDummy(state: IssueState, seed: Int? = null): GithubIssueModel {
             val seedValue = seed ?: Random.nextInt(100)
             return GithubIssueModel(
                 "Repository Name[$seedValue]",

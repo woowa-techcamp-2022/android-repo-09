@@ -1,7 +1,7 @@
 package co.kr.woowahan_repo.presentation.ui.issues
 
 import androidx.recyclerview.widget.DiffUtil
-import co.kr.woowahan_repo.domain.GithubIssueModel
+import co.kr.woowahan_repo.domain.entity.GithubIssueModel
 
 class IssuesDiffUtilCallback(
     private val oldList: List<GithubIssueModel>,

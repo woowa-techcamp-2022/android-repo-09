@@ -2,7 +2,7 @@ package co.kr.woowahan_repo.data.model.response
 
 import com.google.gson.annotations.SerializedName
 
-data class NotificationsResponse(
+data class NotificationResponse(
     val id: String,
     @SerializedName("last_read_at")
     val lastReadAt: String,

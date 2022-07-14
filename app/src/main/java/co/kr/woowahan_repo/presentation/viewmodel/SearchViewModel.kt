@@ -52,6 +52,38 @@ class SearchViewModel: ViewModel() {
         }
     }
 
+    fun fetchNextPage(){
+        val throwable = when {
+            prevQuery.isNullOrBlank() -> Throwable("검색어를 입력해 주세요")
+            _dataLoading.value == true -> Throwable("로딩중")
+            else -> null
+        }
+        if(throwable != null){
+            _viewState.value = SearchViewState.ErrorMessage(throwable)
+            return
+        }
+
+        _dataLoading.value = true
+        viewModelScope.launch {
+            kotlin.runCatching {
+                searchRepository.searchQuery(prevQuery!!, currentPage + 1)
+            }.onSuccess {
+                _dataLoading.value = false
+                when(it.isEmpty()) {
+                    true -> _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))
+                    else -> {
+                        currentPage++
+                        currentList.addAll(it)
+                        _viewState.value = SearchViewState.SearchResList(ArrayList(currentList))
+                    }
+                }
+            }.onFailure {
+                it.printStackTrace()
+                _dataLoading.value = false
+                _viewState.value = SearchViewState.SearchQueryFail(Throwable("검색을 실패하였습니다"))
+            }
+        }
+    }
 
     sealed class SearchViewState(
         val searchResList: List<GithubRepositorySearchModel>? = null,

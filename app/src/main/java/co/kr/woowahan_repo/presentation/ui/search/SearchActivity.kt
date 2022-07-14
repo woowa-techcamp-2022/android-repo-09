@@ -61,7 +61,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
                 setDrawable(context.resources.getDrawable(R.drawable.stroke_issue_item_divider, null))
             })
             adapter = searchAdapter
+            addOnScrollListener(pagingListener)
         }
+    }
+    private val pagingListener = PagingListener{
+        viewModel.fetchNextPage()
     }
 
     private fun setListener()= with(binding){

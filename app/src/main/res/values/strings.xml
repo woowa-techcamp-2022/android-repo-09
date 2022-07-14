@@ -17,5 +17,7 @@
 
     <!-- use at search -->
     <string name="title_search">Search</string>
-    <string name="hit_search">Search git hub</string>
+    <string name="hint_search">Search git hub</string>
+    <string name="title_empty_response">Find Your Stuff</string>
+    <string name="content_empty_response">Search all of GitHunb for People, Repositories, Organizations, Issues, and Pull Requests.</string>
 </resources>

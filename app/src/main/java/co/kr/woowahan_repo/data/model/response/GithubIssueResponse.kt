@@ -3,7 +3,7 @@ package co.kr.woowahan_repo.data.model.response
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import com.google.gson.annotations.SerializedName
 
-data class GithubIssuesResponse(
+data class GithubIssueResponse(
     @SerializedName("active_lock_reason")
     val activeLockReason: String,
     @SerializedName("assignee")

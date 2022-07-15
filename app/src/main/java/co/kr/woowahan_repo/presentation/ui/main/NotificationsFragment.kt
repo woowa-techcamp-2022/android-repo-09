@@ -8,6 +8,9 @@ import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.NotificationsViewModel
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
+    companion object {
+        fun newInstance() = NotificationsFragment()
+    }
     private val notificationsViewModel by viewModels<NotificationsViewModel>()
 
     override val TAG: String
@@ -18,9 +21,5 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         notificationsViewModel.fetchNotifications()
-    }
-
-    companion object {
-        fun newInstance() = NotificationsFragment()
     }
 }

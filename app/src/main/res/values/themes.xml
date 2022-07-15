@@ -17,6 +17,13 @@
     <style name="issueFilterPopupMenu" parent="@style/Widget.MaterialComponents.PopupMenu.Overflow">
         <item name="android:popupBackground">@drawable/bg_popup_menu_issue_filter</item>
         <item name="android:textColor">@color/color_text_selector_issue_filter</item>
+
+        <item name="colorSecondary">@color/white</item>
+        <!-- checkableBehavior:single 일때 나오는 radioButton 디자인 변경
+         https://developer.android.com/reference/android/R.attr#listChoiceIndicatorSingle -->
+        <item name="android:listChoiceIndicatorSingle">@drawable/ic_selector_menu_issue_filter</item>
+        <!-- checkableBehavior:all 일때 나오는 checkBox 디자인 변경 -->
+        <item name="android:listChoiceIndicatorMultiple">@drawable/ic_selector_menu_issue_filter</item>
     </style>
 
 </resources>

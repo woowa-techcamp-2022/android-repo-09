@@ -17,6 +17,9 @@
         android:theme="@style/Theme.WoowahanRepo"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.ui.search.SearchRepositoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.ui.main.MainActivity"
             android:exported="false" />
         <activity
@@ -28,7 +31,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

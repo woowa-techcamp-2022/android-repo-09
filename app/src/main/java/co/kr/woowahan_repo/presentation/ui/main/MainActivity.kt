@@ -1,13 +1,14 @@
 package co.kr.woowahan_repo.presentation.ui.main
 
+import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils.replace
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivityMainBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
+import co.kr.woowahan_repo.presentation.ui.search.SearchRepositoryActivity
 import co.kr.woowahan_repo.presentation.ui.issues.IssuesFragment
 import co.kr.woowahan_repo.presentation.viewmodel.MainViewModel
 import timber.log.Timber
@@ -73,6 +74,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewModel.showSearchEvent.observe(this){ event ->
             event.getContentIfNotHandled()?.let {
                 Timber.d("show search view")
+                startActivity(Intent(this, SearchRepositoryActivity::class.java))
             }
         }
 

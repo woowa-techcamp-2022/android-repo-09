@@ -51,10 +51,10 @@ object ServiceLocator {
     fun getOAuthAccessTokenService(): GithubOAuthAccessTokenService =
         getOAuthRetrofit().create(GithubOAuthAccessTokenService::class.java)
 
-    fun getGithubOAuthRepository(): GithubOAuthRepository = GithubOAuthRepositoryImpl()
-
-    fun getNotificationsService(): NotificationsService =
+    private fun getNotificationsService(): NotificationsService =
         getApiRetrofit().create(NotificationsService::class.java)
+
+    fun getGithubOAuthRepository(): GithubOAuthRepository = GithubOAuthRepositoryImpl()
 
     fun getNotificationsRepository(): NotificationsRepository =
         NotificationsRepositoryImpl(getNotificationsService())

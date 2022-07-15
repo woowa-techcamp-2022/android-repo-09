@@ -18,7 +18,11 @@
         <item name="android:popupBackground">@drawable/bg_popup_menu_issue_filter</item>
         <item name="android:textColor">@color/color_text_selector_issue_filter</item>
 
+        <item name="android:dropDownHorizontalOffset">20dp</item>
+        <item name="android:dropDownVerticalOffset">50dp</item>
+
         <item name="colorSecondary">@color/white</item>
+
         <!-- checkableBehavior:single 일때 나오는 radioButton 디자인 변경
          https://developer.android.com/reference/android/R.attr#listChoiceIndicatorSingle -->
         <item name="android:listChoiceIndicatorSingle">@drawable/ic_selector_menu_issue_filter</item>

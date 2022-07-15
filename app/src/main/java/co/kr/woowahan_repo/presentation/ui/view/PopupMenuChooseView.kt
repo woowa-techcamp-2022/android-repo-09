@@ -47,7 +47,7 @@ class PopupMenuChooseView(
             0 -> PopupMenu(activity, binding.ivOptionArrow)
             else -> {
                 val wrapper: Context = ContextThemeWrapper(activity, themeResId)
-                PopupMenu(wrapper, binding.ivOptionArrow, Gravity.NO_GRAVITY, 0, themeResId)
+                PopupMenu(wrapper, binding.ivOptionArrow, Gravity.END, 0, themeResId)
             }
         }
         popupMenu?.inflate(menuResId)

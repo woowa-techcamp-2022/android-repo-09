@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.TextUtils.replace
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivityMainBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
@@ -62,15 +63,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
         }
-        viewModel.showTabTwoEvent.observe(this) {  event ->
-            event.getContentIfNotHandled()?.let {
-                Timber.d("show tab 2")
-                supportFragmentManager.commit {
-                    replace(
-                        R.id.container_fragment_main,
-                        NotificationsFragment.newInstance()
-                    )
-                }
+        viewModel.showTabTwoEvent.observe(this) {
+            Timber.d("show tab 2")
+            supportFragmentManager.commit {
+                replace<NotificationsFragment>(R.id.container_fragment_main)
             }
         }
 

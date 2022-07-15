@@ -1,4 +1,4 @@
-package co.kr.woowahan_repo.data.model.repositoryimpl
+package co.kr.woowahan_repo.data.repository
 
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.model.request.OAuthAccessTokenRequest

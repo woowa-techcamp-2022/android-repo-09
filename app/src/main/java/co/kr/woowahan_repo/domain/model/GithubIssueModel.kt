@@ -14,11 +14,12 @@ data class GithubIssueModel(
             return GithubIssueModel(
                 "Repository Name[$seedValue]",
                 "Issue Title[$seedValue]",
-                if(state == IssueState.All) IssueState.values()[Random.nextInt(2)] else state,
+                if (state == IssueState.All) IssueState.values()[Random.nextInt(2)] else state,
                 getDummyDate()
             )
         }
-        private fun getDummyDate(): String{
+
+        private fun getDummyDate(): String {
             val example1 = "2011-01-26T19:14:43Z"
             val example2 = "2022-01-26T19:14:43Z"
             val example3 = "2022-06-26T19:14:43Z"
@@ -28,17 +29,19 @@ data class GithubIssueModel(
             return examples[Random.nextInt(examples.size)]
         }
     }
+
     enum class IssueState(
         val key: String
-    ){
+    ) {
         Open("open"),
         Closed("closed"),
         All("all"),
         Unknown("unknown");
+
         companion object {
             fun get(any: String): IssueState {
                 values().forEach {
-                    if(any == it.key || any == it.toString())
+                    if (any == it.key || any == it.toString())
                         return it
                 }
                 return Unknown

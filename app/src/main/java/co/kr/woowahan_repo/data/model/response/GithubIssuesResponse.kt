@@ -1,6 +1,5 @@
 package co.kr.woowahan_repo.data.model.response
 
-
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import com.google.gson.annotations.SerializedName
 
@@ -40,7 +39,7 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
         @SerializedName("html_url")
         val htmlUrl: String,
         @SerializedName("id")
-        val id: Int,
+        val id: Long,
         @SerializedName("labels")
         val labels: List<Label>,
         @SerializedName("labels_url")
@@ -86,7 +85,7 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
             @SerializedName("html_url")
             val htmlUrl: String,
             @SerializedName("id")
-            val id: Int,
+            val id: Long,
             @SerializedName("login")
             val login: String,
             @SerializedName("node_id")
@@ -117,7 +116,7 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
             @SerializedName("description")
             val description: String,
             @SerializedName("id")
-            val id: Int,
+            val id: Long,
             @SerializedName("name")
             val name: String,
             @SerializedName("node_id")
@@ -142,7 +141,7 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
             @SerializedName("html_url")
             val htmlUrl: String,
             @SerializedName("id")
-            val id: Int,
+            val id: Long,
             @SerializedName("labels_url")
             val labelsUrl: String,
             @SerializedName("node_id")
@@ -176,7 +175,7 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
                 @SerializedName("html_url")
                 val htmlUrl: String,
                 @SerializedName("id")
-                val id: Int,
+                val id: Long,
                 @SerializedName("login")
                 val login: String,
                 @SerializedName("node_id")
@@ -295,7 +294,7 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
             @SerializedName("html_url")
             val htmlUrl: String,
             @SerializedName("id")
-            val id: Int,
+            val id: Long,
             @SerializedName("is_template")
             val isTemplate: Boolean,
             @SerializedName("issue_comment_url")
@@ -416,7 +415,7 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
                 @SerializedName("html_url")
                 val htmlUrl: String,
                 @SerializedName("id")
-                val id: Int,
+                val id: Long,
                 @SerializedName("login")
                 val login: String,
                 @SerializedName("node_id")
@@ -465,7 +464,7 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
             @SerializedName("html_url")
             val htmlUrl: String,
             @SerializedName("id")
-            val id: Int,
+            val id: Long,
             @SerializedName("login")
             val login: String,
             @SerializedName("node_id")

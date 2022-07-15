@@ -1,4 +1,4 @@
-package co.kr.woowahan_repo.application.util
+package co.kr.woowahan_repo.util
 
 import android.view.View
 import android.widget.Toast

@@ -8,13 +8,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.application.WoowahanRepoApplication
-import co.kr.woowahan_repo.application.util.showSnackBar
+import co.kr.woowahan_repo.util.showSnackBar
 import co.kr.woowahan_repo.databinding.FragmentIssuesBinding
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModel
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModelFactory
-import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
 class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {

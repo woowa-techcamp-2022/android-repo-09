@@ -10,5 +10,5 @@ interface GithubIssuesService {
         @Query("state")state: String,
         @Query("page")page: Int = 1, // default is 1
         @Query("per_page")pageItemCount: Int = 100 // max is 100, default is 30
-    ): GithubIssuesResponse
+    ): List<GithubIssuesResponse>
 }

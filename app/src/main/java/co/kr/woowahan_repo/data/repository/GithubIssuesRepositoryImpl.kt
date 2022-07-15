@@ -9,6 +9,8 @@ class GithubIssuesRepositoryImpl(
 ): GithubIssuesRepository {
 
     override suspend fun fetchIssues(state: String, page: Int): List<GithubIssueModel> {
-        return githubIssuesService.fetchIssues(state, page).toEntity()
+        return githubIssuesService.fetchIssues(state, page).map{
+            it.toEntity()
+        }
     }
 }

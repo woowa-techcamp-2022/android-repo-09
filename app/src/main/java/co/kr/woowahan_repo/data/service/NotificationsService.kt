@@ -1,6 +1,6 @@
 package co.kr.woowahan_repo.data.service
 
-import co.kr.woowahan_repo.data.model.response.NotificationResponse
+import co.kr.woowahan_repo.data.model.response.GithubNotificationResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -9,5 +9,5 @@ interface NotificationsService {
     suspend fun fetchNotifications(
         @Query("page") page: Int,
         @Query("per_page") perPage: Int
-    ): List<NotificationResponse>
+    ): List<GithubNotificationResponse>
 }

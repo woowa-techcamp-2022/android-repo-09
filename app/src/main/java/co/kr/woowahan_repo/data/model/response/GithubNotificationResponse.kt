@@ -1,9 +1,9 @@
 package co.kr.woowahan_repo.data.model.response
 
-import co.kr.woowahan_repo.domain.entity.Notification
+import co.kr.woowahan_repo.domain.entity.GithubNotification
 import com.google.gson.annotations.SerializedName
 
-data class NotificationResponse(
+data class GithubNotificationResponse(
     val id: String,
     @SerializedName("last_read_at")
     val lastReadAt: String,
@@ -152,8 +152,8 @@ data class NotificationResponse(
         val url: String
     )
 
-    fun toEntity(): Notification {
-        return Notification(
+    fun toEntity(): GithubNotification {
+        return GithubNotification(
             repositoryName = this.repository.fullName,
             number = "#${this.subject.url.split('/').last()}",
             updatedAt = this.updatedAt,

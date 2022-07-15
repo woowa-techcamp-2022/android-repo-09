@@ -3,6 +3,8 @@ package co.kr.woowahan_repo.presentation.ui.view
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
+import android.view.ContextThemeWrapper
+import android.view.Gravity
 import android.view.MenuItem
 import android.widget.PopupMenu
 import co.kr.woowahan_repo.R
@@ -35,16 +37,23 @@ class PopupMenuChooseView(
 
     private fun setListener()= with(binding){
         layoutFilter.setOnClickListener {
-            popupMenu?.show()
             setActiveMode(true)
+            popupMenu?.show()
         }
     }
 
-    fun setUpPopupMenu(activity: Activity, menuResId: Int, itemSelectListener: (MenuItem) -> (Boolean)){
-        popupMenu = PopupMenu(activity, binding.ivOptionArrow)
-        activity.menuInflater.inflate(menuResId, popupMenu?.menu)
+    fun setUpPopupMenu(activity: Activity, menuResId: Int, themeResId: Int = 0, itemSelectListener: (MenuItem) -> (Boolean)){
+        popupMenu = when(themeResId){
+            0 -> PopupMenu(activity, binding.ivOptionArrow)
+            else -> {
+                val wrapper: Context = ContextThemeWrapper(activity, themeResId)
+                PopupMenu(wrapper, binding.ivOptionArrow, Gravity.NO_GRAVITY, 0, themeResId)
+            }
+        }
+        popupMenu?.inflate(menuResId)
         popupMenu?.setOnMenuItemClickListener {
             binding.tvValue.text = it.title
+            it.isChecked = true
             itemSelectListener(it)
         }
         popupMenu?.setOnDismissListener {

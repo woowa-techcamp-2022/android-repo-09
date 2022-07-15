@@ -13,4 +13,9 @@
         <item name="android:statusBarColor">@color/black_111723</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="issueFilterPopupMenu" parent="@style/Widget.MaterialComponents.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/bg_popup_menu_issue_filter</item>
+        <item name="android:textColor">@color/color_text_selector_issue_filter</item>
+    </style>
 </resources>

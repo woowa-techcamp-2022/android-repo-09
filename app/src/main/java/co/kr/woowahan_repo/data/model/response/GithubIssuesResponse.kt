@@ -7,7 +7,7 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
     fun toEntity(): List<GithubIssueModel> {
         return this.map {
             GithubIssueModel(
-                it.repository.name,
+                it.repository.fullName,
                 it.title,
                 (it.url.split("/").lastOrNull() ?: "0").toInt(),
                 GithubIssueModel.IssueState.get(it.state),

@@ -5,7 +5,7 @@
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/background"
-        android:background="@color/black_111723"
+        android:background="@drawable/bg_main"
         >
 
         <co.kr.woowahan_repo.presentation.ui.view.PopupMenuChooseView

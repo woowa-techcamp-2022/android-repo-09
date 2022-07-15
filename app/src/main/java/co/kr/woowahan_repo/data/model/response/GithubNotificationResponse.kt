@@ -1,8 +1,9 @@
 package co.kr.woowahan_repo.data.model.response
 
+import co.kr.woowahan_repo.domain.model.GithubNotification
 import com.google.gson.annotations.SerializedName
 
-data class NotificationsResponse(
+data class GithubNotificationResponse(
     val id: String,
     @SerializedName("last_read_at")
     val lastReadAt: String,
@@ -61,7 +62,7 @@ data class NotificationsResponse(
         val hooksUrl: String,
         @SerializedName("html_url")
         val htmlUrl: String,
-        val id: Int,
+        val id: Long,
         @SerializedName("issue_comment_url")
         val issueCommentUrl: String,
         @SerializedName("issue_events_url")
@@ -122,7 +123,7 @@ data class NotificationsResponse(
             val gravatarId: String,
             @SerializedName("html_url")
             val htmlUrl: String,
-            val id: Int,
+            val id: Long,
             val login: String,
             @SerializedName("node_id")
             val nodeId: String,
@@ -150,4 +151,15 @@ data class NotificationsResponse(
         val type: String,
         val url: String
     )
+
+    fun toEntity(): GithubNotification {
+        return GithubNotification(
+            repositoryName = this.repository.fullName,
+            number = "#${this.subject.url.split('/').last()}",
+            updatedAt = this.updatedAt,
+            repositoryImage = this.repository.owner.avatarUrl,
+            title = subject.title,
+            comments = "10"
+        )
+    }
 }

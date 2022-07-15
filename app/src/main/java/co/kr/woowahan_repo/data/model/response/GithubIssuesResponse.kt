@@ -9,6 +9,7 @@ class GithubIssuesResponse : ArrayList<GithubIssuesResponse.GithubIssuesResponse
             GithubIssueModel(
                 it.repository.name,
                 it.title,
+                (it.url.split("/").lastOrNull() ?: "0").toInt(),
                 GithubIssueModel.IssueState.get(it.state),
                 it.repository.updatedAt
             )

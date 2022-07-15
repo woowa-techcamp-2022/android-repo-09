@@ -5,11 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.di.ServiceLocator
-import co.kr.woowahan_repo.domain.entity.GithubNotification
+import co.kr.woowahan_repo.domain.model.GithubNotification
+import co.kr.woowahan_repo.domain.repository.NotificationsRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class NotificationsViewModel : ViewModel() {
+class NotificationsViewModel(
+//    private val notificationsRepository: NotificationsRepository = ServiceLocator.getNotificationsRepository()
+) : ViewModel() {
     private val notificationsRepository = ServiceLocator.getNotificationsRepository()
     private var page = 1
 

@@ -25,7 +25,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/appBarLayout"
                 app:layout_constraintTop_toTopOf="@+id/appBarLayout"
 
-                android:background="@drawable/bg_main"
+                android:background="@drawable/bg_main_header"
                 android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.util.DateUtil
 import co.kr.woowahan_repo.databinding.ViewIssueItemBinding
-import co.kr.woowahan_repo.domain.entity.GithubIssueModel
+import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import timber.log.Timber
 import kotlin.collections.ArrayList
 

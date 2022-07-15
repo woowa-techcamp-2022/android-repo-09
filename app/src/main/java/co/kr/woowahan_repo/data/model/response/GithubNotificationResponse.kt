@@ -1,6 +1,6 @@
 package co.kr.woowahan_repo.data.model.response
 
-import co.kr.woowahan_repo.domain.entity.GithubNotification
+import co.kr.woowahan_repo.domain.model.GithubNotification
 import com.google.gson.annotations.SerializedName
 
 data class GithubNotificationResponse(
@@ -62,7 +62,7 @@ data class GithubNotificationResponse(
         val hooksUrl: String,
         @SerializedName("html_url")
         val htmlUrl: String,
-        val id: Int,
+        val id: Long,
         @SerializedName("issue_comment_url")
         val issueCommentUrl: String,
         @SerializedName("issue_events_url")
@@ -123,7 +123,7 @@ data class GithubNotificationResponse(
             val gravatarId: String,
             @SerializedName("html_url")
             val htmlUrl: String,
-            val id: Int,
+            val id: Long,
             val login: String,
             @SerializedName("node_id")
             val nodeId: String,

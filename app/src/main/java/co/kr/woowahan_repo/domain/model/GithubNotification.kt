@@ -1,4 +1,4 @@
-package co.kr.woowahan_repo.domain.entity
+package co.kr.woowahan_repo.domain.model
 
 data class GithubNotification(
     val repositoryName: String,

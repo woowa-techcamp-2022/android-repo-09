@@ -2,7 +2,7 @@ package co.kr.woowahan_repo.presentation.viewmodel
 
 import androidx.lifecycle.*
 import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
-import co.kr.woowahan_repo.domain.entity.GithubIssueModel
+import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 

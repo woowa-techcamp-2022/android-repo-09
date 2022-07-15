@@ -1,12 +1,14 @@
 package co.kr.woowahan_repo.presentation.ui.main
 
 import android.os.Bundle
+import android.text.TextUtils.replace
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivityMainBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
+import co.kr.woowahan_repo.presentation.ui.issues.IssuesFragment
 import co.kr.woowahan_repo.presentation.viewmodel.MainViewModel
 import timber.log.Timber
 
@@ -19,6 +21,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.onCreate(savedInstanceState)
         setListener()
         observeData()
+        if(savedInstanceState == null){ // 기기 회전 등 이벤트로 reCreate 하는 중이 아님
+            viewModel.clickTabOne() // default select tab
+        }
     }
 
     private fun setListener()= with(binding){
@@ -47,14 +52,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             binding.btnTab2.isSelected = it
         }
 
-        viewModel.showTabOneEvent.observe(this) {
-            Timber.d("show tab 1")
-//            supportFragmentManager.commit {
-//                replace(
-//                    R.id.container_fragment_main,
-//                    Fragment()
-//                )
-//            }
+        viewModel.showTabOneEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                Timber.d("show tab 1")
+                supportFragmentManager.commit {
+                    replace(
+                        R.id.container_fragment_main,
+                        IssuesFragment.newInstance()
+                    )
+                }
+            }
         }
         viewModel.showTabTwoEvent.observe(this) {
             Timber.d("show tab 2")
@@ -63,12 +70,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
 
-        viewModel.showSearchEvent.observe(this){
-            Timber.d("show search view")
+        viewModel.showSearchEvent.observe(this){ event ->
+            event.getContentIfNotHandled()?.let {
+                Timber.d("show search view")
+            }
         }
 
-        viewModel.showProfileEvent.observe(this){
-            Timber.d("show profile view")
+        viewModel.showProfileEvent.observe(this){ event ->
+            event.getContentIfNotHandled()?.let {
+                Timber.d("show profile view")
+            }
         }
     }
 }

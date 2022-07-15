@@ -1,7 +1,7 @@
 package co.kr.woowahan_repo.data.repository
 
 import co.kr.woowahan_repo.data.service.GithubIssuesService
-import co.kr.woowahan_repo.domain.entity.GithubIssueModel
+import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
 
 class GithubIssuesRepositoryImpl(

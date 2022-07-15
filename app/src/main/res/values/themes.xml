@@ -21,6 +21,8 @@
         <item name="android:dropDownHorizontalOffset">20dp</item>
         <item name="android:dropDownVerticalOffset">50dp</item>
 
+        <item name="android:layout_marginEnd">-8dp</item>
+
         <item name="colorSecondary">@color/white</item>
 
         <!-- checkableBehavior:single 일때 나오는 radioButton 디자인 변경

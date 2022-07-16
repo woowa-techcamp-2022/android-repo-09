@@ -56,7 +56,8 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
     private fun setListener()= with(binding){
         popUpMenuChooseView.setUpPopupMenu(
             requireActivity(),
-            R.menu.menu_issue_state
+            R.menu.menu_issue_state,
+            R.style.issueFilterPopupMenu
         ) {
             val state = when(it.itemId){
                 R.id.menu_issue_state_open -> {

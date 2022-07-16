@@ -63,17 +63,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             event.getContentIfNotHandled()?.let {
                 Timber.d("show tab 1")
                 supportFragmentManager.commit {
-                    replace(
-                        R.id.container_fragment_main,
-                        IssuesFragment.newInstance()
-                    )
+                    replace<IssuesFragment>(R.id.container_fragment_main)
                 }
             }
         }
-        viewModel.showTabTwoEvent.observe(this) {
-            Timber.d("show tab 2")
-            supportFragmentManager.commit {
-                replace<NotificationsFragment>(R.id.container_fragment_main)
+        viewModel.showTabTwoEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                Timber.d("show tab 2")
+                supportFragmentManager.commit {
+                    replace<NotificationsFragment>(R.id.container_fragment_main)
+                }
             }
         }
 

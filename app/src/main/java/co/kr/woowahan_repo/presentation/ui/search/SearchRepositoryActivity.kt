@@ -74,12 +74,12 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
 
         etSearch.addTextChangedListener { // 일단 임시
             tlSearch.isStartIconVisible = it.isNullOrBlank() // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
+            viewModel.onTextChanged(it.toString())
         }
 
         etSearch.setOnKeyListener { v, _, keyEvent ->
             when(keyEvent.keyCode){
                 KeyEvent.KEYCODE_ENTER -> {
-                    viewModel.searchQuery(etSearch.text.toString())
                     setKeyboardShown(false, v) // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
                 }
             }

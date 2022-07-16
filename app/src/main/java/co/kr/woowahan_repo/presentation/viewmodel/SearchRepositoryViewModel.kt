@@ -33,10 +33,10 @@ class SearchRepositoryViewModel: ViewModel() {
 
         _dataLoading.value = true
         viewModelScope.launch {
-            kotlin.runCatching {
-                currentPage = 1
-                searchRepository.searchQuery(query, currentPage)
-            }.onSuccess {
+            currentPage = 1
+            searchRepository.searchQuery(
+                query, currentPage
+            ).onSuccess {
                 _dataLoading.value = false
                 prevQuery = query
                 currentList.clear()
@@ -65,9 +65,9 @@ class SearchRepositoryViewModel: ViewModel() {
 
         _dataLoading.value = true
         viewModelScope.launch {
-            kotlin.runCatching {
-                searchRepository.searchQuery(prevQuery!!, currentPage + 1)
-            }.onSuccess {
+            searchRepository.searchQuery(
+                prevQuery!!, currentPage + 1
+            ).onSuccess {
                 _dataLoading.value = false
                 when(it.isEmpty()) {
                     true -> _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))

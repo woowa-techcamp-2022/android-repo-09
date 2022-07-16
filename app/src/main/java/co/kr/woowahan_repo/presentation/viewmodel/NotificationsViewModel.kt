@@ -21,9 +21,9 @@ class NotificationsViewModel(
 
     fun fetchNotifications() {
         viewModelScope.launch {
-            runCatching {
-                notificationsRepository.fetchNotifications(page)
-            }.onSuccess {
+            notificationsRepository.fetchNotifications(
+                page
+            ).onSuccess {
                 Timber.tag("Notifications Success").d(it.toString())
                 _notifications.value = it
                 page++

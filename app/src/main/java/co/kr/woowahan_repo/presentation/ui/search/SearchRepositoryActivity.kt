@@ -72,6 +72,11 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
             setKeyboardShown(false, it)
         }
 
+        etSearch.setOnFocusChangeListener { _, b ->
+            val startSearchIcon = if(b) null else resources.getDrawable(R.drawable.ic_selector_search, null)
+            tlSearch.startIconDrawable = startSearchIcon
+        }
+
         etSearch.addTextChangedListener { // 일단 임시
             tlSearch.isStartIconVisible = it.isNullOrBlank() // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
         }

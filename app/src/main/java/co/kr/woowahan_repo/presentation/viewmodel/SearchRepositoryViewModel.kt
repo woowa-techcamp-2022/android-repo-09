@@ -63,6 +63,7 @@ class SearchRepositoryViewModel: ViewModel() {
                 if(currentList.isEmpty())
                     _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))
                 _viewState.value = SearchViewState.SearchResList(it)
+                fetchGithubSearchLimit()
             }.onFailure {
                 it.printStackTrace()
                 when(it){
@@ -108,6 +109,21 @@ class SearchRepositoryViewModel: ViewModel() {
                 _dataLoading.value = false
                 _viewState.value = SearchViewState.SearchQueryFail(Throwable("검색을 실패하였습니다"))
             }
+        }
+    }
+
+    /**
+     * for debug
+     * 분당 최대 30개가 주어지고, 줄어드는 것을 확인 할 수 있었다
+     */
+    private fun fetchGithubSearchLimit(){
+        viewModelScope.launch {
+            searchRepository.fetchSearchLimit()
+                .onSuccess {
+                    Timber.tag("search limit").d("limit[$it]")
+                }.onFailure {
+                    it.printStackTrace()
+                }
         }
     }
 

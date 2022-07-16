@@ -11,6 +11,7 @@ import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.ui.search.SearchRepositoryActivity
 import co.kr.woowahan_repo.presentation.ui.issues.IssuesFragment
 import co.kr.woowahan_repo.presentation.viewmodel.MainViewModel
+import coil.load
 import timber.log.Timber
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -25,6 +26,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if(savedInstanceState == null){ // 기기 회전 등 이벤트로 reCreate 하는 중이 아님
             viewModel.clickTabOne() // default select tab
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchProfileUrl()
     }
 
     private fun setListener()= with(binding){
@@ -69,6 +75,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             supportFragmentManager.commit {
                 replace<NotificationsFragment>(R.id.container_fragment_main)
             }
+        }
+
+        viewModel.profileUrl.observe(this){
+            Timber.d("profileUrl get $it")
+            binding.ivProfile.load(it)
         }
 
         viewModel.showSearchEvent.observe(this){ event ->

@@ -11,6 +11,30 @@ import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ViewPopUpMenuChooseBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseConstraintCustomView
 
+/**
+ * Menu res id와 @style/Widget.MaterialComponents.PopupMenu.Overflow 를 상속한 테마(Optional)을 전달받아 팝업 메뉴를 띄워주는 커스텀 뷰
+ *
+ * 팝업 메뉴 Background
+ * android:popupBackground
+ *
+ * 팝업 메뉴 텍스트 색깔
+ * android:textColor
+ *
+ * 팝업 메뉴 x축 이동
+ * android:dropDownHorizontalOffset
+ * 팝업 메뉴 y축 이동
+ * android:dropDownVerticalOffset
+ *
+ * 메뉴 ground checkBehavior="single" 일때 나오는 라디오 버튼 디자인
+ * android:listChoiceIndicatorSingle
+ * 메뉴 ground checkBehavior="all" 일때 나오는 체크박스 디자인
+ * android:listChoiceIndicatorMultiple
+ * 해당 디자인 색상
+ * android:colorSecondary
+ *
+ * 메뉴 content 와 배경선 사이의 간격 조절(padding 으로 보이기도 함)
+ * android:layout_margin
+ */
 class PopupMenuChooseView(
     context: Context,
     attrs: AttributeSet? = null,

@@ -4,4 +4,6 @@ import co.kr.woowahan_repo.domain.model.GithubRepositorySearchModel
 
 interface GithubRepositorySearchRepository {
     suspend fun searchQuery(query: String, page: Int): List<GithubRepositorySearchModel>
+
+    suspend fun fetchSearchLimit(): Result<Int>
 }

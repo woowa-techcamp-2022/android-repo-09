@@ -4,13 +4,10 @@ import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
 import co.kr.woowahan_repo.data.model.repositoryimpl.GithubRepositorySearchRepositoryImpl
 import co.kr.woowahan_repo.data.repository.GithubIssuesRepositoryImpl
-import co.kr.woowahan_repo.data.service.GithubOAuthAccessTokenService
-import co.kr.woowahan_repo.data.service.NotificationsService
-import co.kr.woowahan_repo.data.service.GithubRepositorySearchService
 import co.kr.woowahan_repo.domain.repository.GithubRepositorySearchRepository
 import co.kr.woowahan_repo.data.repository.GithubOAuthRepositoryImpl
 import co.kr.woowahan_repo.data.repository.NotificationsRepositoryImpl
-import co.kr.woowahan_repo.data.service.GithubIssuesService
+import co.kr.woowahan_repo.data.service.*
 import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
 import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
 import co.kr.woowahan_repo.domain.repository.NotificationsRepository
@@ -66,6 +63,8 @@ object ServiceLocator {
         getApiRetrofit().create(GithubRepositorySearchService::class.java)
     fun getGithubSearchRepository(): GithubRepositorySearchRepository =
         GithubRepositorySearchRepositoryImpl()
+    fun getGithubSearchLimitService(): GithubSearchLimitService =
+        getApiRetrofit().create(GithubSearchLimitService::class.java)
 
     private fun getGithubIssuesService(): GithubIssuesService =
         getApiRetrofit().create(GithubIssuesService::class.java)

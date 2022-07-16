@@ -8,13 +8,13 @@ class GithubProfileRepositoryImpl(
     private val githubProfileService: GithubProfileService
 ): GithubProfileRepository {
 
-    override fun fetchProfileUrl(): Result<String> {
+    override suspend fun fetchProfileUrl(): Result<String> {
         return kotlin.runCatching {
             githubProfileService.fetchGithubProfile().toProfileUrl()
         }
     }
 
-    override fun fetchProfile(): Result<GithubProfileModel> {
+    override suspend fun fetchProfile(): Result<GithubProfileModel> {
         return kotlin.runCatching {
             githubProfileService.fetchGithubProfile().toEntity()
         }

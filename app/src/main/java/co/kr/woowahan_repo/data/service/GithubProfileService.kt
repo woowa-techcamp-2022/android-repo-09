@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface GithubProfileService {
     @GET("user")
-    fun fetchGithubProfile(): GithubProfileResponse
+    suspend fun fetchGithubProfile(): GithubProfileResponse
 }

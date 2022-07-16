@@ -63,7 +63,7 @@ data class GithubIssueResponse(
             title,
             (url.split("/").lastOrNull() ?: "0").toInt(),
             GithubIssueModel.IssueState.get(state),
-            repository.updatedAt
+            updatedAt
         )
     }
     data class Assignee(

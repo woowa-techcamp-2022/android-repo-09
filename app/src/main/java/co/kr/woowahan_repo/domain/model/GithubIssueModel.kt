@@ -5,6 +5,7 @@ import kotlin.random.Random
 data class GithubIssueModel(
     val repositoryName: String,
     val issueTitle: String,
+    val issueNumber: Int,
     val state: IssueState,
     val lastUpdateDate: String // 2011-01-26T19:14:43Z, "yyyy-MM-dd'T'HH:mm:ss'Z'"
 ) {
@@ -14,6 +15,7 @@ data class GithubIssueModel(
             return GithubIssueModel(
                 "Repository Name[$seedValue]",
                 "Issue Title[$seedValue]",
+                seed ?: seedValue,
                 if (state == IssueState.All) IssueState.values()[Random.nextInt(2)] else state,
                 getDummyDate()
             )

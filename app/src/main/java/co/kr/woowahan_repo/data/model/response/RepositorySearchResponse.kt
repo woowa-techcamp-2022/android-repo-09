@@ -174,7 +174,7 @@ data class RepositorySearchResponse(
         fun toEntity(): GithubRepositorySearchModel {
             return GithubRepositorySearchModel(
                 name , // or full name
-                description ?: GithubRepositorySearchModel.defaultDescriptor,
+                description,
                 owner.login,
                 owner.avatarUrl,
                 language,

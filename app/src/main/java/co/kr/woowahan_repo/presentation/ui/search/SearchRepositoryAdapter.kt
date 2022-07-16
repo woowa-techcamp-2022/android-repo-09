@@ -74,6 +74,8 @@ class SearchRepositoryAdapter: RecyclerView.Adapter<SearchRepositoryAdapter.Sear
 
             tvUser.text = searchResponse.user
             tvRepositoryTitle.text = searchResponse.repositoryTitle
+
+            tvRepositoryDescription.isVisible = !searchResponse.repositoryDescriptor.isNullOrBlank()
             tvRepositoryDescription.text = searchResponse.repositoryDescriptor
 
             tvLanguage.isVisible = !searchResponse.language.isNullOrBlank()

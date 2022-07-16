@@ -62,6 +62,7 @@ class SignInViewModel : ViewModel() {
             _viewState.value = SignInViewState.ActionViewOAuthUrl(it)
         }.onFailure {
             it.printStackTrace()
+            _viewState.value = SignInViewState.ActionViewOAuthUrlFail(it)
         }
 
     }
@@ -70,6 +71,7 @@ class SignInViewModel : ViewModel() {
         val url: String? = null,
         val error: Throwable? = null
     ) {
+        class ActionViewOAuthUrlFail(error: Throwable): SignInViewState(null, error)
         class ActionViewOAuthUrl(url: String): SignInViewState(url, null)
         class OAuthSuccess(): SignInViewState(null)
         class OAuthFail(error: Throwable): SignInViewState(null, error)

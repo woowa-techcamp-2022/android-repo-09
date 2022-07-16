@@ -81,7 +81,7 @@ class SearchRepositoryViewModel: ViewModel() {
     fun fetchNextPage(){
         val throwable = when {
             prevQuery.isNullOrBlank() -> Throwable("검색어를 입력해 주세요")
-            _dataLoading.value == true -> Throwable("로딩중")
+            _dataLoading.value == true -> return
             else -> null
         }
         if(throwable != null){

@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -70,6 +71,21 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
     private fun setListener()= with(binding){
         layoutBackground.setOnClickListener {
             setKeyboardShown(false, it)
+        }
+
+        rvSearch.setOnTouchListener { view, motionEvent ->
+            when(motionEvent.action){
+                MotionEvent.ACTION_UP -> {
+                    view.performClick()
+                    setKeyboardShown(false, view)
+                }
+            }
+            false
+        }
+
+        etSearch.setOnFocusChangeListener { _, b ->
+            val startSearchIcon = if(b) null else resources.getDrawable(R.drawable.ic_selector_search, null)
+            tlSearch.startIconDrawable = startSearchIcon
         }
 
         etSearch.addTextChangedListener { // 일단 임시

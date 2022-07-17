@@ -45,17 +45,16 @@ class SearchRepositoryViewModel: ViewModel() {
             return
         }
         _dataLoading.value = true
-
         // 이전 요청이 있다면 취소 후 요청
         Timber.tag("query try").d("$query, prev coroutine is Running : ${prevQueryJob?.isActive == true}")
         if(prevQueryJob?.isActive == true)
             prevQueryJob?.cancel()
 
         prevQueryJob = viewModelScope.launch {
-            kotlin.runCatching {
-                currentPage = 1
-                searchRepository.searchQuery(query, currentPage)
-            }.onSuccess {
+            currentPage = 1
+            searchRepository.searchQuery(
+                query, currentPage
+            ).onSuccess {
                 _dataLoading.value = false
                 prevQuery = query
                 currentList.clear()
@@ -92,9 +91,9 @@ class SearchRepositoryViewModel: ViewModel() {
 
         _dataLoading.value = true
         viewModelScope.launch {
-            kotlin.runCatching {
-                searchRepository.searchQuery(prevQuery!!, currentPage + 1)
-            }.onSuccess {
+            searchRepository.searchQuery(
+                prevQuery!!, currentPage + 1
+            ).onSuccess {
                 _dataLoading.value = false
                 when(it.isEmpty()) {
                     true -> _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))

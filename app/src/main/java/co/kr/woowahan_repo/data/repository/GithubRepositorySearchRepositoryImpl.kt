@@ -9,19 +9,21 @@ class GithubRepositorySearchRepositoryImpl: GithubRepositorySearchRepository {
     private val repositorySearchService = ServiceLocator.getRepositorySearchService()
     private val githubSearchLimitSearchRepository = ServiceLocator.getGithubSearchLimitService()
 
-    override suspend fun searchQuery(query: String, page: Int): List<GithubRepositorySearchModel> {
-        return repositorySearchService.searchQuery(
-            query, page
-        ).items.map {
-            Timber.tag("data search model").d(
-                "search debug [name: ${it.name}, " +
-                        "description: ${it.description}," +
-                        "user: ${it.owner.login}," +
-                        "profile_url: ${it.owner.avatarUrl}," +
-                        "language: ${it.language}, " +
-                        "start: ${it.stargazersCount}"
-            )
-            it.toEntity()
+    override suspend fun searchQuery(query: String, page: Int): Result<List<GithubRepositorySearchModel>> {
+        return kotlin.runCatching {
+            repositorySearchService.searchQuery(
+                query, page
+            ).items.map {
+                Timber.tag("data search model").d(
+                    "search debug [name: ${it.name}, " +
+                            "description: ${it.description}," +
+                            "user: ${it.owner.login}," +
+                            "profile_url: ${it.owner.avatarUrl}," +
+                            "language: ${it.language}, " +
+                            "start: ${it.stargazersCount}"
+                )
+                it.toEntity()
+            }
         }
     }
 

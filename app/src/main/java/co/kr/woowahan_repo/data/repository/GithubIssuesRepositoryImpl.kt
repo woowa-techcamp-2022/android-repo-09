@@ -8,9 +8,11 @@ class GithubIssuesRepositoryImpl(
     private val githubIssuesService: GithubIssuesService
 ): GithubIssuesRepository {
 
-    override suspend fun fetchIssues(state: String, page: Int): List<GithubIssueModel> {
-        return githubIssuesService.fetchIssues(state, page = page).map{
-            it.toEntity()
+    override suspend fun fetchIssues(state: String, page: Int): Result<List<GithubIssueModel>> {
+        return kotlin.runCatching {
+            githubIssuesService.fetchIssues(state, page = page).map{
+                it.toEntity()
+            }
         }
     }
 }

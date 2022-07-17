@@ -6,6 +6,8 @@ import co.kr.woowahan_repo.data.repository.GithubRepositorySearchRepositoryImpl
 import co.kr.woowahan_repo.data.repository.GithubIssuesRepositoryImpl
 import co.kr.woowahan_repo.domain.repository.GithubRepositorySearchRepository
 import co.kr.woowahan_repo.data.repository.GithubOAuthRepositoryImpl
+import co.kr.woowahan_repo.data.repository.GithubProfileRepositoryImpl
+import co.kr.woowahan_repo.domain.repository.GithubProfileRepository
 import co.kr.woowahan_repo.data.repository.NotificationsRepositoryImpl
 import co.kr.woowahan_repo.data.service.*
 import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
@@ -70,4 +72,9 @@ object ServiceLocator {
         getApiRetrofit().create(GithubIssuesService::class.java)
     fun getGithubIssuesRepository(): GithubIssuesRepository =
         GithubIssuesRepositoryImpl(getGithubIssuesService())
+
+    private fun getGithubProfileService(): GithubProfileService =
+        getApiRetrofit().create(GithubProfileService::class.java)
+    fun getGithubProfileRepository(): GithubProfileRepository =
+        GithubProfileRepositoryImpl(getGithubProfileService())
 }

@@ -7,6 +7,7 @@ import timber.log.Timber
 
 class GithubRepositorySearchRepositoryImpl: GithubRepositorySearchRepository {
     private val repositorySearchService = ServiceLocator.getRepositorySearchService()
+    private val githubSearchLimitSearchRepository = ServiceLocator.getGithubSearchLimitService()
 
     override suspend fun searchQuery(query: String, page: Int): Result<List<GithubRepositorySearchModel>> {
         return kotlin.runCatching {
@@ -23,6 +24,12 @@ class GithubRepositorySearchRepositoryImpl: GithubRepositorySearchRepository {
                 )
                 it.toEntity()
             }
+        }
+    }
+
+    override suspend fun fetchSearchLimit(): Result<Int> {
+        return kotlin.runCatching {
+            githubSearchLimitSearchRepository.fetchSearchLimitInfo().getSearchLimit()
         }
     }
 }

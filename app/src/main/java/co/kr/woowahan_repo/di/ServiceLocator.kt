@@ -65,6 +65,8 @@ object ServiceLocator {
         getApiRetrofit().create(GithubRepositorySearchService::class.java)
     fun getGithubSearchRepository(): GithubRepositorySearchRepository =
         GithubRepositorySearchRepositoryImpl()
+    fun getGithubSearchLimitService(): GithubSearchLimitService =
+        getApiRetrofit().create(GithubSearchLimitService::class.java)
 
     private fun getGithubIssuesService(): GithubIssuesService =
         getApiRetrofit().create(GithubIssuesService::class.java)

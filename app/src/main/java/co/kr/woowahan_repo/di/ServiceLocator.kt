@@ -3,11 +3,11 @@ package co.kr.woowahan_repo.di
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
 import co.kr.woowahan_repo.data.model.repositoryimpl.GithubRepositorySearchRepositoryImpl
-import co.kr.woowahan_repo.data.model.response.GithubProfileRepositoryImpl
 import co.kr.woowahan_repo.data.repository.GithubIssuesRepositoryImpl
 import co.kr.woowahan_repo.domain.repository.GithubRepositorySearchRepository
 import co.kr.woowahan_repo.data.repository.GithubOAuthRepositoryImpl
-import co.kr.woowahan_repo.data.repository.GithubProfileRepository
+import co.kr.woowahan_repo.data.repository.GithubProfileRepositoryImpl
+import co.kr.woowahan_repo.domain.repository.GithubProfileRepository
 import co.kr.woowahan_repo.data.repository.NotificationsRepositoryImpl
 import co.kr.woowahan_repo.data.service.*
 import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository

@@ -2,6 +2,7 @@ package co.kr.woowahan_repo.data.repository
 
 import co.kr.woowahan_repo.data.service.GithubProfileService
 import co.kr.woowahan_repo.domain.model.GithubProfileModel
+import co.kr.woowahan_repo.domain.repository.GithubProfileRepository
 import timber.log.Timber
 
 class GithubProfileRepositoryImpl(

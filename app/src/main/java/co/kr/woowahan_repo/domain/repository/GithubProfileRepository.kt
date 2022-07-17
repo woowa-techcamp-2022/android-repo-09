@@ -1,4 +1,4 @@
-package co.kr.woowahan_repo.data.repository
+package co.kr.woowahan_repo.domain.repository
 
 import co.kr.woowahan_repo.domain.model.GithubProfileModel
 

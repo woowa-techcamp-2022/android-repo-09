@@ -79,7 +79,7 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
                 else -> R.drawable.ic_issue_state_error
             }
             ivState.setImageResource(stateResId)
-            tvDate.text = DateUtil.getLastUpdateIntervalDateString(item.lastUpdateDate)
+            tvDate.text = DateUtil.getGithubDateInterval(item.lastUpdateDate)
         }
     }
 }

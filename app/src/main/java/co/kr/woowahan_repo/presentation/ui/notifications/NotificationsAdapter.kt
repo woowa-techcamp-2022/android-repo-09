@@ -18,8 +18,8 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
     class NotificationViewHolder(private val binding: ViewNotificationItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: GithubNotification) {
-            data.updatedAt = DateUtil.getLastUpdateIntervalDateString(data.updatedAt)
             binding.notification = data
+            binding.tvDate.text = DateUtil.getLastUpdateIntervalDateString(data.updatedAt)
             binding.ivRepositoryImage.load(data.repositoryImage) {
                 transformations(CircleCropTransformation())
             }

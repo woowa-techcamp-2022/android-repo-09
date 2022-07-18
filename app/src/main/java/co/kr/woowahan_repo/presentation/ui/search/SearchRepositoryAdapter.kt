@@ -1,6 +1,8 @@
 package co.kr.woowahan_repo.presentation.ui.search
 
 
+import android.R.string
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -8,11 +10,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import co.kr.woowahan_repo.databinding.ViewSearchRepositoryItemBinding
 import co.kr.woowahan_repo.domain.model.GithubRepositorySearchModel
+import co.kr.woowahan_repo.util.ColorUtil
 import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.lang.Exception
+
 
 class SearchRepositoryAdapter: RecyclerView.Adapter<SearchRepositoryAdapter.SearchRepositoryItemViewHolder>() {
 
@@ -81,7 +84,8 @@ class SearchRepositoryAdapter: RecyclerView.Adapter<SearchRepositoryAdapter.Sear
             tvLanguage.isVisible = !searchResponse.language.isNullOrBlank()
             cardViewLanguage.isVisible = !searchResponse.language.isNullOrBlank()
             tvLanguage.text = searchResponse.language
-            //이미지를 언어별로 다르게라... 흠
+            if(!searchResponse.language.isNullOrBlank())
+                ivLanguage.setBackgroundColor(ColorUtil.getColor(searchResponse.language))
 
             when{
                 searchResponse.starCount<1000 -> tvStar.text = searchResponse.starCount.toString()

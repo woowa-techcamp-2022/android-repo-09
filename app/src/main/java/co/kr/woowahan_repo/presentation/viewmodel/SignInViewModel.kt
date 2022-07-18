@@ -33,13 +33,11 @@ class SignInViewModel : ViewModel() {
         }
         _dataLoading.value = true
         viewModelScope.launch {
-            runCatching {
-                oAuthRepository.requestAccessToken(
-                    BuildConfig.GITHUB_CLIENT_ID,
-                    BuildConfig.GITHUB_SECRETS,
-                    code!!
-                )
-            }.onSuccess {
+            oAuthRepository.requestAccessToken(
+                BuildConfig.GITHUB_CLIENT_ID,
+                BuildConfig.GITHUB_SECRETS,
+                code!!
+            ).onSuccess {
                 Timber.tag("Success").d(it.accessToken)
                 _dataLoading.value = false
                 ServiceLocator.accessToken = it.accessToken
@@ -53,21 +51,27 @@ class SignInViewModel : ViewModel() {
     }
 
     fun clickSignIn(){
-        val url = oAuthRepository.getOAuthActionViewUrl(
+        oAuthRepository.getOAuthActionViewUrl(
             BuildConfig.GITHUB_CLIENT_ID,
             arrayOf(
                 "repo",
                 "notifications"
             )
-        )
-        Timber.tag("oauth url").d(url)
-        _viewState.value = SignInViewState.ActionViewOAuthUrl(url)
+        ).onSuccess {
+            Timber.tag("oauth url").d(it)
+            _viewState.value = SignInViewState.ActionViewOAuthUrl(it)
+        }.onFailure {
+            it.printStackTrace()
+            _viewState.value = SignInViewState.ActionViewOAuthUrlFail(it)
+        }
+
     }
 
     sealed class SignInViewState(
         val url: String? = null,
         val error: Throwable? = null
     ) {
+        class ActionViewOAuthUrlFail(error: Throwable): SignInViewState(null, error)
         class ActionViewOAuthUrl(url: String): SignInViewState(url, null)
         class OAuthSuccess(): SignInViewState(null)
         class OAuthFail(error: Throwable): SignInViewState(null, error)

@@ -24,11 +24,9 @@ class IssuesViewModel(
     fun fetchIssues(){
         _dataLoading.value = true
         viewModelScope.launch {
-            kotlin.runCatching {
-                issuesRepository.fetchIssues(
-                    issueState.key, 1
-                )
-            }.onSuccess {
+            issuesRepository.fetchIssues(
+                issueState.key, 1
+            ).onSuccess {
                 Timber.tag("Api Success").d(it.toString())
                 _dataLoading.value = false
                 _viewState.value = IssuesViewState.Issues(it)

@@ -10,6 +10,7 @@ import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.application.WoowahanRepoApplication
 import co.kr.woowahan_repo.util.showSnackBar
 import co.kr.woowahan_repo.databinding.FragmentIssuesBinding
+import co.kr.woowahan_repo.di.ServiceLocator
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModel
@@ -30,7 +31,7 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this, IssuesViewModelFactory(
-            (requireActivity().application as WoowahanRepoApplication).appContainer.issuesRepository
+            ServiceLocator.getGithubIssuesRepository()
         ))[IssuesViewModel::class.java]
 
         setUpRecyclerView()
@@ -56,7 +57,8 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
     private fun setListener()= with(binding){
         popUpMenuChooseView.setUpPopupMenu(
             requireActivity(),
-            R.menu.menu_issue_state
+            R.menu.menu_issue_state,
+            R.style.issueFilterPopupMenu
         ) {
             val state = when(it.itemId){
                 R.id.menu_issue_state_open -> {

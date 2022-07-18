@@ -6,7 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.di.ServiceLocator
 import co.kr.woowahan_repo.domain.model.GithubRepositorySearchModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class SearchRepositoryViewModel: ViewModel() {
     private val _dataLoading = MutableLiveData<Boolean>()
@@ -16,27 +20,41 @@ class SearchRepositoryViewModel: ViewModel() {
     val viewState: LiveData<SearchViewState> = _viewState
 
     private val searchRepository = ServiceLocator.getGithubSearchRepository()
+
     private var currentPage = 1
     private var prevQuery: String? = null
     private var currentList = ArrayList<GithubRepositorySearchModel>()
+    private var debounceQuery: String? = null
+    private val debounceDelayMill = 500L
 
-    fun searchQuery(query: String) {
+    /**
+     * debounce 를 사용하면서 여러 요청이 들어갈 가능성이 생기는데,
+     * 이때 무조건 나중에 들어간 요청이 출력되도록 설정해야 한다
+     * block 을 해버리면 순차적이 되어버리기에 요청이 너무 오래걸릴것
+     */
+    private var prevQueryJob: Job? = null
+    private fun searchQuery(query: String) {
+        Timber.tag("search query").d(query)
+        // 디바운스 처리를 했기때문에, 의도치 않은 요청이 여러개 날아올 경우가 존재. 때문에 loading 체크는 하지 않는다
         val throwable = when {
             query.isBlank() -> Throwable("검색어를 입력해 주세요")
-            _dataLoading.value == true -> Throwable("로딩중")
             else -> null
         }
         if(throwable != null){
             _viewState.value = SearchViewState.ErrorMessage(throwable)
             return
         }
-
         _dataLoading.value = true
-        viewModelScope.launch {
-            kotlin.runCatching {
-                currentPage = 1
-                searchRepository.searchQuery(query, currentPage)
-            }.onSuccess {
+        // 이전 요청이 있다면 취소 후 요청
+        Timber.tag("query try").d("$query, prev coroutine is Running : ${prevQueryJob?.isActive == true}")
+        if(prevQueryJob?.isActive == true)
+            prevQueryJob?.cancel()
+
+        prevQueryJob = viewModelScope.launch {
+            currentPage = 1
+            searchRepository.searchQuery(
+                query, currentPage
+            ).onSuccess {
                 _dataLoading.value = false
                 prevQuery = query
                 currentList.clear()
@@ -44,10 +62,18 @@ class SearchRepositoryViewModel: ViewModel() {
                 if(currentList.isEmpty())
                     _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))
                 _viewState.value = SearchViewState.SearchResList(it)
+                fetchGithubSearchLimit()
             }.onFailure {
                 it.printStackTrace()
-                _dataLoading.value = false
-                _viewState.value = SearchViewState.SearchQueryFail(Throwable("검색을 실패하였습니다"))
+                when(it){
+                    is CancellationException -> { // 취소된 요청
+                        Timber.tag("cancel prev coroutine").d(it.message)
+                    }
+                    else -> {
+                        _dataLoading.value = false
+                        _viewState.value = SearchViewState.SearchQueryFail(Throwable("검색을 실패하였습니다"))
+                    }
+                }
             }
         }
     }
@@ -55,7 +81,7 @@ class SearchRepositoryViewModel: ViewModel() {
     fun fetchNextPage(){
         val throwable = when {
             prevQuery.isNullOrBlank() -> Throwable("검색어를 입력해 주세요")
-            _dataLoading.value == true -> Throwable("로딩중")
+            _dataLoading.value == true -> return
             else -> null
         }
         if(throwable != null){
@@ -65,9 +91,9 @@ class SearchRepositoryViewModel: ViewModel() {
 
         _dataLoading.value = true
         viewModelScope.launch {
-            kotlin.runCatching {
-                searchRepository.searchQuery(prevQuery!!, currentPage + 1)
-            }.onSuccess {
+            searchRepository.searchQuery(
+                prevQuery!!, currentPage + 1
+            ).onSuccess {
                 _dataLoading.value = false
                 when(it.isEmpty()) {
                     true -> _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))
@@ -82,6 +108,41 @@ class SearchRepositoryViewModel: ViewModel() {
                 _dataLoading.value = false
                 _viewState.value = SearchViewState.SearchQueryFail(Throwable("검색을 실패하였습니다"))
             }
+        }
+    }
+
+    /**
+     * for debug
+     * 분당 최대 30개가 주어지고, 줄어드는 것을 확인 할 수 있었다
+     */
+    private fun fetchGithubSearchLimit(){
+        viewModelScope.launch {
+            searchRepository.fetchSearchLimit()
+                .onSuccess {
+                    Timber.tag("search limit").d("limit[$it]")
+                }.onFailure {
+                    it.printStackTrace()
+                }
+        }
+    }
+
+    /**
+     * event from view
+     */
+    fun onTextChanged(text: String){
+        val query = text.trim()
+        if(query.isBlank()) { // 비어있는 경우는 처리하지 않는다
+            debounceQuery = query
+            return
+        }
+        if(debounceQuery == query) return
+        debounceQuery = query
+        viewModelScope.launch {
+            delay(debounceDelayMill)
+            if(debounceQuery != query) return@launch
+            //do work
+            Timber.tag("debounce query").d("$debounceQuery")
+            searchQuery(debounceQuery!!)
         }
     }
 

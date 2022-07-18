@@ -70,7 +70,8 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
         }
 
         fun bind(item: GithubIssueModel)= with(binding){
-            tvTitle.text = item.repositoryName
+            val title = "${item.repositoryName} #${item.issueNumber}"
+            tvTitle.text = title
             tvContent.text = item.issueTitle
             val stateResId = when(item.state){
                 GithubIssueModel.IssueState.Open -> R.drawable.ic_issue_state_open
@@ -78,7 +79,7 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
                 else -> R.drawable.ic_issue_state_error
             }
             ivState.setImageResource(stateResId)
-            tvDate.text = DateUtil.getLastUpdateIntervalDateString(item.lastUpdateDate)
+            tvDate.text = DateUtil.getGithubDateInterval(item.lastUpdateDate)
         }
     }
 }

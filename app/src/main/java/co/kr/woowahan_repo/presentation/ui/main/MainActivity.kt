@@ -12,6 +12,7 @@ import co.kr.woowahan_repo.presentation.ui.search.SearchRepositoryActivity
 import co.kr.woowahan_repo.presentation.ui.issues.IssuesFragment
 import co.kr.woowahan_repo.presentation.ui.notifications.NotificationsFragment
 import co.kr.woowahan_repo.presentation.viewmodel.MainViewModel
+import coil.load
 import timber.log.Timber
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -26,6 +27,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if(savedInstanceState == null){ // 기기 회전 등 이벤트로 reCreate 하는 중이 아님
             viewModel.clickTabOne() // default select tab
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchProfileUrl()
     }
 
     private fun setListener()= with(binding){
@@ -58,18 +64,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             event.getContentIfNotHandled()?.let {
                 Timber.d("show tab 1")
                 supportFragmentManager.commit {
-                    replace(
-                        R.id.container_fragment_main,
-                        IssuesFragment.newInstance()
-                    )
+                    replace<IssuesFragment>(R.id.container_fragment_main)
                 }
             }
         }
-        viewModel.showTabTwoEvent.observe(this) {
-            Timber.d("show tab 2")
-            supportFragmentManager.commit {
-                replace<NotificationsFragment>(R.id.container_fragment_main)
+        viewModel.showTabTwoEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                Timber.d("show tab 2")
+                supportFragmentManager.commit {
+                    replace<NotificationsFragment>(R.id.container_fragment_main)
+                }
             }
+        }
+
+        viewModel.profileUrl.observe(this){
+            Timber.d("profileUrl get $it")
+            binding.ivProfile.load(it)
         }
 
         viewModel.showSearchEvent.observe(this){ event ->

@@ -10,31 +10,35 @@ import co.kr.woowahan_repo.domain.model.OAuthAccessTokenInfo
 class GithubOAuthRepositoryImpl: GithubOAuthRepository {
     private val githubAccessTokenService: GithubOAuthAccessTokenService = ServiceLocator.getOAuthAccessTokenService()
 
-    override fun getOAuthActionViewUrl(clientId: String, scope: Array<String>): String {
-        var url =  BuildConfig.GITHUB_OAUTH_BASE_URL +
-                "login/oauth/authorize" +
-                "?client_id=$clientId"
-        if(scope.isNotEmpty()){
-            url += "&scope="
-            scope.forEachIndexed { i, v ->
-                url += if(i==scope.size-1)
-                    v
-                else
-                    "${v},"
+    override fun getOAuthActionViewUrl(clientId: String, scope: Array<String>): Result<String> {
+        return kotlin.runCatching {
+            var url =  BuildConfig.GITHUB_OAUTH_BASE_URL +
+                    "login/oauth/authorize" +
+                    "?client_id=$clientId"
+            if(scope.isNotEmpty()){
+                url += "&scope="
+                scope.forEachIndexed { i, v ->
+                    url += if(i==scope.size-1)
+                        v
+                    else
+                        "${v},"
+                }
             }
+            url
         }
-        return url
     }
 
     override suspend fun requestAccessToken(
         clientId: String,
         clientSecret: String,
         code: String
-    ): OAuthAccessTokenInfo {
-        return githubAccessTokenService.requestAccessToken(
-            OAuthAccessTokenRequest(
-                clientId, clientSecret, code
-            )
-        ).toEntity()
+    ): Result<OAuthAccessTokenInfo> {
+        return kotlin.runCatching {
+            githubAccessTokenService.requestAccessToken(
+                OAuthAccessTokenRequest(
+                    clientId, clientSecret, code
+                )
+            ).toEntity()
+        }
     }
 }

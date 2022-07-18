@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -72,14 +73,29 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
             setKeyboardShown(false, it)
         }
 
+        rvSearch.setOnTouchListener { view, motionEvent ->
+            when(motionEvent.action){
+                MotionEvent.ACTION_UP -> {
+                    view.performClick()
+                    setKeyboardShown(false, view)
+                }
+            }
+            false
+        }
+
+        etSearch.setOnFocusChangeListener { _, b ->
+            val startSearchIcon = if(b) null else resources.getDrawable(R.drawable.ic_selector_search, null)
+            tlSearch.startIconDrawable = startSearchIcon
+        }
+
         etSearch.addTextChangedListener { // 일단 임시
             tlSearch.isStartIconVisible = it.isNullOrBlank() // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
+            viewModel.onTextChanged(it.toString())
         }
 
         etSearch.setOnKeyListener { v, _, keyEvent ->
             when(keyEvent.keyCode){
                 KeyEvent.KEYCODE_ENTER -> {
-                    viewModel.searchQuery(etSearch.text.toString())
                     setKeyboardShown(false, v) // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
                 }
             }

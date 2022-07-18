@@ -3,7 +3,11 @@ package co.kr.woowahan_repo.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.data.SingleEvent
+import co.kr.woowahan_repo.di.ServiceLocator
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainViewModel: ViewModel() {
     private val _tabOneSelected = MutableLiveData<Boolean>()
@@ -24,7 +28,27 @@ class MainViewModel: ViewModel() {
     private val _showProfileEvent = MutableLiveData<SingleEvent<Unit>>()
     val showProfileEvent: LiveData<SingleEvent<Unit>> = _showProfileEvent
 
+    private val _profileUrl = MutableLiveData<String>()
+    val profileUrl: LiveData<String> = _profileUrl
 
+    private val profileRepository = ServiceLocator.getGithubProfileRepository()
+
+
+    fun fetchProfileUrl(){
+        Timber.d("fetchProfileUrl")
+        viewModelScope.launch {
+            profileRepository.fetchProfileUrl()
+                .onSuccess {
+                    _profileUrl.value = it
+                }.onFailure {
+                    it.printStackTrace()
+                }
+        }
+    }
+
+    /**
+     * event from view
+     */
     fun clickTabOne(){
         _tabOneSelected.value = true
         _tabTwoSelected.value = false

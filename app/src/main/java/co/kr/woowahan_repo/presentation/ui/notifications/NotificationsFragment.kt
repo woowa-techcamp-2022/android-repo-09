@@ -1,4 +1,4 @@
-package co.kr.woowahan_repo.presentation.ui.main
+package co.kr.woowahan_repo.presentation.ui.notifications
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.FragmentNotificationsBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
-import co.kr.woowahan_repo.presentation.ui.notifications.NotificationsAdapter
 import co.kr.woowahan_repo.presentation.viewmodel.NotificationsViewModel
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {

@@ -10,6 +10,7 @@ import co.kr.woowahan_repo.databinding.ActivityMainBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.ui.search.SearchRepositoryActivity
 import co.kr.woowahan_repo.presentation.ui.issues.IssuesFragment
+import co.kr.woowahan_repo.presentation.ui.notifications.NotificationsFragment
 import co.kr.woowahan_repo.presentation.viewmodel.MainViewModel
 import timber.log.Timber
 

@@ -11,6 +11,9 @@ import co.kr.woowahan_repo.domain.model.GithubNotification
 import co.kr.woowahan_repo.util.DateUtil
 import coil.load
 import coil.transform.CircleCropTransformation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.NotificationViewHolder>() {
     private var itemList = mutableListOf<GithubNotification>()
@@ -43,10 +46,12 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
     override fun getItemCount(): Int = itemList.size
 
     fun updateList(newItemList: List<GithubNotification>) {
-        val diffCallback = DiffUtilCallback(itemList, newItemList)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        itemList = newItemList.toMutableList()
-        diffResult.dispatchUpdatesTo(this)
+        CoroutineScope(Dispatchers.Default).launch {
+            val diffCallback = DiffUtilCallback(itemList, newItemList)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+            itemList = newItemList.toMutableList()
+            diffResult.dispatchUpdatesTo(this@NotificationsAdapter)
+        }
     }
 
     companion object {

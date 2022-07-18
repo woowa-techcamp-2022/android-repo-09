@@ -15,16 +15,14 @@ class GithubNotificationsRepositoryImpl(
 ) : GithubNotificationsRepository {
     override suspend fun fetchNotifications(page: Int): Result<List<GithubNotification>> {
         return runCatching {
-            notificationsService.fetchNotifications(page, 100).map {
+            notificationsService.fetchNotifications(page, 10).map {
                 it.toEntity().apply {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        comments =
-                            if (reason == "review_requested") {
-                                commentsService.fetchCommentsCount(url).reviewComments
-                            } else {
-                                commentsService.fetchCommentsCount(url).comments
-                            }
-                    }
+                    comments =
+                        if (reason == "review_requested") {
+                            commentsService.fetchCommentsCount(url).reviewComments
+                        } else {
+                            commentsService.fetchCommentsCount(url).comments
+                        }
                 }
             }
         }

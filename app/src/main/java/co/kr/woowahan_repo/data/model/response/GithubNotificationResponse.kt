@@ -154,6 +154,7 @@ data class GithubNotificationResponse(
 
     fun toEntity(): GithubNotification {
         return GithubNotification(
+            id = this.id,
             repositoryName = this.repository.fullName,
             number = "#${this.subject.url.split('/').last()}",
             updatedAt = this.updatedAt,

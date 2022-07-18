@@ -8,7 +8,7 @@ class NotificationsRepositoryImpl(
     private val notificationsService: NotificationsService
 ) : NotificationsRepository {
     override suspend fun fetchNotifications(page: Int): Result<List<GithubNotification>> {
-        return kotlin.runCatching {
+        return runCatching {
             notificationsService.fetchNotifications(page, 50)
                 .map { it.toEntity() }
         }

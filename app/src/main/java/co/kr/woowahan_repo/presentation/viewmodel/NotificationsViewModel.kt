@@ -11,25 +11,28 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class NotificationsViewModel(
-//    private val notificationsRepository: NotificationsRepository = ServiceLocator.getNotificationsRepository()
+    private val notificationsRepository: NotificationsRepository = ServiceLocator.getNotificationsRepository()
 ) : ViewModel() {
-    private val notificationsRepository = ServiceLocator.getNotificationsRepository()
     private var page = 1
 
+    private val _isDataLoading = MutableLiveData<Boolean>()
+    val isDataLoading: LiveData<Boolean> get() = _isDataLoading
     private val _notifications = MutableLiveData<List<GithubNotification>>()
     val notifications: LiveData<List<GithubNotification>> get() = _notifications
 
     fun fetchNotifications() {
         viewModelScope.launch {
-            notificationsRepository.fetchNotifications(
-                page
-            ).onSuccess {
-                Timber.tag("Notifications Success").d(it.toString())
-                _notifications.value = it
-                page++
-            }.onFailure {
-                Timber.tag("Notifications Failure").e(it)
-            }
+            _isDataLoading.value = true
+            notificationsRepository.fetchNotifications(page)
+                .onSuccess {
+                    Timber.tag("Notifications Success").d(it.toString())
+                    _notifications.value = it
+                    page++
+                }.onFailure {
+                    Timber.tag("Notifications Failure").e(it)
+                }.also {
+                    _isDataLoading.value = false
+                }
         }
     }
 }

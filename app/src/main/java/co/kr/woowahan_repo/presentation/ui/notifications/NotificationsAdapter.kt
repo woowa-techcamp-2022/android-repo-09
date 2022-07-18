@@ -22,7 +22,7 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: GithubNotification) {
             binding.notification = data
-            binding.tvDate.text = DateUtil.getLastUpdateIntervalDateString(data.updatedAt)
+            binding.tvDate.text = DateUtil.getGithubDateInterval(data.updatedAt)
             binding.ivRepositoryImage.load(data.repositoryImage) {
                 transformations(CircleCropTransformation())
             }

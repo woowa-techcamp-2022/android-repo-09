@@ -8,11 +8,11 @@ import co.kr.woowahan_repo.domain.repository.GithubRepositorySearchRepository
 import co.kr.woowahan_repo.data.repository.GithubOAuthRepositoryImpl
 import co.kr.woowahan_repo.data.repository.GithubProfileRepositoryImpl
 import co.kr.woowahan_repo.domain.repository.GithubProfileRepository
-import co.kr.woowahan_repo.data.repository.NotificationsRepositoryImpl
+import co.kr.woowahan_repo.data.repository.GithubNotificationsRepositoryImpl
 import co.kr.woowahan_repo.data.service.*
 import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
 import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
-import co.kr.woowahan_repo.domain.repository.NotificationsRepository
+import co.kr.woowahan_repo.domain.repository.GithubNotificationsRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -56,25 +56,33 @@ object ServiceLocator {
     fun getOAuthAccessTokenService(): GithubOAuthAccessTokenService =
         getOAuthRetrofit().create(GithubOAuthAccessTokenService::class.java)
 
-    private fun getNotificationsService(): NotificationsService =
-        getApiRetrofit().create(NotificationsService::class.java)
-    fun getNotificationsRepository(): NotificationsRepository =
-        NotificationsRepositoryImpl(getNotificationsService())
+    private fun getNotificationsService(): GithubNotificationsService =
+        getApiRetrofit().create(GithubNotificationsService::class.java)
+
+    fun getNotificationsRepository(): GithubNotificationsRepository =
+        GithubNotificationsRepositoryImpl(getNotificationsService(), getGithubCommentsService())
 
     fun getRepositorySearchService(): GithubRepositorySearchService =
         getApiRetrofit().create(GithubRepositorySearchService::class.java)
+
     fun getGithubSearchRepository(): GithubRepositorySearchRepository =
         GithubRepositorySearchRepositoryImpl()
+
     fun getGithubSearchLimitService(): GithubSearchLimitService =
         getApiRetrofit().create(GithubSearchLimitService::class.java)
 
     private fun getGithubIssuesService(): GithubIssuesService =
         getApiRetrofit().create(GithubIssuesService::class.java)
+
     fun getGithubIssuesRepository(): GithubIssuesRepository =
         GithubIssuesRepositoryImpl(getGithubIssuesService())
 
     private fun getGithubProfileService(): GithubProfileService =
         getApiRetrofit().create(GithubProfileService::class.java)
+
     fun getGithubProfileRepository(): GithubProfileRepository =
         GithubProfileRepositoryImpl(getGithubProfileService())
+
+    fun getGithubCommentsService(): GithubCommentsService =
+        getApiRetrofit().create(GithubCommentsService::class.java)
 }

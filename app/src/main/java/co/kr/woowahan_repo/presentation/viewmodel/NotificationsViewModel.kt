@@ -13,7 +13,6 @@ import timber.log.Timber
 class NotificationsViewModel(
     private val notificationsRepository: NotificationsRepository = ServiceLocator.getNotificationsRepository()
 ) : ViewModel() {
-//    private val notificationsRepository = ServiceLocator.getNotificationsRepository()
     private var page = 1
 
     private val _notifications = MutableLiveData<List<GithubNotification>>()
@@ -21,15 +20,14 @@ class NotificationsViewModel(
 
     fun fetchNotifications() {
         viewModelScope.launch {
-            runCatching {
-                notificationsRepository.fetchNotifications(page)
-            }.onSuccess {
-                Timber.tag("Notifications Success").d(it.toString())
-                _notifications.value = it
-                page++
-            }.onFailure {
-                Timber.tag("Notifications Failure").e(it)
-            }
+            notificationsRepository.fetchNotifications(page)
+                .onSuccess {
+                    Timber.tag("Notifications Success").d(it.toString())
+                    _notifications.value = it
+                    page++
+                }.onFailure {
+                    Timber.tag("Notifications Failure").e(it)
+                }
         }
     }
 }

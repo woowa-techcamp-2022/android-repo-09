@@ -11,9 +11,9 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class NotificationsViewModel(
-//    private val notificationsRepository: NotificationsRepository = ServiceLocator.getNotificationsRepository()
+    private val notificationsRepository: NotificationsRepository = ServiceLocator.getNotificationsRepository()
 ) : ViewModel() {
-    private val notificationsRepository = ServiceLocator.getNotificationsRepository()
+//    private val notificationsRepository = ServiceLocator.getNotificationsRepository()
     private var page = 1
 
     private val _notifications = MutableLiveData<List<GithubNotification>>()

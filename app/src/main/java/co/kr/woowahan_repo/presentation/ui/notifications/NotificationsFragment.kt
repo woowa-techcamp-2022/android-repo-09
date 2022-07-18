@@ -36,6 +36,10 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     }
 
     private fun observeData() {
+        notificationsViewModel.isDataLoading.observe(viewLifecycleOwner) {
+            if(it) { binding.progress.visibility = View.VISIBLE }
+            else { binding.progress.visibility = View.GONE }
+        }
         notificationsViewModel.notifications.observe(viewLifecycleOwner) {
             notificationsAdapter.updateList(it)
         }

@@ -15,11 +15,14 @@ class NotificationsViewModel(
 ) : ViewModel() {
     private var page = 1
 
+    private val _isDataLoading = MutableLiveData<Boolean>()
+    val isDataLoading: LiveData<Boolean> get() = _isDataLoading
     private val _notifications = MutableLiveData<List<GithubNotification>>()
     val notifications: LiveData<List<GithubNotification>> get() = _notifications
 
     fun fetchNotifications() {
         viewModelScope.launch {
+            _isDataLoading.value = true
             notificationsRepository.fetchNotifications(page)
                 .onSuccess {
                     Timber.tag("Notifications Success").d(it.toString())
@@ -27,6 +30,8 @@ class NotificationsViewModel(
                     page++
                 }.onFailure {
                     Timber.tag("Notifications Failure").e(it)
+                }.also {
+                    _isDataLoading.value = false
                 }
         }
     }

@@ -38,16 +38,24 @@ class NotificationsViewModel(
         }
     }
 
-    fun patchNotificationAsRead(threadId: String) {
+    fun patchNotificationAsRead(threadId: String, position: Int) {
         viewModelScope.launch {
             _isDataLoading.value = true
             githubNotificationsRepository.patchNotificationAsRead(threadId)
                 .onSuccess {
-                    _isPatchSuccess.value = true
-                    _notifications.value = requireNotNull(notifications.value).toMutableList()
-                        .apply { removeIf { it.id == threadId } }
-                        .map { it.copy() }.toList()
+                    if(it.isSuccessful) {
+                        _isPatchSuccess.value = true
+                        val list = requireNotNull(notifications.value).toMutableList()
+                        list.removeAt(position)
+                        Timber.tag("205로 onSuccess, list size").i(list.size.toString())
+                        _notifications.value = list
+                    } else {
+                        _isPatchSuccess.value = false
+                        _notifications.value =
+                            requireNotNull(notifications.value).toList().map { it.copy() }.toList()
+                    }
                 }.onFailure {
+                    Timber.tag("그냥 onFailure, error is").e(it)
                     _isPatchSuccess.value = false
                     _notifications.value =
                         requireNotNull(notifications.value).toList().map { it.copy() }.toList()

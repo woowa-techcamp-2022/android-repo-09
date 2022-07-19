@@ -15,9 +15,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class NotificationsAdapter(
-    private val removeItem: (String) -> Unit
+    private val removeItem: (String, Int) -> Unit
 ) : RecyclerView.Adapter<NotificationsAdapter.NotificationViewHolder>() {
     private var itemList = mutableListOf<GithubNotification>()
 
@@ -60,16 +61,18 @@ class NotificationsAdapter(
     }
 
     fun removeItem(position: Int) {
-        removeItem(itemList[position].id)
-        val newItemList = itemList.toMutableList().apply { removeAt(position) }
-        CoroutineScope(Dispatchers.Default).launch {
-            val diffCallback = DiffUtilCallback(itemList, newItemList)
-            val diffResult = DiffUtil.calculateDiff(diffCallback)
-            withContext(Dispatchers.Main) {
-                itemList = newItemList
-                diffResult.dispatchUpdatesTo(this@NotificationsAdapter)
-            }
-        }
+        Timber.tag("removeItem에서의 position").i(position.toString())
+        Timber.tag("removeItem에서의 id").i(itemList[position].id)
+        removeItem(itemList[position].id, position)
+//        val newItemList = itemList.toMutableList().apply { removeAt(position) }
+//        CoroutineScope(Dispatchers.Default).launch {
+//            val diffCallback = DiffUtilCallback(itemList, newItemList)
+//            val diffResult = DiffUtil.calculateDiff(diffCallback)
+//            withContext(Dispatchers.Main) {
+//                itemList = newItemList
+//                diffResult.dispatchUpdatesTo(this@NotificationsAdapter)
+//            }
+//        }
     }
 
     companion object {

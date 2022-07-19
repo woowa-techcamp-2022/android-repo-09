@@ -1,13 +1,11 @@
 package co.kr.woowahan_repo.data.repository
 
+import co.kr.woowahan_repo.data.model.response.GithubNotificationAsReadResponse
 import co.kr.woowahan_repo.data.service.GithubCommentsService
 import co.kr.woowahan_repo.data.service.GithubNotificationsService
 import co.kr.woowahan_repo.domain.model.GithubNotification
 import co.kr.woowahan_repo.domain.repository.GithubNotificationsRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 class GithubNotificationsRepositoryImpl(
     private val notificationsService: GithubNotificationsService,
@@ -28,7 +26,7 @@ class GithubNotificationsRepositoryImpl(
         }
     }
 
-    override suspend fun patchNotificationAsRead(threadId: String): Result<Unit> {
+    override suspend fun patchNotificationAsRead(threadId: String): Result<Response<GithubNotificationAsReadResponse>> {
         return runCatching {
             notificationsService.patchNotificationAsRead(threadId)
         }

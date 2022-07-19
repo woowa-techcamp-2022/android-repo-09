@@ -14,8 +14,11 @@ import coil.transform.CircleCropTransformation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.NotificationViewHolder>() {
+class NotificationsAdapter(
+    private val removeItem: (String) -> Unit
+) : RecyclerView.Adapter<NotificationsAdapter.NotificationViewHolder>() {
     private var itemList = mutableListOf<GithubNotification>()
 
     class NotificationViewHolder(private val binding: ViewNotificationItemBinding) :
@@ -49,8 +52,23 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
         CoroutineScope(Dispatchers.Default).launch {
             val diffCallback = DiffUtilCallback(itemList, newItemList)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
-            itemList = newItemList.toMutableList()
-            diffResult.dispatchUpdatesTo(this@NotificationsAdapter)
+            withContext(Dispatchers.Main) {
+                itemList = newItemList.toMutableList()
+                diffResult.dispatchUpdatesTo(this@NotificationsAdapter)
+            }
+        }
+    }
+
+    fun removeItem(position: Int) {
+        removeItem(itemList[position].id)
+        val newItemList = itemList.toMutableList().apply { removeAt(position) }
+        CoroutineScope(Dispatchers.Default).launch {
+            val diffCallback = DiffUtilCallback(itemList, newItemList)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+            withContext(Dispatchers.Main) {
+                itemList = newItemList
+                diffResult.dispatchUpdatesTo(this@NotificationsAdapter)
+            }
         }
     }
 
@@ -60,12 +78,10 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
             private val newItems: List<GithubNotification>
         ) : DiffUtil.Callback() {
             override fun getOldListSize(): Int = oldItems.size
-
             override fun getNewListSize(): Int = newItems.size
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
                 oldItems[oldItemPosition].id == newItems[newItemPosition].id
-
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
                 oldItems[oldItemPosition] == newItems[newItemPosition]

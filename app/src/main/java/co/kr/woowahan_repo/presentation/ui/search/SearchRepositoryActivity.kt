@@ -46,7 +46,7 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
     }
 
     private fun setUpHeader(){
-//        setSupportActionBar(binding.collapsibleToolBar)
+        setSupportActionBar(binding.toolBar)
         supportActionBar?.apply {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)

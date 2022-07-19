@@ -14,7 +14,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="105dp"
             >
 
             <co.kr.woowahan_repo.presentation.ui.view.CollapsibleToolbar
@@ -24,19 +24,25 @@
                 android:background="@drawable/bg_main"
 
                 android:fitsSystemWindows="false"
-                android:minHeight="80dp"
+                android:minHeight="?attr/actionBarSize"
                 app:layoutDescription="@xml/motion_search_header"
-                app:layout_scrollFlags="scroll|enterAlways|snap|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways">
 
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title_search"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:layout_editor_absoluteX="148dp"
-                    tools:layout_editor_absoluteY="30dp" />
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/tool_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_search"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        />
+                </androidx.appcompat.widget.Toolbar>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_search"

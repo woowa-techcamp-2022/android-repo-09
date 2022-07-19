@@ -88,15 +88,14 @@ data class GithubProfileResponse(
     fun toEntity(): GithubProfileModel {
         return GithubProfileModel(
             userName = login,
-            userDescriptor = "",
+            userDescriptor = bio,
             job = "",
             location = location,
             blogAddress = blog,
             emailAddress = email,
-            repositoryCount = publicRepos + privateGists,
+            repositoryCount = publicRepos + totalPrivateRepos,
             followerCount =  followers,
-            followingCount = following,
-            starCount = 0
+            followingCount = following
         )
     }
 

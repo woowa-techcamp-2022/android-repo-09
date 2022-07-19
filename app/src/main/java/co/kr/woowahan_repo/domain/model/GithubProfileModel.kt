@@ -10,5 +10,5 @@ data class GithubProfileModel(
     val followerCount: Int,
     val followingCount: Int,
     val repositoryCount: Int,
-    val starCount: Int
+    var starCount: Int = -1
 )

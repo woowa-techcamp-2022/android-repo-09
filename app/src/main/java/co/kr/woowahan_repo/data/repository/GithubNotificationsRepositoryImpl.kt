@@ -27,4 +27,10 @@ class GithubNotificationsRepositoryImpl(
             }
         }
     }
+
+    override suspend fun patchNotificationAsRead(threadId: String): Result<Unit> {
+        return runCatching {
+            notificationsService.patchNotificationAsRead(threadId)
+        }
+    }
 }

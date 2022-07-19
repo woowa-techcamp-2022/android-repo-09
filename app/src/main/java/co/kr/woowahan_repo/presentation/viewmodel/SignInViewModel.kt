@@ -55,7 +55,8 @@ class SignInViewModel : ViewModel() {
             BuildConfig.GITHUB_CLIENT_ID,
             arrayOf(
                 "repo",
-                "notifications"
+                "notifications",
+                "user"
             )
         ).onSuccess {
             Timber.tag("oauth url").d(it)

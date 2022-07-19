@@ -3,17 +3,21 @@ package co.kr.woowahan_repo.presentation.ui.notifications
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.FragmentNotificationsBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.NotificationsViewModel
+import co.kr.woowahan_repo.util.NotificationTouchHelper
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     companion object {
         fun newInstance() = NotificationsFragment()
     }
     private val notificationsViewModel by viewModels<NotificationsViewModel>()
-    private val notificationsAdapter by lazy { NotificationsAdapter() }
+    private val notificationsAdapter = NotificationsAdapter {
+        notificationsViewModel.patchNotificationAsRead(it)
+    }
 
     override val TAG: String
         get() = NotificationsFragment::class.java.simpleName
@@ -33,6 +37,8 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
     private fun initView() {
         binding.rvNotifications.adapter = notificationsAdapter
+        val notificationTouchHelper = NotificationTouchHelper(notificationsAdapter)
+        ItemTouchHelper(notificationTouchHelper).attachToRecyclerView(binding.rvNotifications)
     }
 
     private fun observeData() {

@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 Properties properties = new Properties()
@@ -71,4 +73,8 @@ dependencies {
     // OkHttp3
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+
+    //hilt
+    implementation "com.google.dagger:hilt-android:2.40.1"
+    kapt "com.google.dagger:hilt-android-compiler:2.40.1"
 }

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivitySignInBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
@@ -49,6 +48,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
                 }
                 is SignInViewModel.SignInViewState.OAuthFail -> {
                     Toast.makeText(applicationContext, it.error.toString(), Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    throw IllegalStateException()
                 }
             }
 

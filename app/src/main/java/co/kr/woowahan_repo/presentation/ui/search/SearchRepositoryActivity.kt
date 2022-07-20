@@ -11,7 +11,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
@@ -19,6 +22,7 @@ import co.kr.woowahan_repo.application.util.PagingListener
 import co.kr.woowahan_repo.databinding.ActivitySearchRepositoryBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -28,7 +32,7 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
         get() = R.layout.activity_search_repository
     private val viewModel: SearchRepositoryViewModel by viewModels()
 
-    private val searchAdapter = SearchRepositoryAdapter()
+    private val searchAdapter = SearchPagingAdapter()//SearchRepositoryAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +46,14 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
         binding.etSearch.let {
             it.requestFocus()
             setKeyboardShown(true, it)
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.pagingFlow.collectLatest {
+                    searchAdapter.submitData(it)
+                }
+            }
         }
     }
 
@@ -61,7 +73,7 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
                 setDrawable(context.resources.getDrawable(R.drawable.stroke_issue_item_divider, null))
             })
             adapter = searchAdapter
-            addOnScrollListener(pagingListener)
+//            addOnScrollListener(pagingListener)
         }
     }
     private val pagingListener = PagingListener{
@@ -121,15 +133,22 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
                      * 해당 함수는 scope 내부에서만 호출이 가능한건지 에러가 떠서 일단 임시로 추가해 놓은 코드
                      * 코루틴 학습 후에 수정될 가능성이 있는 코드
                      */
-                    lifecycleScope.launch {
-                        searchAdapter.updateList(it.searchResList ?: listOf())
-                    }
+//                    lifecycleScope.launch {
+//                        searchAdapter.updateList(it.searchResList ?: listOf())
+//                    }
                 }
                 is SearchRepositoryViewModel.SearchViewState.SearchQueryFail -> {
                     Timber.tag("search fail").d(it.error?.message)
                     binding.layoutEmptyResponse.isVisible = true
                     Toast.makeText(applicationContext, it.error?.message ?: "", Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+
+        viewModel.pagingData.observe(this){
+            Timber.d("paging debug observe")
+            lifecycleScope.launch {
+                searchAdapter.submitData(it)
             }
         }
     }

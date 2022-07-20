@@ -1,14 +1,16 @@
 package co.kr.woowahan_repo.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import co.kr.woowahan_repo.di.ServiceLocator
 import co.kr.woowahan_repo.domain.model.GithubRepositorySearchModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -142,7 +144,8 @@ class SearchRepositoryViewModel: ViewModel() {
             if(debounceQuery != query) return@launch
             //do work
             Timber.tag("debounce query").d("$debounceQuery")
-            searchQuery(debounceQuery!!)
+//            searchQuery(debounceQuery!!)
+            searchPaging(debounceQuery!!)
         }
     }
 
@@ -154,4 +157,24 @@ class SearchRepositoryViewModel: ViewModel() {
         class SearchResList(searchResList: List<GithubRepositorySearchModel>): SearchViewState(searchResList)
         class SearchQueryFail(error: Throwable): SearchViewState(null, error)
     }
+
+    /**
+     * paging test
+     */
+//    var _pagingData: MutableLiveData<PagingData<GithubRepositorySearchModel>> = MutableLiveData()
+    var pagingData: LiveData<PagingData<GithubRepositorySearchModel>> = MutableLiveData()
+        set(value) {
+            Timber.d("paging debug => set liveData[${value.value}]")
+            field = value
+        }
+
+    val pagingFlow = searchRepository.searchQueryPaging("test").cachedIn(viewModelScope)
+    private fun searchPaging(queryString: String) {
+        Timber.d("paging debug => search $queryString")
+        viewModelScope.launch {
+            pagingData = searchRepository.searchQueryPaging(queryString).cachedIn(viewModelScope).asLiveData()
+        }
+    }
+
+
 }

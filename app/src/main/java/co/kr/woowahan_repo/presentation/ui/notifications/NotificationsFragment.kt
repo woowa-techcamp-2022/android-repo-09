@@ -9,15 +9,14 @@ import co.kr.woowahan_repo.databinding.FragmentNotificationsBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.NotificationsViewModel
 import co.kr.woowahan_repo.util.NotificationTouchHelper
-import timber.log.Timber
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     companion object {
         fun newInstance() = NotificationsFragment()
     }
+
     private val notificationsViewModel by viewModels<NotificationsViewModel>()
     private val notificationsAdapter = NotificationsAdapter { id, position ->
-        Timber.tag("removeItem에서 전달한 id").i(id)
         notificationsViewModel.patchNotificationAsRead(id, position)
     }
 
@@ -45,12 +44,13 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
     private fun observeData() {
         notificationsViewModel.isDataLoading.observe(viewLifecycleOwner) {
-            if(it) { binding.progress.visibility = View.VISIBLE }
-            else { binding.progress.visibility = View.GONE }
+            if (it) {
+                binding.progress.visibility = View.VISIBLE
+            } else {
+                binding.progress.visibility = View.GONE
+            }
         }
         notificationsViewModel.notifications.observe(viewLifecycleOwner) {
-            Timber.tag("removeItem observe?").i("observed")
-            Timber.tag("after removeItem, itemSize = ").i(it.size.toString())
             notificationsAdapter.updateList(it)
         }
     }

@@ -108,6 +108,7 @@
             app:cardElevation="0dp"
             >
             <ImageView
+                android:id="@+id/iv_language"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:background="@color/blue_448CF6"

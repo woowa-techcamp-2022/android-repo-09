@@ -3,10 +3,13 @@ package co.kr.woowahan_repo.presentation.viewmodel
 import androidx.lifecycle.*
 import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class IssuesViewModel(
+@HiltViewModel
+class IssuesViewModel @Inject constructor(
     private val issuesRepository: GithubIssuesRepository
 ): ViewModel() {
     private val _dataLoading = MutableLiveData<Boolean>()
@@ -44,17 +47,5 @@ class IssuesViewModel(
     ) {
         class Issues(issues: List<GithubIssueModel>): IssuesViewState(issues = issues)
         class FetchDataFail(error: Throwable): IssuesViewState(null, error = error)
-    }
-}
-
-class IssuesViewModelFactory(
-    private val issuesRepository: GithubIssuesRepository
-): ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(IssuesViewModel::class.java)) {
-            IssuesViewModel(issuesRepository) as T
-        } else {
-            throw IllegalArgumentException()
-        }
     }
 }

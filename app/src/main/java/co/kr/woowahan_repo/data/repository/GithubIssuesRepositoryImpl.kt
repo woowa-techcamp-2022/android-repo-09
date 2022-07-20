@@ -3,8 +3,9 @@ package co.kr.woowahan_repo.data.repository
 import co.kr.woowahan_repo.data.service.GithubIssuesService
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
+import javax.inject.Inject
 
-class GithubIssuesRepositoryImpl(
+class GithubIssuesRepositoryImpl @Inject constructor(
     private val githubIssuesService: GithubIssuesService
 ): GithubIssuesRepository {
 

@@ -4,22 +4,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.kr.woowahan_repo.di.ServiceLocator
 import co.kr.woowahan_repo.domain.model.GithubRepositorySearchModel
+import co.kr.woowahan_repo.domain.repository.GithubRepositorySearchRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class SearchRepositoryViewModel: ViewModel() {
+@HiltViewModel
+class SearchRepositoryViewModel @Inject constructor(
+    private val searchRepository: GithubRepositorySearchRepository
+): ViewModel() {
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
     private val _viewState = MutableLiveData<SearchViewState>()
     val viewState: LiveData<SearchViewState> = _viewState
-
-    private val searchRepository = ServiceLocator.getGithubSearchRepository()
 
     private var currentPage = 1
     private var prevQuery: String? = null

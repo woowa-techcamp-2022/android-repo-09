@@ -5,8 +5,9 @@ import co.kr.woowahan_repo.data.service.GithubUsersRepositoriesService
 import co.kr.woowahan_repo.domain.model.GithubProfileModel
 import co.kr.woowahan_repo.domain.repository.GithubProfileRepository
 import timber.log.Timber
+import javax.inject.Inject
 
-class GithubProfileRepositoryImpl(
+class GithubProfileRepositoryImpl @Inject constructor(
     private val githubProfileService: GithubProfileService,
     private val githubUsersRepositoriesService: GithubUsersRepositoriesService
 ): GithubProfileRepository {

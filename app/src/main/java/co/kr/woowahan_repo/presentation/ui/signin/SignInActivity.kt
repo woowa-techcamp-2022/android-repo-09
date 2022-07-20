@@ -6,18 +6,20 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivitySignInBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.ui.main.MainActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SignInViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class SignInActivity : BaseActivity<ActivitySignInBinding>() {
     override val layoutResId: Int
         get() = R.layout.activity_sign_in
-    private val viewModel by viewModels<SignInViewModel>()
+
+    private val viewModel: SignInViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

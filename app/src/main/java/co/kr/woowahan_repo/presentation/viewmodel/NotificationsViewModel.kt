@@ -4,14 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.kr.woowahan_repo.di.ServiceLocator
 import co.kr.woowahan_repo.domain.model.GithubNotification
 import co.kr.woowahan_repo.domain.repository.GithubNotificationsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class NotificationsViewModel(
-    private val githubNotificationsRepository: GithubNotificationsRepository = ServiceLocator.getNotificationsRepository()
+@HiltViewModel
+class NotificationsViewModel @Inject constructor(
+    private val githubNotificationsRepository: GithubNotificationsRepository
 ) : ViewModel() {
     private var page = 1
 

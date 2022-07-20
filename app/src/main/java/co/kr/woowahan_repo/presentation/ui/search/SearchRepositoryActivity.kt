@@ -19,9 +19,11 @@ import co.kr.woowahan_repo.application.util.PagingListener
 import co.kr.woowahan_repo.databinding.ActivitySearchRepositoryBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@AndroidEntryPoint
 class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>() {
 
     override val layoutResId: Int

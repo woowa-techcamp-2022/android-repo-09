@@ -5,11 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.data.SingleEvent
-import co.kr.woowahan_repo.di.ServiceLocator
+import co.kr.woowahan_repo.domain.repository.GithubProfileRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class MainViewModel: ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val profileRepository: GithubProfileRepository
+): ViewModel() {
     private val _tabOneSelected = MutableLiveData<Boolean>()
     val tabOneSelected: LiveData<Boolean> = _tabOneSelected
 
@@ -30,8 +35,6 @@ class MainViewModel: ViewModel() {
 
     private val _profileUrl = MutableLiveData<String>()
     val profileUrl: LiveData<String> = _profileUrl
-
-    private val profileRepository = ServiceLocator.getGithubProfileRepository()
 
 
     fun fetchProfileUrl(){

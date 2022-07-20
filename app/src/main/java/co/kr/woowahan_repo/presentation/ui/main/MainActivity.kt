@@ -13,8 +13,10 @@ import co.kr.woowahan_repo.presentation.ui.issues.IssuesFragment
 import co.kr.woowahan_repo.presentation.ui.notifications.NotificationsFragment
 import co.kr.woowahan_repo.presentation.viewmodel.MainViewModel
 import coil.load
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override val layoutResId: Int
         get() = R.layout.activity_main

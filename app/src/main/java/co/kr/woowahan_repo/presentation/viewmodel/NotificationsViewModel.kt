@@ -8,6 +8,7 @@ import co.kr.woowahan_repo.di.ServiceLocator
 import co.kr.woowahan_repo.domain.model.GithubNotification
 import co.kr.woowahan_repo.domain.repository.GithubNotificationsRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class NotificationsViewModel(
     private val githubNotificationsRepository: GithubNotificationsRepository = ServiceLocator.getNotificationsRepository()
@@ -27,7 +28,6 @@ class NotificationsViewModel(
             githubNotificationsRepository.fetchNotifications(page)
                 .onSuccess {
                     _notifications.value = it
-                    page++
                 }.onFailure {
                 }.also {
                     _isDataLoading.value = false

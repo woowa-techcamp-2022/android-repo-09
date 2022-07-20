@@ -8,6 +8,7 @@ import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.FragmentNotificationsBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.NotificationsViewModel
+import co.kr.woowahan_repo.presentation.viewmodel.woowahanViewModelFactory
 import co.kr.woowahan_repo.util.NotificationTouchHelper
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
@@ -15,7 +16,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
         fun newInstance() = NotificationsFragment()
     }
 
-    private val notificationsViewModel by viewModels<NotificationsViewModel>()
+    private val notificationsViewModel: NotificationsViewModel by viewModels{ woowahanViewModelFactory }
     private val notificationsAdapter = NotificationsAdapter { id, position ->
         notificationsViewModel.patchNotificationAsRead(id, position)
     }

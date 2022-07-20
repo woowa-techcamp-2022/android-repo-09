@@ -3,12 +3,12 @@ package co.kr.woowahan_repo.data.repository
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.model.request.OAuthAccessTokenRequest
 import co.kr.woowahan_repo.data.service.GithubOAuthAccessTokenService
-import co.kr.woowahan_repo.di.ServiceLocator
-import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
 import co.kr.woowahan_repo.domain.model.OAuthAccessTokenInfo
+import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
 
-class GithubOAuthRepositoryImpl: GithubOAuthRepository {
-    private val githubAccessTokenService: GithubOAuthAccessTokenService = ServiceLocator.getOAuthAccessTokenService()
+class GithubOAuthRepositoryImpl(
+    private val githubAccessTokenService: GithubOAuthAccessTokenService
+): GithubOAuthRepository {
 
     override fun getOAuthActionViewUrl(clientId: String, scope: Array<String>): Result<String> {
         return kotlin.runCatching {

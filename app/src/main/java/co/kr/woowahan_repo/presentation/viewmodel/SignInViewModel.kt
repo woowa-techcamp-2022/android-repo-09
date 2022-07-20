@@ -5,19 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.BuildConfig
-import co.kr.woowahan_repo.data.model.request.OAuthAccessTokenRequest
 import co.kr.woowahan_repo.di.ServiceLocator
+import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class SignInViewModel : ViewModel() {
+class SignInViewModel(
+    private val oAuthRepository: GithubOAuthRepository
+) : ViewModel() {
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
     private val _viewState = MutableLiveData<SignInViewState>()
     val viewState: LiveData<SignInViewState> = _viewState
 
-    private val oAuthRepository = ServiceLocator.getGithubOAuthRepository()
     private val appScheme = "camp-09"
 
     fun getGithubOAuthAccessToken(scheme: String?, code: String?) {

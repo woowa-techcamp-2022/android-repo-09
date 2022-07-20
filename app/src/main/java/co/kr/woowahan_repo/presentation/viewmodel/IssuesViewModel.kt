@@ -1,8 +1,11 @@
 package co.kr.woowahan_repo.presentation.viewmodel
 
-import androidx.lifecycle.*
-import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
+import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -44,17 +47,5 @@ class IssuesViewModel(
     ) {
         class Issues(issues: List<GithubIssueModel>): IssuesViewState(issues = issues)
         class FetchDataFail(error: Throwable): IssuesViewState(null, error = error)
-    }
-}
-
-class IssuesViewModelFactory(
-    private val issuesRepository: GithubIssuesRepository
-): ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(IssuesViewModel::class.java)) {
-            IssuesViewModel(issuesRepository) as T
-        } else {
-            throw IllegalArgumentException()
-        }
     }
 }

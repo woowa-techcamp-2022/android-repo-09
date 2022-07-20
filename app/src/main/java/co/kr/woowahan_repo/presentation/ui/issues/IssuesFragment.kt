@@ -3,18 +3,16 @@ package co.kr.woowahan_repo.presentation.ui.issues
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
-import co.kr.woowahan_repo.application.WoowahanRepoApplication
-import co.kr.woowahan_repo.util.showSnackBar
 import co.kr.woowahan_repo.databinding.FragmentIssuesBinding
-import co.kr.woowahan_repo.di.ServiceLocator
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModel
-import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModelFactory
+import co.kr.woowahan_repo.presentation.viewmodel.woowahanViewModelFactory
+import co.kr.woowahan_repo.util.showSnackBar
 import timber.log.Timber
 
 class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
@@ -24,15 +22,11 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
     override val TAG: String get() = "IssuesFragment"
     override val layoutResId: Int get() = R.layout.fragment_issues
 
-    private lateinit var viewModel: IssuesViewModel
+    private val viewModel: IssuesViewModel by viewModels { woowahanViewModelFactory }
     private val issuesAdapter = IssuesAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this, IssuesViewModelFactory(
-            ServiceLocator.getGithubIssuesRepository()
-        ))[IssuesViewModel::class.java]
 
         setUpRecyclerView()
         setListener()

@@ -19,6 +19,7 @@ import co.kr.woowahan_repo.application.util.PagingListener
 import co.kr.woowahan_repo.databinding.ActivitySearchRepositoryBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel
+import co.kr.woowahan_repo.presentation.viewmodel.woowahanViewModelFactory
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -26,7 +27,7 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
 
     override val layoutResId: Int
         get() = R.layout.activity_search_repository
-    private val viewModel: SearchRepositoryViewModel by viewModels()
+    private val viewModel: SearchRepositoryViewModel by viewModels{ woowahanViewModelFactory }
 
     private val searchAdapter = SearchRepositoryAdapter()
 

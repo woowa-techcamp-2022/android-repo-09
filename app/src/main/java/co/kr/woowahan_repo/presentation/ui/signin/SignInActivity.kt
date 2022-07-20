@@ -6,18 +6,18 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivitySignInBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.ui.main.MainActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SignInViewModel
+import co.kr.woowahan_repo.presentation.viewmodel.woowahanViewModelFactory
 import timber.log.Timber
 
 class SignInActivity : BaseActivity<ActivitySignInBinding>() {
     override val layoutResId: Int
         get() = R.layout.activity_sign_in
-    private val viewModel by viewModels<SignInViewModel>()
+    private val viewModel: SignInViewModel by viewModels{ woowahanViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +41,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
             when(it){
                 is SignInViewModel.SignInViewState.ActionViewOAuthUrl -> {
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it.url)))
+                }
+                is SignInViewModel.SignInViewState.ActionViewOAuthUrlFail -> {
+
                 }
                 is SignInViewModel.SignInViewState.OAuthSuccess -> {
                     startActivity(Intent(this, MainActivity::class.java).apply {

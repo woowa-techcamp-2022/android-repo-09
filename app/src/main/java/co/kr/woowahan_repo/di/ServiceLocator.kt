@@ -2,22 +2,13 @@ package co.kr.woowahan_repo.di
 
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
-import co.kr.woowahan_repo.data.repository.GithubRepositorySearchRepositoryImpl
-import co.kr.woowahan_repo.data.repository.GithubIssuesRepositoryImpl
-import co.kr.woowahan_repo.domain.repository.GithubRepositorySearchRepository
-import co.kr.woowahan_repo.data.repository.GithubOAuthRepositoryImpl
-import co.kr.woowahan_repo.data.repository.GithubProfileRepositoryImpl
-import co.kr.woowahan_repo.domain.repository.GithubProfileRepository
-import co.kr.woowahan_repo.data.repository.GithubNotificationsRepositoryImpl
+import co.kr.woowahan_repo.data.repository.*
 import co.kr.woowahan_repo.data.service.*
-import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
-import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
-import co.kr.woowahan_repo.domain.repository.GithubNotificationsRepository
+import co.kr.woowahan_repo.domain.repository.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 object ServiceLocator {
     var accessToken: String = ""
@@ -53,43 +44,59 @@ object ServiceLocator {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun getGithubOAuthRepository(): GithubOAuthRepository = GithubOAuthRepositoryImpl()
-    fun getOAuthAccessTokenService(): GithubOAuthAccessTokenService =
+    /**
+     * service
+     */
+    private fun provideOAuthAccessTokenService(): GithubOAuthAccessTokenService =
         getOAuthRetrofit().create(GithubOAuthAccessTokenService::class.java)
 
-    private fun getNotificationsService(): GithubNotificationsService =
-        getApiRetrofit().create(GithubNotificationsService::class.java)
-
-    fun getNotificationsRepository(): GithubNotificationsRepository =
-        GithubNotificationsRepositoryImpl(getNotificationsService(), getGithubCommentsService())
-
-    fun getRepositorySearchService(): GithubRepositorySearchService =
-        getApiRetrofit().create(GithubRepositorySearchService::class.java)
-
-    fun getGithubSearchRepository(): GithubRepositorySearchRepository =
-        GithubRepositorySearchRepositoryImpl()
-
-    fun getGithubSearchLimitService(): GithubSearchLimitService =
-        getApiRetrofit().create(GithubSearchLimitService::class.java)
-
-    private fun getGithubIssuesService(): GithubIssuesService =
+    private fun provideGithubIssuesService(): GithubIssuesService =
         getApiRetrofit().create(GithubIssuesService::class.java)
 
-    fun getGithubIssuesRepository(): GithubIssuesRepository =
-        GithubIssuesRepositoryImpl(getGithubIssuesService())
+    private fun provideNotificationsService(): GithubNotificationsService =
+        getApiRetrofit().create(GithubNotificationsService::class.java)
 
-    private fun getGithubProfileService(): GithubProfileService =
+    private fun provideGithubProfileService(): GithubProfileService =
         getApiRetrofit().create(GithubProfileService::class.java)
 
-    private fun getGithubUsersRepositoriesService(): GithubUsersRepositoriesService =
+    private fun provideRepositorySearchService(): GithubRepositorySearchService =
+        getApiRetrofit().create(GithubRepositorySearchService::class.java)
+
+    private fun provideGithubSearchLimitService(): GithubSearchLimitService =
+        getApiRetrofit().create(GithubSearchLimitService::class.java)
+
+    private fun provideGithubUsersRepositoriesService(): GithubUsersRepositoriesService =
         getApiRetrofit().create(GithubUsersRepositoriesService::class.java)
 
-    fun getGithubProfileRepository(): GithubProfileRepository =
-        GithubProfileRepositoryImpl(
-            getGithubProfileService(),
-            getGithubUsersRepositoriesService()
+    private fun provideGithubCommentsService(): GithubCommentsService =
+        getApiRetrofit().create(GithubCommentsService::class.java)
+
+
+    /**
+     * repository
+     */
+    fun provideGithubOAuthRepository(): GithubOAuthRepository =
+        GithubOAuthRepositoryImpl(provideOAuthAccessTokenService())
+
+    fun provideGithubIssuesRepository(): GithubIssuesRepository =
+        GithubIssuesRepositoryImpl(provideGithubIssuesService())
+
+    fun provideNotificationsRepository(): GithubNotificationsRepository =
+        GithubNotificationsRepositoryImpl(
+            provideNotificationsService(),
+            provideGithubCommentsService()
         )
 
-    fun getGithubCommentsService(): GithubCommentsService =
-        getApiRetrofit().create(GithubCommentsService::class.java)
+    fun provideGithubSearchRepository(): GithubRepositorySearchRepository =
+        GithubRepositorySearchRepositoryImpl(
+            provideRepositorySearchService(),
+            provideGithubSearchLimitService()
+        )
+
+    fun provideGithubProfileRepository(): GithubProfileRepository =
+        GithubProfileRepositoryImpl(
+            provideGithubProfileService(),
+            provideGithubUsersRepositoriesService()
+        )
+
 }

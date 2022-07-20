@@ -19,20 +19,14 @@ class NotificationsViewModel(
     val isDataLoading: LiveData<Boolean> get() = _isDataLoading
     private val _notifications = MutableLiveData<List<GithubNotification>>()
     val notifications: LiveData<List<GithubNotification>> get() = _notifications
-    private val _isPatchSuccess = MutableLiveData<Boolean>()
-    val isPatchSuccess: LiveData<Boolean> get() = _isPatchSuccess
 
     fun fetchNotifications() {
         viewModelScope.launch {
             _isDataLoading.value = true
             githubNotificationsRepository.fetchNotifications(page)
-                .onSuccess {
-                    _notifications.value = it
-                }.onFailure {
-                    Timber.e(it)
-                }.also {
-                    _isDataLoading.value = false
-                }
+                .onSuccess { _notifications.value = it }
+                .onFailure { Timber.e(it) }
+                .also { _isDataLoading.value = false }
         }
     }
 
@@ -40,12 +34,9 @@ class NotificationsViewModel(
         viewModelScope.launch {
             _isDataLoading.value = true
             if (githubNotificationsRepository.patchNotificationAsRead(threadId)) {
-                _isPatchSuccess.value = true
-                val list = requireNotNull(notifications.value).toMutableList()
-                list.removeAt(position)
-                _notifications.value = list
+                _notifications.value =
+                    requireNotNull(notifications.value).toMutableList().apply { removeAt(position) }
             } else {
-                _isPatchSuccess.value = false
                 _notifications.value =
                     requireNotNull(notifications.value).toList().map { it.copy() }
             }.also { _isDataLoading.value = false }

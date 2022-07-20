@@ -4,10 +4,6 @@ import co.kr.woowahan_repo.data.service.GithubCommentsService
 import co.kr.woowahan_repo.data.service.GithubNotificationsService
 import co.kr.woowahan_repo.domain.model.GithubNotification
 import co.kr.woowahan_repo.domain.repository.GithubNotificationsRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class GithubNotificationsRepositoryImpl(
     private val notificationsService: GithubNotificationsService,
@@ -26,5 +22,12 @@ class GithubNotificationsRepositoryImpl(
                 }
             }
         }
+    }
+
+    override suspend fun patchNotificationAsRead(threadId: String): Boolean {
+        val result = runCatching {
+            notificationsService.patchNotificationAsRead(threadId)
+        }
+        return result.isSuccess
     }
 }

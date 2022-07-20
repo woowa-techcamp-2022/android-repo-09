@@ -3,17 +3,22 @@ package co.kr.woowahan_repo.presentation.ui.notifications
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.FragmentNotificationsBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.NotificationsViewModel
+import co.kr.woowahan_repo.util.NotificationTouchHelper
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     companion object {
         fun newInstance() = NotificationsFragment()
     }
+
     private val notificationsViewModel by viewModels<NotificationsViewModel>()
-    private val notificationsAdapter by lazy { NotificationsAdapter() }
+    private val notificationsAdapter = NotificationsAdapter { id, position ->
+        notificationsViewModel.patchNotificationAsRead(id, position)
+    }
 
     override val TAG: String
         get() = NotificationsFragment::class.java.simpleName
@@ -22,6 +27,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewmodel = notificationsViewModel
         initView()
         observeData()
     }
@@ -33,13 +39,11 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
     private fun initView() {
         binding.rvNotifications.adapter = notificationsAdapter
+        val notificationTouchHelper = NotificationTouchHelper(notificationsAdapter)
+        ItemTouchHelper(notificationTouchHelper).attachToRecyclerView(binding.rvNotifications)
     }
 
     private fun observeData() {
-        notificationsViewModel.isDataLoading.observe(viewLifecycleOwner) {
-            if(it) { binding.progress.visibility = View.VISIBLE }
-            else { binding.progress.visibility = View.GONE }
-        }
         notificationsViewModel.notifications.observe(viewLifecycleOwner) {
             notificationsAdapter.updateList(it)
         }

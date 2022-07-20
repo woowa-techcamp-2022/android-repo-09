@@ -1,12 +1,14 @@
 package co.kr.woowahan_repo.data.repository
 
 import co.kr.woowahan_repo.data.service.GithubProfileService
+import co.kr.woowahan_repo.data.service.GithubUsersRepositoriesService
 import co.kr.woowahan_repo.domain.model.GithubProfileModel
 import co.kr.woowahan_repo.domain.repository.GithubProfileRepository
 import timber.log.Timber
 
 class GithubProfileRepositoryImpl(
-    private val githubProfileService: GithubProfileService
+    private val githubProfileService: GithubProfileService,
+    private val githubUsersRepositoriesService: GithubUsersRepositoriesService
 ): GithubProfileRepository {
     private var cacheProfileUrl: String? = null
 
@@ -24,7 +26,12 @@ class GithubProfileRepositoryImpl(
 
     override suspend fun fetchProfile(): Result<GithubProfileModel> {
         return kotlin.runCatching {
-            githubProfileService.fetchGithubProfile().toEntity()
+            val res = githubProfileService.fetchGithubProfile()
+            res.toEntity().apply {
+                starCount = githubUsersRepositoriesService.fetchUsersRepositories(
+                    res.reposUrl
+                ).sumOf { it.stargazersCount }
+            }
         }
     }
 }

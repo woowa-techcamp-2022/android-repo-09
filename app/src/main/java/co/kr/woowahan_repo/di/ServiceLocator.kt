@@ -17,6 +17,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 object ServiceLocator {
     var accessToken: String = ""
@@ -80,8 +81,14 @@ object ServiceLocator {
     private fun getGithubProfileService(): GithubProfileService =
         getApiRetrofit().create(GithubProfileService::class.java)
 
+    private fun getGithubUsersRepositoriesService(): GithubUsersRepositoriesService =
+        getApiRetrofit().create(GithubUsersRepositoriesService::class.java)
+
     fun getGithubProfileRepository(): GithubProfileRepository =
-        GithubProfileRepositoryImpl(getGithubProfileService())
+        GithubProfileRepositoryImpl(
+            getGithubProfileService(),
+            getGithubUsersRepositoriesService()
+        )
 
     fun getGithubCommentsService(): GithubCommentsService =
         getApiRetrofit().create(GithubCommentsService::class.java)

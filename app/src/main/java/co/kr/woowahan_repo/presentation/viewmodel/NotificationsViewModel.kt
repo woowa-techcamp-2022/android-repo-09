@@ -8,7 +8,6 @@ import co.kr.woowahan_repo.di.ServiceLocator
 import co.kr.woowahan_repo.domain.model.GithubNotification
 import co.kr.woowahan_repo.domain.repository.GithubNotificationsRepository
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class NotificationsViewModel(
     private val githubNotificationsRepository: GithubNotificationsRepository = ServiceLocator.getNotificationsRepository()
@@ -27,11 +26,9 @@ class NotificationsViewModel(
             _isDataLoading.value = true
             githubNotificationsRepository.fetchNotifications(page)
                 .onSuccess {
-                    Timber.tag("Notifications Success").d(it.toString())
                     _notifications.value = it
                     page++
                 }.onFailure {
-                    Timber.tag("Notifications Failure").e(it)
                 }.also {
                     _isDataLoading.value = false
                 }
@@ -41,27 +38,16 @@ class NotificationsViewModel(
     fun patchNotificationAsRead(threadId: String, position: Int) {
         viewModelScope.launch {
             _isDataLoading.value = true
-            githubNotificationsRepository.patchNotificationAsRead(threadId)
-                .onSuccess {
-                    if(it.isSuccessful) {
-                        _isPatchSuccess.value = true
-                        val list = requireNotNull(notifications.value).toMutableList()
-                        list.removeAt(position)
-                        Timber.tag("205로 onSuccess, list size").i(list.size.toString())
-                        _notifications.value = list
-                    } else {
-                        _isPatchSuccess.value = false
-                        _notifications.value =
-                            requireNotNull(notifications.value).toList().map { it.copy() }.toList()
-                    }
-                }.onFailure {
-                    Timber.tag("그냥 onFailure, error is").e(it)
-                    _isPatchSuccess.value = false
-                    _notifications.value =
-                        requireNotNull(notifications.value).toList().map { it.copy() }.toList()
-                }.also {
-                    _isDataLoading.value = false
-                }
+            if (githubNotificationsRepository.patchNotificationAsRead(threadId)) {
+                _isPatchSuccess.value = true
+                val list = requireNotNull(notifications.value).toMutableList()
+                list.removeAt(position)
+                _notifications.value = list
+            } else {
+                _isPatchSuccess.value = false
+                _notifications.value =
+                    requireNotNull(notifications.value).toList().map { it.copy() }
+            }.also { _isDataLoading.value = false }
         }
     }
 }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class NotificationsViewModel(
-    private val githubNotificationsRepository: GithubNotificationsRepository = ServiceLocator.provideNotificationsRepository()
+    private val githubNotificationsRepository: GithubNotificationsRepository
 ) : ViewModel() {
     private var page = 1
 

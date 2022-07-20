@@ -29,6 +29,7 @@ class NotificationsViewModel(
                 .onSuccess {
                     _notifications.value = it
                 }.onFailure {
+                    Timber.e(it)
                 }.also {
                     _isDataLoading.value = false
                 }

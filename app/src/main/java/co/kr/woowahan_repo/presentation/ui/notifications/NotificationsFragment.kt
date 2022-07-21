@@ -15,15 +15,13 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
         fun newInstance() = NotificationsFragment()
     }
 
+    override val TAG: String get() = this::class.java.simpleName
+    override val layoutResId: Int get() = R.layout.fragment_notifications
+
     private val notificationsViewModel: NotificationsViewModel by viewModels{ woowahanViewModelFactory }
     private val notificationsAdapter = NotificationsAdapter { id, position ->
         notificationsViewModel.patchNotificationAsRead(id, position)
     }
-
-    override val TAG: String
-        get() = NotificationsFragment::class.java.simpleName
-    override val layoutResId: Int
-        get() = R.layout.fragment_notifications
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

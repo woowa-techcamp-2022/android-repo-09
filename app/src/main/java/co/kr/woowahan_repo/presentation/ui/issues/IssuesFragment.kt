@@ -19,7 +19,8 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
     companion object {
         fun newInstance() = IssuesFragment()
     }
-    override val TAG: String get() = "IssuesFragment"
+
+    override val TAG: String get() = this::class.java.simpleName
     override val layoutResId: Int get() = R.layout.fragment_issues
 
     private val viewModel: IssuesViewModel by viewModels { woowahanViewModelFactory }

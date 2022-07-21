@@ -1,8 +1,6 @@
 package co.kr.woowahan_repo.presentation.viewmodel
 
 import androidx.lifecycle.*
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import co.kr.woowahan_repo.di.ServiceLocator
@@ -10,7 +8,8 @@ import co.kr.woowahan_repo.domain.model.GithubRepositorySearchModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -161,18 +160,22 @@ class SearchRepositoryViewModel: ViewModel() {
     /**
      * paging test
      */
-//    var _pagingData: MutableLiveData<PagingData<GithubRepositorySearchModel>> = MutableLiveData()
-    var pagingData: LiveData<PagingData<GithubRepositorySearchModel>> = MutableLiveData()
-        set(value) {
-            Timber.d("paging debug => set liveData[${value.value}]")
-            field = value
-        }
+//    val pagingFlow = searchRepository.searchQueryPaging("test").cachedIn(viewModelScope)
 
-    val pagingFlow = searchRepository.searchQueryPaging("test").cachedIn(viewModelScope)
+    private val _pagingFlow: MutableLiveData<PagingData<GithubRepositorySearchModel>> = MutableLiveData()
+    val pagingFlow: LiveData<PagingData<GithubRepositorySearchModel>> = _pagingFlow
     private fun searchPaging(queryString: String) {
-        Timber.d("paging debug => search $queryString")
+        Timber.d("paging debug => search $queryString - ${Thread.currentThread().name}")
+        _dataLoading.value = true
         viewModelScope.launch {
-            pagingData = searchRepository.searchQueryPaging(queryString).cachedIn(viewModelScope).asLiveData()
+            Timber.d("paging debug => viewModelScope - ${Thread.currentThread().name}")
+            searchRepository.searchQueryPaging(queryString).cachedIn(viewModelScope).asLiveData().map {
+                Timber.d("paging debug => map $it")
+                _pagingFlow.value = it
+            }.asFlow().cancellable().collectLatest {
+                _dataLoading.value = false
+                Timber.d("paging debug => collectLatest $it - ${Thread.currentThread().name}")
+            }
         }
     }
 

@@ -11,10 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
@@ -22,7 +19,6 @@ import co.kr.woowahan_repo.application.util.PagingListener
 import co.kr.woowahan_repo.databinding.ActivitySearchRepositoryBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -46,14 +42,6 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
         binding.etSearch.let {
             it.requestFocus()
             setKeyboardShown(true, it)
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.pagingFlow.collectLatest {
-                    searchAdapter.submitData(it)
-                }
-            }
         }
     }
 
@@ -138,14 +126,14 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
 //                    }
                 }
                 is SearchRepositoryViewModel.SearchViewState.SearchQueryFail -> {
-                    Timber.tag("search fail").d(it.error?.message)
+                    Timber.tag("search fail").d(it.error?.message ?: "")
                     binding.layoutEmptyResponse.isVisible = true
                     Toast.makeText(applicationContext, it.error?.message ?: "", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
-        viewModel.pagingData.observe(this){
+        viewModel.pagingFlow.observe(this){
             Timber.d("paging debug observe")
             lifecycleScope.launch {
                 searchAdapter.submitData(it)

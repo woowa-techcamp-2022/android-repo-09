@@ -7,6 +7,9 @@ import co.kr.woowahan_repo.domain.repository.*
 import timber.log.Timber
 
 class WoowahanRepoApplication: Application() {
+    companion object {
+        lateinit var instance: WoowahanRepoApplication
+    }
 
     val oAuthRepository: GithubOAuthRepository get() = ServiceLocator.provideGithubOAuthRepository()
     val issueRepository: GithubIssuesRepository get() = ServiceLocator.provideGithubIssuesRepository()
@@ -16,6 +19,8 @@ class WoowahanRepoApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        instance = this
 
         if(BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())

@@ -41,8 +41,8 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>() {
         }
         binding.tvMail.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:")
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(binding.tvMail.text.toString()))
-                type = "message/rfc822"
             }
             startActivity(intent)
         }

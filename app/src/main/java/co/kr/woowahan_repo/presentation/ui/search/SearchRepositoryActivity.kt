@@ -7,20 +7,19 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
-import co.kr.woowahan_repo.presentation.PagingListener
 import co.kr.woowahan_repo.databinding.ActivitySearchRepositoryBinding
+import co.kr.woowahan_repo.presentation.PagingListener
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel
 import co.kr.woowahan_repo.presentation.viewmodel.woowahanViewModelFactory
-import kotlinx.coroutines.launch
+import co.kr.woowahan_repo.util.showSnackBar
+import co.kr.woowahan_repo.util.showToast
 import timber.log.Timber
 
 class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>() {
@@ -112,24 +111,18 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
         viewModel.viewState.observe(this){
             when(it){
                 is SearchRepositoryViewModel.SearchViewState.ErrorMessage -> {
-                    Toast.makeText(applicationContext, it.error?.message ?: "", Toast.LENGTH_SHORT).show()
+                    showSnackBar(binding.layoutBackground, it.error?.message ?: return@observe)
                 }
 
                 is SearchRepositoryViewModel.SearchViewState.SearchResList -> {
                     binding.layoutEmptyResponse.isVisible = it.searchResList.isNullOrEmpty()
-                    /**
-                     * update List 에서 withContext 코루틴을 사용하기 위해 suspend 함수로 설정했는데
-                     * 해당 함수는 scope 내부에서만 호출이 가능한건지 에러가 떠서 일단 임시로 추가해 놓은 코드
-                     * 코루틴 학습 후에 수정될 가능성이 있는 코드
-                     */
-                    lifecycleScope.launch {
-                        searchAdapter.updateList(it.searchResList ?: listOf())
-                    }
+                    searchAdapter.updateList(it.searchResList ?: listOf())
                 }
+
                 is SearchRepositoryViewModel.SearchViewState.SearchQueryFail -> {
                     Timber.tag("search fail").d(it.error?.message)
                     binding.layoutEmptyResponse.isVisible = true
-                    Toast.makeText(applicationContext, it.error?.message ?: "", Toast.LENGTH_SHORT).show()
+                    showToast(it.error?.message ?: return@observe)
                 }
             }
         }

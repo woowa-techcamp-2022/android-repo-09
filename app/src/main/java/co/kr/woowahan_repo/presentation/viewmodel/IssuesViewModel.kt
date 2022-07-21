@@ -30,17 +30,10 @@ class IssuesViewModel @Inject constructor(
     fun fetchIssues() {
         _dataLoading.value = true
         viewModelScope.launch {
-            issuesRepository.fetchIssues(
-                issueState.key, 1
-            ).onSuccess {
-                Timber.tag("Api Success").d(it.toString())
-                _dataLoading.value = false
-                _viewState.value = IssuesViewState.Issues(it)
-            }.onFailure {
-                Timber.tag("Api Fail").e(it)
-                _dataLoading.value = false
-                _viewState.value = IssuesViewState.FetchDataFail(Throwable("이슈 목록을 가져오는데 실패하였습니다"))
-            }
+            issuesRepository.fetchIssues(issueState.key, 1)
+                .onSuccess { _viewState.value = IssuesViewState.Issues(it) }
+                .onFailure { _viewState.value = IssuesViewState.FetchDataFail(Throwable("이슈 목록을 가져오는데 실패하였습니다")) }
+                .also { _dataLoading.value = false }
         }
     }
 

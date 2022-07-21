@@ -29,6 +29,7 @@ val woowahanViewModelFactory = object: ViewModelProvider.Factory {
             isAssignableFrom(IssuesViewModel::class.java) -> IssuesViewModel(application.issueRepository)
             isAssignableFrom(NotificationsViewModel::class.java) -> NotificationsViewModel(application.notificationRepository)
             isAssignableFrom(SearchRepositoryViewModel::class.java) -> SearchRepositoryViewModel(application.githubRepositorySearchRepository)
+            isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(application.githubProfileRepository)
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         } as T
     }

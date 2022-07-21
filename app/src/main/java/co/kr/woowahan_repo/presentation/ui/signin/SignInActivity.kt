@@ -53,6 +53,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
                 is SignInViewModel.SignInViewState.OAuthFail -> {
                     Toast.makeText(applicationContext, it.error.toString(), Toast.LENGTH_LONG).show()
                 }
+                else -> {
+                    throw IllegalStateException()
+                }
             }
 
         }

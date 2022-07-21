@@ -9,7 +9,6 @@ import co.kr.woowahan_repo.databinding.FragmentNotificationsBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.NotificationsViewModel
 import co.kr.woowahan_repo.presentation.viewmodel.woowahanViewModelFactory
-import co.kr.woowahan_repo.util.NotificationTouchHelper
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     companion object {

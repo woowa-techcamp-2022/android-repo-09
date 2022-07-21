@@ -59,11 +59,11 @@ data class GithubIssueResponse(
 ) {
     fun toEntity(): GithubIssueModel {
         return GithubIssueModel(
-            repository.fullName,
-            title,
-            (url.split("/").lastOrNull() ?: "0").toInt(),
-            GithubIssueModel.IssueState.get(state),
-            updatedAt
+            repositoryName = repository.fullName,
+            issueTitle = title,
+            issueNumber = (url.split("/").lastOrNull() ?: "0").toInt(),
+            state = GithubIssueModel.IssueState.get(state),
+            lastUpdateDate = updatedAt
         )
     }
     data class Assignee(

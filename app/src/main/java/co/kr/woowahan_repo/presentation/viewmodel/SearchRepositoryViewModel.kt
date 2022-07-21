@@ -23,7 +23,7 @@ class SearchRepositoryViewModel(
 
     private var currentPage = 1
     private var prevQuery: String? = null
-    private var currentList = ArrayList<GithubRepositorySearchModel>()
+    private var currentList = mutableListOf<GithubRepositorySearchModel>()
     private var debounceQuery: String? = null
     private val debounceDelayMill = 500L
 
@@ -55,7 +55,6 @@ class SearchRepositoryViewModel(
             searchRepository.searchQuery(
                 query, currentPage
             ).onSuccess {
-                _dataLoading.value = false
                 prevQuery = query
                 currentList.clear()
                 currentList.addAll(it)
@@ -70,10 +69,11 @@ class SearchRepositoryViewModel(
                         Timber.tag("cancel prev coroutine").d(it.message)
                     }
                     else -> {
-                        _dataLoading.value = false
                         _viewState.value = SearchViewState.SearchQueryFail(Throwable("검색을 실패하였습니다"))
                     }
                 }
+            }.also {
+                _dataLoading.value = false
             }
         }
     }
@@ -94,7 +94,6 @@ class SearchRepositoryViewModel(
             searchRepository.searchQuery(
                 prevQuery!!, currentPage + 1
             ).onSuccess {
-                _dataLoading.value = false
                 when(it.isEmpty()) {
                     true -> _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))
                     else -> {
@@ -105,8 +104,9 @@ class SearchRepositoryViewModel(
                 }
             }.onFailure {
                 it.printStackTrace()
-                _dataLoading.value = false
                 _viewState.value = SearchViewState.SearchQueryFail(Throwable("검색을 실패하였습니다"))
+            }.also {
+                _dataLoading.value = false
             }
         }
     }

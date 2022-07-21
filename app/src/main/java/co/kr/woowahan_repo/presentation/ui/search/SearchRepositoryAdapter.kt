@@ -1,8 +1,6 @@
 package co.kr.woowahan_repo.presentation.ui.search
 
 
-import android.R.string
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -12,33 +10,28 @@ import co.kr.woowahan_repo.databinding.ViewSearchRepositoryItemBinding
 import co.kr.woowahan_repo.domain.model.GithubRepositorySearchModel
 import co.kr.woowahan_repo.util.ColorUtil
 import coil.load
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 
 class SearchRepositoryAdapter: RecyclerView.Adapter<SearchRepositoryAdapter.SearchRepositoryItemViewHolder>() {
 
-    private val repositoryList = ArrayList<GithubRepositorySearchModel>()
+    private val repositoryList = mutableListOf<GithubRepositorySearchModel>()
     private fun setList(list: List<GithubRepositorySearchModel>){
         repositoryList.clear()
         repositoryList.addAll(list)
     }
 
-    /**
-     * 비동기 코드를 코루틴으로 작성해 보았는데, 아직 코루틴 이해도가 낮아서 추후 수정될 가능성이 있다
-     */
-    suspend fun updateList(list: List<GithubRepositorySearchModel>){
-        val newList = ArrayList(list)
-        val diffRes = withContext(Dispatchers.IO){
-            Timber.d("diff debug updateList thread start")
+    fun updateList(newList: List<GithubRepositorySearchModel>){
+        CoroutineScope(Dispatchers.Default).launch {
             val diffCallback = SearchRepositoryDiffUtil(repositoryList, newList)
-            DiffUtil.calculateDiff(diffCallback)
-        }
-        withContext(Dispatchers.Main){
-            this@SearchRepositoryAdapter.setList(newList) // must call main thread
-            Timber.d("diff debug updateList post : setList[${repositoryList.size}], newList[${newList.size}]")
-            diffRes.dispatchUpdatesTo(this@SearchRepositoryAdapter)
+            val diffRes = DiffUtil.calculateDiff(diffCallback)
+            withContext(Dispatchers.Main){
+                setList(newList) // must call main thread
+                diffRes.dispatchUpdatesTo(this@SearchRepositoryAdapter)
+            }
         }
     }
 

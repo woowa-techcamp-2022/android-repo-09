@@ -38,11 +38,8 @@ class MainViewModel(
         Timber.d("fetchProfileUrl")
         viewModelScope.launch {
             profileRepository.fetchProfileUrl()
-                .onSuccess {
-                    _profileUrl.value = it
-                }.onFailure {
-                    it.printStackTrace()
-                }
+                .onSuccess { _profileUrl.value = it }
+                .onFailure { it.printStackTrace() }
         }
     }
 

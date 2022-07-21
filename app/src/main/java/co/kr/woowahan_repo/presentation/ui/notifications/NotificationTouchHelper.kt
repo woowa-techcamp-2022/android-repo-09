@@ -1,10 +1,9 @@
-package co.kr.woowahan_repo.util
+package co.kr.woowahan_repo.presentation.ui.notifications
 
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import co.kr.woowahan_repo.R
-import co.kr.woowahan_repo.presentation.ui.notifications.NotificationsAdapter
 
 class NotificationTouchHelper(
     private val notificationsAdapter: NotificationsAdapter
@@ -18,7 +17,7 @@ class NotificationTouchHelper(
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        notificationsAdapter.removeItem(viewHolder.adapterPosition)
+        notificationsAdapter.removeItem(viewHolder.layoutPosition)
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {

@@ -42,6 +42,9 @@
                     android:scheme="camp-09" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.ui.profile.ProfileActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

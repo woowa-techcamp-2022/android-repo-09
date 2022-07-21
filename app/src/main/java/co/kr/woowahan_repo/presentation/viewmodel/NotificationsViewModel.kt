@@ -4,16 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import co.kr.woowahan_repo.domain.model.GithubNotification
 import co.kr.woowahan_repo.domain.repository.GithubNotificationsRepository
+import co.kr.woowahan_repo.domain.repository.NotificationPagingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class NotificationsViewModel @Inject constructor(
-    private val githubNotificationsRepository: GithubNotificationsRepository
+    private val githubNotificationsRepository: GithubNotificationsRepository,
+    // paging
+    private val notificationPagingRepository: NotificationPagingRepository
 ) : ViewModel() {
     private var page = 1
 
@@ -30,6 +36,11 @@ class NotificationsViewModel @Inject constructor(
                 .onFailure { Timber.e(it) }
                 .also { _isDataLoading.value = false }
         }
+    }
+
+    fun fetchNotificationsByPaging(): Flow<PagingData<GithubNotification>> {
+        return notificationPagingRepository.fetchNotifications()
+            .cachedIn(viewModelScope)
     }
 
     fun patchNotificationAsRead(threadId: String, position: Int) {

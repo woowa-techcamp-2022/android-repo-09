@@ -1,8 +1,8 @@
-package co.kr.woowahan_repo.data
+package co.kr.woowahan_repo.data.datasource
 
 import android.content.Context
 import androidx.core.content.edit
-import co.kr.woowahan_repo.domain.GithubTokenDataSource
+import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

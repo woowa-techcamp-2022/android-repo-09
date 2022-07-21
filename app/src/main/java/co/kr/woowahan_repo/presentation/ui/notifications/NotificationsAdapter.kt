@@ -16,17 +16,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.text.SimpleDateFormat
 
 class NotificationsAdapter(
+    private val dateFormat: SimpleDateFormat,
     private val removeItem: (String, Int) -> Unit
 ) : RecyclerView.Adapter<NotificationsAdapter.NotificationViewHolder>() {
     private var itemList = mutableListOf<GithubNotification>()
 
     class NotificationViewHolder(private val binding: ViewNotificationItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: GithubNotification) {
+        fun bind(data: GithubNotification, dateFormat: SimpleDateFormat) {
             binding.notification = data
-            binding.tvDate.text = DateUtil.getGithubDateInterval(data.updatedAt)
+            binding.tvDate.text = DateUtil.getDateInterval(data.updatedAt, dateFormat)
             binding.ivRepositoryImage.load(data.repositoryImage) {
                 transformations(CircleCropTransformation())
             }
@@ -44,7 +46,7 @@ class NotificationsAdapter(
     }
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-        holder.bind(itemList[position])
+        holder.bind(itemList[position], dateFormat)
     }
 
     override fun getItemCount(): Int = itemList.size

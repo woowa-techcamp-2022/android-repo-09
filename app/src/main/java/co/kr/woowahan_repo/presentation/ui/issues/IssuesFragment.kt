@@ -8,27 +8,32 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.FragmentIssuesBinding
+import co.kr.woowahan_repo.domain.GithubApiDateFormat
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModel
 import co.kr.woowahan_repo.util.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
     companion object {
         fun newInstance() = IssuesFragment()
     }
-    override val TAG: String get() = "IssuesFragment"
+    override val TAG: String get() = this::class.java.simpleName
     override val layoutResId: Int get() = R.layout.fragment_issues
 
+    @Inject
+    lateinit var dateFormatter: GithubApiDateFormat
+
     private val viewModel: IssuesViewModel by viewModels()
-    private val issuesAdapter = IssuesAdapter()
+    private val issuesAdapter by lazy { IssuesAdapter(dateFormatter.getSimpleDateFormat()) }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setUpRecyclerView()
         setListener()
         observeData()

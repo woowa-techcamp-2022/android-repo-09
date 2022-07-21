@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.BuildConfig
-import co.kr.woowahan_repo.domain.GithubTokenDataSource
+import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -44,13 +44,13 @@ class SignInViewModel @Inject constructor(
                 code!!
             ).onSuccess {
                 Timber.tag("Success").d(it.accessToken)
-                _dataLoading.value = false
                 githubTokenDataSource.updateToken(it.accessToken)
                 _viewState.value = SignInViewState.OAuthSuccess()
             }.onFailure {
                 Timber.tag("Error").e(it)
-                _dataLoading.value = false
                 _viewState.value = SignInViewState.OAuthFail(Throwable("인증 단계를 실패하였습니다"))
+            }.also {
+                _dataLoading.value = false
             }
         }
     }

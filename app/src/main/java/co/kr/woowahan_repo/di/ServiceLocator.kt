@@ -6,6 +6,7 @@ import co.kr.woowahan_repo.data.datasource.WoowahanSharedPreferences
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
 import co.kr.woowahan_repo.data.repository.*
 import co.kr.woowahan_repo.data.service.*
+import co.kr.woowahan_repo.domain.GithubApiDateFormat
 import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import co.kr.woowahan_repo.domain.repository.*
 import okhttp3.OkHttpClient
@@ -14,6 +15,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceLocator {
+
+    fun provideGithubApiDateFormat(): GithubApiDateFormat = GithubApiDateFormat.getInstance()
 
     fun provideGithubTokenDataSource(): GithubTokenDataSource = WoowahanSharedPreferences(
         WoowahanRepoApplication.instance

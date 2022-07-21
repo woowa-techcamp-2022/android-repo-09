@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 
 /**
  * https://sohee1702.tistory.com/409
@@ -21,7 +22,9 @@ import kotlinx.coroutines.withContext
  * => old/new 두 리스트의 합인 N개 / old가 new로 변환되기 위해 필요한 최소 작업갯수(==edit script) D
  * 최대 사이즈는 2^26(67,108,864)개까지 지원
  */
-class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
+class IssuesAdapter(
+    private val dateFormat: SimpleDateFormat
+): RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
 
     private val issues = mutableListOf<GithubIssueModel>()
     private fun setList(issues: List<GithubIssueModel>){
@@ -45,7 +48,7 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: IssueItemViewHolder, position: Int) {
-        holder.bind(issues[position])
+        holder.bind(issues[position], dateFormat)
     }
 
     override fun getItemCount(): Int {
@@ -67,7 +70,7 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
             }
         }
 
-        fun bind(item: GithubIssueModel)= with(binding){
+        fun bind(item: GithubIssueModel, dateFormat: SimpleDateFormat)= with(binding){
             val title = "${item.repositoryName} #${item.issueNumber}"
             tvTitle.text = title
             tvContent.text = item.issueTitle
@@ -77,7 +80,7 @@ class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
                 else -> R.drawable.ic_issue_state_error
             }
             ivState.setImageResource(stateResId)
-            tvDate.text = DateUtil.getGithubDateInterval(item.lastUpdateDate)
+            tvDate.text = DateUtil.getDateInterval(item.lastUpdateDate, dateFormat)
         }
     }
 }

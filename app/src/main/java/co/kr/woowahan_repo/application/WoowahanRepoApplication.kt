@@ -3,6 +3,7 @@ package co.kr.woowahan_repo.application
 import android.app.Application
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.di.ServiceLocator
+import co.kr.woowahan_repo.domain.GithubApiDateFormat
 import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import co.kr.woowahan_repo.domain.repository.*
 import timber.log.Timber
@@ -12,6 +13,7 @@ class WoowahanRepoApplication: Application() {
         lateinit var instance: WoowahanRepoApplication
     }
 
+    val githubApiDateFormat: GithubApiDateFormat = ServiceLocator.provideGithubApiDateFormat()
     val githubTokenDataSource: GithubTokenDataSource get() = ServiceLocator.provideGithubTokenDataSource()
     val oAuthRepository: GithubOAuthRepository get() = ServiceLocator.provideGithubOAuthRepository()
     val issueRepository: GithubIssuesRepository get() = ServiceLocator.provideGithubIssuesRepository()

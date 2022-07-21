@@ -7,7 +7,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
+import co.kr.woowahan_repo.application.WoowahanRepoApplication
 import co.kr.woowahan_repo.databinding.FragmentIssuesBinding
+import co.kr.woowahan_repo.domain.GithubApiDateFormat
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModel
@@ -23,8 +25,12 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
     override val TAG: String get() = this::class.java.simpleName
     override val layoutResId: Int get() = R.layout.fragment_issues
 
+    private val githubApiDateFormat: GithubApiDateFormat by lazy { (context?.applicationContext as WoowahanRepoApplication).githubApiDateFormat }
+
     private val viewModel: IssuesViewModel by viewModels { woowahanViewModelFactory }
-    private val issuesAdapter = IssuesAdapter()
+    private val issuesAdapter: IssuesAdapter by lazy {
+        IssuesAdapter(githubApiDateFormat.getSimpleDateFormat())
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

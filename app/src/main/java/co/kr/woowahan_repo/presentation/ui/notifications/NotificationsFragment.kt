@@ -20,11 +20,8 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     private val notificationsAdapter = NotificationsAdapter { id, position ->
         notificationsViewModel.patchNotificationAsRead(id, position)
     }
-
-    override val TAG: String
-        get() = NotificationsFragment::class.java.simpleName
-    override val layoutResId: Int
-        get() = R.layout.fragment_notifications
+    override val TAG: String get() = this::class.java.simpleName
+    override val layoutResId: Int get() = R.layout.fragment_notifications
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Woowahan-Repo</string>
+
+    <!-- use at sign in -->
+    <string name="sign_in_title">What’s In\nMy GitHub</string>
+
+    <!-- use at main -->
+    <string name="tool_bar_title">What’s In My GitHub</string>
+    <string name="title_issue">Issue</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- use at issues fragment -->
+    <string name="title_filter">Filter</string>
+    <string name="title_option">Option</string>
+
+    <!-- use at menu issue state -->
+    <string name="title_open">Open</string>
+    <string name="title_closed">Closed</string>
+    <string name="title_all">All</string>
+
+    <!-- use at search -->
+    <string name="title_search">Search</string>
+    <string name="hint_search">Search git hub</string>
+    <string name="title_empty_response">Find Your Stuff</string>
+    <string name="content_empty_response">Search all of GitHunb for People, Repositories, Organizations, Issues, and Pull Requests.</string>
 </resources>

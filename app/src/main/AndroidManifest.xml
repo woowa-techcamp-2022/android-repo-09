@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="co.kr.woowahan_repo">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".application.WoowahanRepoApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,14 +17,34 @@
         android:theme="@style/Theme.WoowahanRepo"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".presentation.ui.search.SearchRepositoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.main.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.signin.SignInActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="github-auth"
+                    android:scheme="camp-09" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.ui.profile.ProfileActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package co.kr.woowahan_repo.application.util
+package co.kr.woowahan_repo.presentation
 
 import androidx.recyclerview.widget.RecyclerView
 import timber.log.Timber

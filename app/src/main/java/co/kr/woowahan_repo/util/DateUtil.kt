@@ -10,12 +10,10 @@ import kotlin.math.roundToInt
 
 object DateUtil {
 
-    private val githubDateFormatString = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-
     fun getDateInterval(lastDate: String, dateFormat: SimpleDateFormat): String{
         Timber.tag("processLastUpdateDate raw").d(lastDate)
         return try {
-            val lastUpdateDate = dateFormat.parse(lastDate)
+            val lastUpdateDate = dateFormat.parse(lastDate)!!
             Timber.tag("processLastUpdateDate").d(lastUpdateDate.toString())
             getDistanceString(lastUpdateDate)
         }catch (e: Exception){

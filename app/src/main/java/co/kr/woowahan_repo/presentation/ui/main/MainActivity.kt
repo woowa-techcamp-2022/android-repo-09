@@ -8,9 +8,10 @@ import androidx.fragment.app.replace
 import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivityMainBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
-import co.kr.woowahan_repo.presentation.ui.search.SearchRepositoryActivity
 import co.kr.woowahan_repo.presentation.ui.issues.IssuesFragment
 import co.kr.woowahan_repo.presentation.ui.notifications.NotificationsFragment
+import co.kr.woowahan_repo.presentation.ui.profile.ProfileActivity
+import co.kr.woowahan_repo.presentation.ui.search.SearchRepositoryActivity
 import co.kr.woowahan_repo.presentation.viewmodel.MainViewModel
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.onCreate(savedInstanceState)
         setListener()
         observeData()
-        if(savedInstanceState == null){ // 기기 회전 등 이벤트로 reCreate 하는 중이 아님
+        if (savedInstanceState == null) { // 기기 회전 등 이벤트로 reCreate 하는 중이 아님
             viewModel.clickTabOne() // default select tab
         }
     }
@@ -36,7 +37,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewModel.fetchProfileUrl()
     }
 
-    private fun setListener()= with(binding){
+    private fun setListener() = with(binding) {
         btnTab1.setOnClickListener {
             viewModel.clickTabOne()
         }
@@ -54,7 +55,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    private fun observeData(){
+    private fun observeData() {
         viewModel.tabOneSelected.observe(this) {
             binding.btnTab1.isSelected = it
         }
@@ -79,21 +80,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
 
-        viewModel.profileUrl.observe(this){
+        viewModel.profileUrl.observe(this) {
             Timber.d("profileUrl get $it")
             binding.ivProfile.load(it)
         }
 
-        viewModel.showSearchEvent.observe(this){ event ->
+        viewModel.showSearchEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
                 Timber.d("show search view")
                 startActivity(Intent(this, SearchRepositoryActivity::class.java))
             }
         }
 
-        viewModel.showProfileEvent.observe(this){ event ->
+        viewModel.showProfileEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                Timber.d("show profile view")
+                startActivity(Intent(this, ProfileActivity::class.java))
             }
         }
     }

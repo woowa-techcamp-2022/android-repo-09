@@ -8,7 +8,6 @@ import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.FragmentNotificationsBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.NotificationsViewModel
-import co.kr.woowahan_repo.util.NotificationTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -12,7 +12,6 @@ class GithubRepositorySearchRepositoryImpl @Inject constructor(
     private val githubSearchLimitSearchRepository: GithubSearchLimitService
 ): GithubRepositorySearchRepository {
 
-
     override suspend fun searchQuery(query: String, page: Int): Result<List<GithubRepositorySearchModel>> {
         return kotlin.runCatching {
             repositorySearchService.searchQuery(

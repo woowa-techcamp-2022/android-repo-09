@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.BuildConfig
-import co.kr.woowahan_repo.di.ServiceModule
+import co.kr.woowahan_repo.domain.GithubTokenDataSource
 import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val oAuthRepository: GithubOAuthRepository
+    private val oAuthRepository: GithubOAuthRepository,
+    private val githubTokenDataSource: GithubTokenDataSource
 ) : ViewModel() {
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -44,7 +45,7 @@ class SignInViewModel @Inject constructor(
             ).onSuccess {
                 Timber.tag("Success").d(it.accessToken)
                 _dataLoading.value = false
-                ServiceModule.accessToken = it.accessToken
+                githubTokenDataSource.updateToken(it.accessToken)
                 _viewState.value = SignInViewState.OAuthSuccess()
             }.onFailure {
                 Timber.tag("Error").e(it)

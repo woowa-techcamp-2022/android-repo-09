@@ -44,6 +44,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
                 is SignInViewModel.SignInViewState.ActionViewOAuthUrl -> {
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it.url)))
                 }
+                is SignInViewModel.SignInViewState.ActionViewOAuthUrlFail -> {
+
+                }
                 is SignInViewModel.SignInViewState.OAuthSuccess -> {
                     startActivity(Intent(this, MainActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -51,6 +54,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
                 }
                 is SignInViewModel.SignInViewState.OAuthFail -> {
                     Toast.makeText(applicationContext, it.error.toString(), Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    throw IllegalStateException()
                 }
             }
 

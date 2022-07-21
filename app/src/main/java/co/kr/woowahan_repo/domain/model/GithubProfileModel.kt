@@ -2,6 +2,7 @@ package co.kr.woowahan_repo.domain.model
 
 data class GithubProfileModel(
     val userName: String,
+    val profileImage: String,
     val userDescriptor: String?,
     val job: String?,
     val location: String?,

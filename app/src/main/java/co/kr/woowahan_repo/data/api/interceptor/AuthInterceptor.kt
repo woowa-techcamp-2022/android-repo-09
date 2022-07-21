@@ -1,11 +1,15 @@
 package co.kr.woowahan_repo.data.api.interceptor
 
+import co.kr.woowahan_repo.domain.GithubTokenDataSource
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
-class AuthInterceptor(private val accessToken: String) : Interceptor {
+class AuthInterceptor @Inject constructor(
+    private val githubTokenDataSource: GithubTokenDataSource
+): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = when (accessToken) {
+        val request = when (githubTokenDataSource.fetchToken()) {
             "" -> {
                 chain.request().newBuilder()
                     .build()
@@ -13,7 +17,7 @@ class AuthInterceptor(private val accessToken: String) : Interceptor {
             else -> {
                 chain.request().newBuilder()
                     .addHeader("Accept", "application/vnd.github+json")
-                    .addHeader("Authorization", "token $accessToken")
+                    .addHeader("Authorization", "token ${githubTokenDataSource.fetchToken()}")
                     .build()
             }
         }

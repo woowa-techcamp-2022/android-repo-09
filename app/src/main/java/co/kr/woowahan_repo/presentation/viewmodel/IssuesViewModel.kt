@@ -1,8 +1,11 @@
 package co.kr.woowahan_repo.presentation.viewmodel
 
-import androidx.lifecycle.*
-import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
+import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -19,12 +22,12 @@ class IssuesViewModel @Inject constructor(
     val viewState: LiveData<IssuesViewState> = _viewState
 
     private var issueState: GithubIssueModel.IssueState = GithubIssueModel.IssueState.Open
-    fun changeState(type: String){
+    fun changeState(type: String) {
         issueState = GithubIssueModel.IssueState.get(type)
         fetchIssues()
     }
 
-    fun fetchIssues(){
+    fun fetchIssues() {
         _dataLoading.value = true
         viewModelScope.launch {
             issuesRepository.fetchIssues(
@@ -45,7 +48,8 @@ class IssuesViewModel @Inject constructor(
         val issues: List<GithubIssueModel>? = null,
         val error: Throwable? = null
     ) {
-        class Issues(issues: List<GithubIssueModel>): IssuesViewState(issues = issues)
-        class FetchDataFail(error: Throwable): IssuesViewState(null, error = error)
+        class Issues(issues: List<GithubIssueModel>) : IssuesViewState(issues = issues)
+        class FetchDataFail(error: Throwable) : IssuesViewState(null, error = error)
     }
+
 }

@@ -1,19 +1,22 @@
 package co.kr.woowahan_repo.di
 
+import android.app.Application
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
-import co.kr.woowahan_repo.data.repository.GithubIssuesRepositoryImpl
 import co.kr.woowahan_repo.data.service.*
-import co.kr.woowahan_repo.domain.repository.GithubIssuesRepository
+import co.kr.woowahan_repo.domain.GithubTokenDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 /**
@@ -29,11 +32,29 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ServiceModule {
-    var accessToken: String = ""
+    @ApplicationContext
+    @Provides
+    @Singleton
+    fun provideApplicationContext(application: Application) = application
 
-    private fun getAuthInterceptor() = AuthInterceptor(accessToken)
+//    private fun getAuthInterceptor() = AuthInterceptor()
 
-    private fun getOAuthClient() = OkHttpClient.Builder()
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(githubTokenDataSource: GithubTokenDataSource): AuthInterceptor = AuthInterceptor(githubTokenDataSource)
+
+//    private fun getOAuthClient() = OkHttpClient.Builder()
+//        .addInterceptor(
+//            HttpLoggingInterceptor().apply {
+//                level = HttpLoggingInterceptor.Level.BODY
+//            }
+//        )
+//        .build()
+
+    @OAuthClient
+    @Provides
+    @Singleton
+    fun provideOAuthClient(): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(
             HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -41,8 +62,11 @@ object ServiceModule {
         )
         .build()
 
-    private fun getApiClient() = OkHttpClient.Builder()
-        .addInterceptor(getAuthInterceptor())
+    @ApiClient
+    @Provides
+    @Singleton
+    fun provideApiClient(authInterceptor: AuthInterceptor): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
         .addInterceptor(
             HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -50,59 +74,100 @@ object ServiceModule {
         )
         .build()
 
-    private fun getOAuthRetrofit(): Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.GITHUB_OAUTH_BASE_URL)
-        .client(getOAuthClient())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+//    private fun getApiClient() = OkHttpClient.Builder()
+//        .addInterceptor(getAuthInterceptor())
+//        .addInterceptor(
+//            HttpLoggingInterceptor().apply {
+//                level = HttpLoggingInterceptor.Level.BODY
+//            }
+//        )
+//        .build()
 
-    private fun getApiRetrofit(): Retrofit {
-        Timber.d("hilt debug getApiRetrofit")
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.GITHUB_API_BASE_URL)
-            .client(getApiClient())
+//    private fun getOAuthRetrofit(): Retrofit = Retrofit.Builder()
+//        .baseUrl(BuildConfig.GITHUB_OAUTH_BASE_URL)
+//        .client(getOAuthClient())
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .build()
+//
+//    private fun getApiRetrofit(): Retrofit {
+//        Timber.d("hilt debug getApiRetrofit")
+//        return Retrofit.Builder()
+//            .baseUrl(BuildConfig.GITHUB_API_BASE_URL)
+//            .client(getApiClient())
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//    }
+
+    @OAuthRetrofit
+    @Provides
+    @Singleton
+    fun provideOAuthRetrofit(@OAuthClient oAuthClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.GITHUB_OAUTH_BASE_URL)
+            .client(oAuthClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
+
+    @ApiRetrofit
+    @Provides
+    @Singleton
+    fun provideApiRetrofit(@ApiClient apiClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.GITHUB_API_BASE_URL)
+            .client(apiClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
     @Provides
     @Singleton
-    fun provideOAuthAccessTokenService(): GithubOAuthAccessTokenService =
-        getOAuthRetrofit().create(GithubOAuthAccessTokenService::class.java)
+    fun provideOAuthAccessTokenService(@OAuthRetrofit retrofit: Retrofit): GithubOAuthAccessTokenService =
+        retrofit.create(GithubOAuthAccessTokenService::class.java)
 
     @Provides
     @Singleton
-    fun provideGithubIssuesService(): GithubIssuesService =
-        getApiRetrofit().create(GithubIssuesService::class.java)
+    fun provideGithubIssuesService(@ApiRetrofit retrofit: Retrofit): GithubIssuesService =
+        retrofit.create(GithubIssuesService::class.java)
 
     @Provides
     @Singleton
-    fun provideNotificationsService(): GithubNotificationsService =
-        getApiRetrofit().create(GithubNotificationsService::class.java)
+    fun provideNotificationsService(@ApiRetrofit retrofit: Retrofit): GithubNotificationsService =
+        retrofit.create(GithubNotificationsService::class.java)
 
     @Provides
     @Singleton
-    fun provideGithubProfileService(): GithubProfileService =
-        getApiRetrofit().create(GithubProfileService::class.java)
+    fun provideGithubProfileService(@ApiRetrofit retrofit: Retrofit): GithubProfileService =
+        retrofit.create(GithubProfileService::class.java)
 
     @Provides
     @Singleton
-    fun provideRepositorySearchService(): GithubRepositorySearchService =
-        getApiRetrofit().create(GithubRepositorySearchService::class.java)
+    fun provideRepositorySearchService(@ApiRetrofit retrofit: Retrofit): GithubRepositorySearchService =
+        retrofit.create(GithubRepositorySearchService::class.java)
 
     @Provides
     @Singleton
-    fun provideGithubSearchLimitService(): GithubSearchLimitService =
-        getApiRetrofit().create(GithubSearchLimitService::class.java)
+    fun provideGithubSearchLimitService(@ApiRetrofit retrofit: Retrofit): GithubSearchLimitService =
+        retrofit.create(GithubSearchLimitService::class.java)
 
     @Provides
     @Singleton
-    fun provideGithubUsersRepositoriesService(): GithubUsersRepositoriesService =
-        getApiRetrofit().create(GithubUsersRepositoriesService::class.java)
+    fun provideGithubUsersRepositoriesService(@ApiRetrofit retrofit: Retrofit): GithubUsersRepositoriesService =
+        retrofit.create(GithubUsersRepositoriesService::class.java)
 
     @Provides
     @Singleton
-    fun provideGithubCommentsService(): GithubCommentsService =
-        getApiRetrofit().create(GithubCommentsService::class.java)
+    fun provideGithubCommentsService(@ApiRetrofit retrofit: Retrofit): GithubCommentsService =
+        retrofit.create(GithubCommentsService::class.java)
 
 }
+
+@Qualifier
+annotation class OAuthClient
+
+@Qualifier
+annotation class ApiClient
+
+@Qualifier
+annotation class OAuthRetrofit
+
+@Qualifier
+annotation class ApiRetrofit

@@ -15,17 +15,14 @@ class ProfileViewModel(
 ) : ViewModel() {
     private val _profile = MutableLiveData<GithubProfileModel>()
     val profile: LiveData<GithubProfileModel> get() = _profile
-    private val _profileUrl = MutableLiveData<String>()
-    val profileUrl: LiveData<String> get() = _profileUrl
+    private val _finishEvent = MutableLiveData<String>()
+    val finishEvent: LiveData<String> get() = _finishEvent
 
     init {
         viewModelScope.launch {
             githubProfileRepository.fetchProfile()
                 .onSuccess { _profile.value = it }
-                .onFailure { Timber.e(it) }
-            githubProfileRepository.fetchProfileUrl()
-                .onSuccess { _profileUrl.value = it }
-                .onFailure { Timber.e(it) }
+                .onFailure { _finishEvent.value = "프로필을 가져오는 데 실패했습니다." }
         }
     }
 }

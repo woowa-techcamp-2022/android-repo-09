@@ -88,18 +88,19 @@ data class GithubProfileResponse(
     fun toEntity(): GithubProfileModel {
         return GithubProfileModel(
             userName = name,
+            profileImage = avatarUrl,
             userDescriptor = login,
             job = bio,
             location = location,
             blogAddress = blog,
             emailAddress = email,
             repositoryCount = publicRepos + totalPrivateRepos,
-            followerCount =  followers,
+            followerCount = followers,
             followingCount = following
         )
     }
 
-    fun toProfileUrl() :String {
+    fun toProfileUrl(): String {
         return avatarUrl
     }
 

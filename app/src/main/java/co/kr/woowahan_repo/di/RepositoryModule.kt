@@ -1,8 +1,8 @@
 package co.kr.woowahan_repo.di
 
-import co.kr.woowahan_repo.data.WoowahanSharedPreferences
+import co.kr.woowahan_repo.data.datasource.WoowahanSharedPreferences
 import co.kr.woowahan_repo.data.repository.*
-import co.kr.woowahan_repo.domain.GithubTokenDataSource
+import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import co.kr.woowahan_repo.domain.repository.*
 import dagger.Binds
 import dagger.Module

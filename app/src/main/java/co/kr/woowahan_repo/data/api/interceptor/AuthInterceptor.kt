@@ -1,6 +1,6 @@
 package co.kr.woowahan_repo.data.api.interceptor
 
-import co.kr.woowahan_repo.domain.GithubTokenDataSource
+import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

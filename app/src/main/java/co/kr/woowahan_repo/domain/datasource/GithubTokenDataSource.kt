@@ -1,4 +1,4 @@
-package co.kr.woowahan_repo.domain
+package co.kr.woowahan_repo.domain.datasource
 
 interface GithubTokenDataSource {
     fun updateToken(token: String)

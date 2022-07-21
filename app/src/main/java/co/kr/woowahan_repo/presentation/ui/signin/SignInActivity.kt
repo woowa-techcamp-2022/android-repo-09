@@ -11,6 +11,7 @@ import co.kr.woowahan_repo.databinding.ActivitySignInBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.ui.main.MainActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SignInViewModel
+import co.kr.woowahan_repo.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -45,7 +46,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it.url)))
                 }
                 is SignInViewModel.SignInViewState.ActionViewOAuthUrlFail -> {
-
+                    showToast(it.error?.message ?: return@observe)
                 }
                 is SignInViewModel.SignInViewState.OAuthSuccess -> {
                     startActivity(Intent(this, MainActivity::class.java).apply {
@@ -53,10 +54,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
                     })
                 }
                 is SignInViewModel.SignInViewState.OAuthFail -> {
-                    Toast.makeText(applicationContext, it.error.toString(), Toast.LENGTH_LONG).show()
-                }
-                else -> {
-                    throw IllegalStateException()
+                    showToast(it.error?.message ?: return@observe)
                 }
             }
 

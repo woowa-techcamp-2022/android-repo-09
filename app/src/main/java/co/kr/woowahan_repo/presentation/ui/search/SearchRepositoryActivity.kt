@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
-import co.kr.woowahan_repo.application.util.PagingListener
+import co.kr.woowahan_repo.presentation.PagingListener
 import co.kr.woowahan_repo.databinding.ActivitySearchRepositoryBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel

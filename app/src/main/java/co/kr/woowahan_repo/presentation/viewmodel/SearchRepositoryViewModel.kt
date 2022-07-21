@@ -23,7 +23,7 @@ class SearchRepositoryViewModel(
 
     private var currentPage = 1
     private var prevQuery: String? = null
-    private var currentList = ArrayList<GithubRepositorySearchModel>()
+    private var currentList = mutableListOf<GithubRepositorySearchModel>()
     private var debounceQuery: String? = null
     private val debounceDelayMill = 500L
 

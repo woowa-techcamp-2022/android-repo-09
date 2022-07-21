@@ -3,7 +3,7 @@ package co.kr.woowahan_repo.application
 import android.app.Application
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.di.ServiceLocator
-import co.kr.woowahan_repo.domain.GithubTokenDataSource
+import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import co.kr.woowahan_repo.domain.repository.*
 import timber.log.Timber
 

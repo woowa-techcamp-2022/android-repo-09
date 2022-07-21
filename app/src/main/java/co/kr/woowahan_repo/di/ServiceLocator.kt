@@ -2,11 +2,11 @@ package co.kr.woowahan_repo.di
 
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.application.WoowahanRepoApplication
-import co.kr.woowahan_repo.data.WoowahanSharedPreferences
+import co.kr.woowahan_repo.data.datasource.WoowahanSharedPreferences
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
 import co.kr.woowahan_repo.data.repository.*
 import co.kr.woowahan_repo.data.service.*
-import co.kr.woowahan_repo.domain.GithubTokenDataSource
+import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import co.kr.woowahan_repo.domain.repository.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

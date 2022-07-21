@@ -41,13 +41,13 @@ class SignInViewModel(
                 code!!
             ).onSuccess {
                 Timber.tag("Success").d(it.accessToken)
-                _dataLoading.value = false
                 githubTokenDataSource.updateToken(it.accessToken)
                 _viewState.value = SignInViewState.OAuthSuccess()
             }.onFailure {
                 Timber.tag("Error").e(it)
-                _dataLoading.value = false
                 _viewState.value = SignInViewState.OAuthFail(Throwable("인증 단계를 실패하였습니다"))
+            }.also {
+                _dataLoading.value = false
             }
         }
     }

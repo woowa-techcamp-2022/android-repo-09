@@ -9,6 +9,7 @@ import co.kr.woowahan_repo.R
 import co.kr.woowahan_repo.databinding.ActivityProfileBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.ProfileViewModel
+import co.kr.woowahan_repo.presentation.viewmodel.woowahanViewModelFactory
 import co.kr.woowahan_repo.util.showToast
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -17,7 +18,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>() {
     override val layoutResId: Int
         get() = R.layout.activity_profile
 
-    private val viewModel by viewModels<ProfileViewModel>()
+    private val viewModel: ProfileViewModel by viewModels{ woowahanViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

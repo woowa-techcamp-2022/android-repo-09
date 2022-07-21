@@ -5,19 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.kr.woowahan_repo.BuildConfig
-import co.kr.woowahan_repo.data.model.request.OAuthAccessTokenRequest
 import co.kr.woowahan_repo.di.ServiceLocator
+import co.kr.woowahan_repo.domain.GithubTokenDataSource
+import co.kr.woowahan_repo.domain.repository.GithubOAuthRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class SignInViewModel : ViewModel() {
+class SignInViewModel(
+    private val oAuthRepository: GithubOAuthRepository,
+    private val githubTokenDataSource: GithubTokenDataSource
+) : ViewModel() {
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
     private val _viewState = MutableLiveData<SignInViewState>()
     val viewState: LiveData<SignInViewState> = _viewState
 
-    private val oAuthRepository = ServiceLocator.getGithubOAuthRepository()
     private val appScheme = "camp-09"
 
     fun getGithubOAuthAccessToken(scheme: String?, code: String?) {
@@ -40,7 +43,7 @@ class SignInViewModel : ViewModel() {
             ).onSuccess {
                 Timber.tag("Success").d(it.accessToken)
                 _dataLoading.value = false
-                ServiceLocator.accessToken = it.accessToken
+                githubTokenDataSource.updateToken(it.accessToken)
                 _viewState.value = SignInViewState.OAuthSuccess()
             }.onFailure {
                 Timber.tag("Error").e(it)

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class ProfileViewModel(
-    private val githubProfileRepository: GithubProfileRepository = ServiceLocator.getGithubProfileRepository()
+    private val githubProfileRepository: GithubProfileRepository
 ) : ViewModel() {
     private val _profile = MutableLiveData<GithubProfileModel>()
     val profile: LiveData<GithubProfileModel> get() = _profile

@@ -13,13 +13,14 @@ import co.kr.woowahan_repo.presentation.ui.notifications.NotificationsFragment
 import co.kr.woowahan_repo.presentation.ui.profile.ProfileActivity
 import co.kr.woowahan_repo.presentation.ui.search.SearchRepositoryActivity
 import co.kr.woowahan_repo.presentation.viewmodel.MainViewModel
+import co.kr.woowahan_repo.presentation.viewmodel.woowahanViewModelFactory
 import coil.load
 import timber.log.Timber
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override val layoutResId: Int
         get() = R.layout.activity_main
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels{ woowahanViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

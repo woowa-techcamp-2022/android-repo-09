@@ -48,9 +48,16 @@ class SearchRepositoryPagingSource(
 //                position + (params.loadSize / NETWORK_PAGE_SIZE)
                 position.plus(1) // 다음 페이지 전달
             }
+            // 검색 결과가 없는 query 를 날리면 page 가 증가하면서 계속 호출하는 현상을 발견 -> prev key 수정
+            val prevKey = if(it.items.isEmpty() || params.key == defaultPage)
+                null
+            else
+                position.minus(1)
+
+            Timber.d("paging debug nextKey[$nextKey]")
             return LoadResult.Page(
                 it.items.map { it.toEntity() },
-                if(params.key == defaultPage) null else position.minus(1),
+                prevKey,
                 nextKey
             )
         }.onFailure {

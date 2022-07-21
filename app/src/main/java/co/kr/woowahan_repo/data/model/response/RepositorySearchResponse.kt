@@ -173,12 +173,12 @@ data class RepositorySearchResponse(
          */
         fun toEntity(): GithubRepositorySearchModel {
             return GithubRepositorySearchModel(
-                name , // or full name
-                description,
-                owner.login,
-                owner.avatarUrl,
-                language,
-                stargazersCount
+                repositoryTitle = name , // or full name
+                repositoryDescriptor = description,
+                user = owner.login,
+                userProfileImageUrl = owner.avatarUrl,
+                language = language,
+                starCount = stargazersCount
             )
         }
         data class License(

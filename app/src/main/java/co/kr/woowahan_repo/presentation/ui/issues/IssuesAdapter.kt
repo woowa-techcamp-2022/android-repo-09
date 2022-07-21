@@ -1,17 +1,17 @@
 package co.kr.woowahan_repo.presentation.ui.issues
 
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import co.kr.woowahan_repo.R
-import co.kr.woowahan_repo.util.DateUtil
 import co.kr.woowahan_repo.databinding.ViewIssueItemBinding
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
-import timber.log.Timber
-import kotlin.collections.ArrayList
+import co.kr.woowahan_repo.util.DateUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * https://sohee1702.tistory.com/409
@@ -22,24 +22,22 @@ import kotlin.collections.ArrayList
  * 최대 사이즈는 2^26(67,108,864)개까지 지원
  */
 class IssuesAdapter: RecyclerView.Adapter<IssuesAdapter.IssueItemViewHolder>() {
-    private val issues = ArrayList<GithubIssueModel>()
-    fun setList(issues: List<GithubIssueModel>){
+
+    private val issues = mutableListOf<GithubIssueModel>()
+    private fun setList(issues: List<GithubIssueModel>){
         this.issues.clear()
         this.issues.addAll(issues)
     }
-    fun updateList(issues: List<GithubIssueModel>){
-        val handler = Handler(Looper.getMainLooper())
-        val newList = ArrayList(issues)
-        Thread {
-            Timber.d("diff debug updateList thread start")
-            val diffCallback = IssuesDiffUtilCallback(this.issues, newList)
+
+    fun updateList(newList: List<GithubIssueModel>){
+        CoroutineScope(Dispatchers.Default).launch {
+            val diffCallback = IssuesDiffUtilCallback(this@IssuesAdapter.issues, newList)
             val diffRes = DiffUtil.calculateDiff(diffCallback)
-            handler.post {
-                this.setList(newList) // must call main thread
-                Timber.d("diff debug updateList post : setList[${this.issues.size}], newList[${newList.size}]")
-                diffRes.dispatchUpdatesTo(this)
+            withContext(Dispatchers.Main) {
+                setList(newList)
+                diffRes.dispatchUpdatesTo(this@IssuesAdapter)
             }
-        }.start()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IssueItemViewHolder {

@@ -12,21 +12,16 @@ object DateUtil {
 
     private val githubDateFormatString = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 
-    fun getGithubDateInterval(lastDate: String): String{
+    fun getDateInterval(lastDate: String, dateFormat: SimpleDateFormat): String{
         Timber.tag("processLastUpdateDate raw").d(lastDate)
         return try {
-            val lastUpdateDate = parseDate(lastDate, githubDateFormatString)!!
+            val lastUpdateDate = dateFormat.parse(lastDate)
             Timber.tag("processLastUpdateDate").d(lastUpdateDate.toString())
             getDistanceString(lastUpdateDate)
         }catch (e: Exception){
             e.printStackTrace()
             ""
         }
-    }
-
-    private fun parseDate(dateString: String, dateFormatString: String): Date? {
-        val dateFormat = SimpleDateFormat(dateFormatString)
-        return dateFormat.parse(dateString)
     }
 
     /**

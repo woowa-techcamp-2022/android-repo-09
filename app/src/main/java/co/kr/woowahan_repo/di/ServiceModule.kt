@@ -4,6 +4,7 @@ import android.app.Application
 import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
 import co.kr.woowahan_repo.data.service.*
+import co.kr.woowahan_repo.domain.GithubApiDateFormat
 import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import dagger.Module
 import dagger.Provides
@@ -34,6 +35,10 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideApplicationContext(application: Application) = application
+
+    @Provides
+    @Singleton
+    fun provideGithubDateFormat(): GithubApiDateFormat = GithubApiDateFormat()
 
 //    private fun getAuthInterceptor() = AuthInterceptor()
 

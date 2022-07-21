@@ -12,7 +12,9 @@ data class OAuthAccessTokenResponse(
 ){
     fun toEntity(): OAuthAccessTokenInfo {
         return OAuthAccessTokenInfo(
-            accessToken, scope, tokenType
+            accessToken = accessToken,
+            scope = scope,
+            tokenType = tokenType
         )
     }
 }

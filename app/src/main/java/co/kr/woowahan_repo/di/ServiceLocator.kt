@@ -1,9 +1,12 @@
 package co.kr.woowahan_repo.di
 
 import co.kr.woowahan_repo.BuildConfig
+import co.kr.woowahan_repo.application.WoowahanRepoApplication
+import co.kr.woowahan_repo.data.WoowahanSharedPreferences
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
 import co.kr.woowahan_repo.data.repository.*
 import co.kr.woowahan_repo.data.service.*
+import co.kr.woowahan_repo.domain.GithubTokenDataSource
 import co.kr.woowahan_repo.domain.repository.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,9 +14,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceLocator {
-    var accessToken: String = ""
 
-    private fun getAuthInterceptor() = AuthInterceptor(accessToken)
+    fun provideGithubTokenDataSource(): GithubTokenDataSource = WoowahanSharedPreferences(
+        WoowahanRepoApplication.instance
+    )
+
+    private fun getAuthInterceptor() = AuthInterceptor(provideGithubTokenDataSource().fetchToken())
 
     private fun getOAuthClient() = OkHttpClient.Builder()
         .addInterceptor(

@@ -21,7 +21,10 @@ val woowahanViewModelFactory = object: ViewModelProvider.Factory {
         Timber.d("viewModelFactory debug 2 $modelClass")
         val application = checkNotNull(extras[APPLICATION_KEY]) as WoowahanRepoApplication
         when {
-            isAssignableFrom(SignInViewModel::class.java) -> SignInViewModel(application.oAuthRepository)
+            isAssignableFrom(SignInViewModel::class.java) -> SignInViewModel(
+                application.oAuthRepository,
+                application.githubTokenDataSource
+            )
             isAssignableFrom(MainViewModel::class.java) -> MainViewModel(application.githubProfileRepository)
             isAssignableFrom(IssuesViewModel::class.java) -> IssuesViewModel(application.issueRepository)
             isAssignableFrom(NotificationsViewModel::class.java) -> NotificationsViewModel(application.notificationRepository)

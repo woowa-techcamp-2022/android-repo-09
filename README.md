@@ -19,7 +19,7 @@ Add these lines in your local.properties and run app
 - Minumum SDK 26
 - Kotlin
 - Coroutines
-- Dagger-Hilt (Only in main branch)
+- **Dagger-Hilt (Only in main branch)**
 - AndroidX Jetpack
     - LiveData
 - Retrofit2 & OkHttp3 + Gson

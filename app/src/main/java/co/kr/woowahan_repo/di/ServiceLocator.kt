@@ -4,9 +4,11 @@ import co.kr.woowahan_repo.BuildConfig
 import co.kr.woowahan_repo.application.WoowahanRepoApplication
 import co.kr.woowahan_repo.data.datasource.WoowahanSharedPreferences
 import co.kr.woowahan_repo.data.api.interceptor.AuthInterceptor
+import co.kr.woowahan_repo.data.datasource.GithubProfileDataSourceImpl
 import co.kr.woowahan_repo.data.repository.*
 import co.kr.woowahan_repo.data.service.*
 import co.kr.woowahan_repo.domain.GithubApiDateFormat
+import co.kr.woowahan_repo.domain.datasource.GithubProfileDataSource
 import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import co.kr.woowahan_repo.domain.repository.*
 import okhttp3.OkHttpClient
@@ -18,10 +20,17 @@ object ServiceLocator {
 
     fun provideGithubApiDateFormat(): GithubApiDateFormat = GithubApiDateFormat.getInstance()
 
+    /**
+     * data source
+     */
     fun provideGithubTokenDataSource(): GithubTokenDataSource = WoowahanSharedPreferences(
         WoowahanRepoApplication.instance
     )
+    private fun provideGithubProfileDataSource(): GithubProfileDataSource = GithubProfileDataSourceImpl.getInstance()
 
+    /**
+     * retrofit
+     */
     private fun getAuthInterceptor() = AuthInterceptor(provideGithubTokenDataSource().fetchToken())
 
     private fun getOAuthClient() = OkHttpClient.Builder()
@@ -105,7 +114,8 @@ object ServiceLocator {
     fun provideGithubProfileRepository(): GithubProfileRepository =
         GithubProfileRepositoryImpl(
             provideGithubProfileService(),
-            provideGithubUsersRepositoriesService()
+            provideGithubUsersRepositoriesService(),
+            provideGithubProfileDataSource()
         )
 
 }

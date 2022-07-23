@@ -38,12 +38,7 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
         setUpRecyclerView()
         setListener()
         observeData()
-
-        // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
-        binding.etSearch.let {
-            it.requestFocus()
-            setKeyboardShown(true, it)
-        }
+        openSearchKeyboard()
     }
 
     private fun setUpHeader(){
@@ -90,6 +85,7 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
         }
 
         etSearch.addTextChangedListener { // 일단 임시
+            if(it.isNullOrBlank()) openSearchKeyboard()
             tlSearch.isStartIconVisible = it.isNullOrBlank() // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
             viewModel.onTextChanged(it.toString())
         }
@@ -130,6 +126,13 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
                     showToast(it.error?.message ?: return@observe)
                 }
             }
+        }
+    }
+
+    private fun openSearchKeyboard(){
+        binding.etSearch.let {
+            it.requestFocus()
+            setKeyboardShown(true, it)
         }
     }
 

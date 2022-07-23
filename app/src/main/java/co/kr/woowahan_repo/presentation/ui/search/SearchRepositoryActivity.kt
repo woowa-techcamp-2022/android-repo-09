@@ -2,6 +2,8 @@ package co.kr.woowahan_repo.presentation.ui.search
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -17,6 +19,7 @@ import co.kr.woowahan_repo.presentation.PagingListener
 import co.kr.woowahan_repo.databinding.ActivitySearchRepositoryBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel
+import co.kr.woowahan_repo.util.scrollToTop
 import co.kr.woowahan_repo.util.showSnackBar
 import co.kr.woowahan_repo.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,12 +41,7 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
         setUpRecyclerView()
         setListener()
         observeData()
-
-        // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
-        binding.etSearch.let {
-            it.requestFocus()
-            setKeyboardShown(true, it)
-        }
+        openSearchKeyboard()
     }
 
     private fun setUpHeader(){
@@ -89,8 +87,9 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
             tlSearch.startIconDrawable = startSearchIcon
         }
 
-        etSearch.addTextChangedListener { // 일단 임시
+        etSearch.addTextChangedListener {
             tlSearch.isStartIconVisible = it.isNullOrBlank() // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
+            if(it.isNullOrBlank()) openSearchKeyboard()
             viewModel.onTextChanged(it.toString())
         }
 
@@ -120,12 +119,23 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
                     searchAdapter.updateList(it.searchResList ?: listOf())
                 }
 
+                is SearchRepositoryViewModel.SearchViewState.SearchScrollToTop -> {
+                    binding.rvSearch.scrollToTop(false)
+                }
+
                 is SearchRepositoryViewModel.SearchViewState.SearchQueryFail -> {
                     Timber.tag("search fail").d(it.error?.message)
                     binding.layoutEmptyResponse.isVisible = true
                     showToast(it.error?.message ?: return@observe)
                 }
             }
+        }
+    }
+
+    private fun openSearchKeyboard(){
+        binding.etSearch.let {
+            it.requestFocus()
+            setKeyboardShown(true, it)
         }
     }
 

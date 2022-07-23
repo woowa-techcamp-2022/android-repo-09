@@ -64,6 +64,7 @@ class SearchRepositoryViewModel @Inject constructor(
                 if(currentList.isEmpty())
                     _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))
                 _viewState.value = SearchViewState.SearchResList(it)
+                _viewState.value = SearchViewState.SearchScrollToTop()
                 fetchGithubSearchLimit()
             }.onFailure {
                 it.printStackTrace()
@@ -98,7 +99,7 @@ class SearchRepositoryViewModel @Inject constructor(
                 prevQuery!!, currentPage + 1
             ).onSuccess {
                 when(it.isEmpty()) {
-                    true -> _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))
+                    true -> _viewState.value = SearchViewState.ErrorMessage(Throwable("다음 검색 결과가 없습니다"))
                     else -> {
                         currentPage++
                         currentList.addAll(it)
@@ -155,6 +156,7 @@ class SearchRepositoryViewModel @Inject constructor(
     ){
         class ErrorMessage(error: Throwable): SearchViewState(null, error)
         class SearchResList(searchResList: List<GithubRepositorySearchModel>): SearchViewState(searchResList)
+        class SearchScrollToTop: SearchViewState(null, null)
         class SearchQueryFail(error: Throwable): SearchViewState(null, error)
     }
 }

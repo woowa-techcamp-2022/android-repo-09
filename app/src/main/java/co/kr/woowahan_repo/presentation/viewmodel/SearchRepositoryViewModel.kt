@@ -55,6 +55,7 @@ class SearchRepositoryViewModel(
             searchRepository.searchQuery(
                 query, currentPage
             ).onSuccess {
+                _dataLoading.value = false
                 prevQuery = query
                 currentList.clear()
                 currentList.addAll(it)
@@ -70,11 +71,10 @@ class SearchRepositoryViewModel(
                         Timber.tag("cancel prev coroutine").d(it.message)
                     }
                     else -> {
+                        _dataLoading.value = false
                         _viewState.value = SearchViewState.SearchQueryFail(Throwable("검색을 실패하였습니다"))
                     }
                 }
-            }.also {
-                _dataLoading.value = false
             }
         }
     }

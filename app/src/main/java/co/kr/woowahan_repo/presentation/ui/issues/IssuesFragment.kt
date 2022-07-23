@@ -14,6 +14,7 @@ import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModel
 import co.kr.woowahan_repo.presentation.viewmodel.woowahanViewModelFactory
+import co.kr.woowahan_repo.util.scrollToTop
 import co.kr.woowahan_repo.util.showSnackBar
 import timber.log.Timber
 
@@ -63,15 +64,12 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
         ) {
             val state = when(it.itemId){
                 R.id.menu_issue_state_open -> {
-                    Timber.tag("PopupMenu Issue State Click").d("open")
                     GithubIssueModel.IssueState.Open.key
                 }
                 R.id.menu_issue_state_closed -> {
-                    Timber.tag("PopupMenu Issue State Click").d("closed")
                     GithubIssueModel.IssueState.Closed.key
                 }
                 R.id.menu_issue_state_all -> {
-                    Timber.tag("PopupMenu Issue State Click").d("all")
                     GithubIssueModel.IssueState.All.key
                 }
                 else -> null
@@ -90,6 +88,7 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
             when(it){
                 is IssuesViewModel.IssuesViewState.Issues -> {
                     issuesAdapter.updateList(it.issues ?: listOf())
+                    binding.rvIssues.scrollToTop(false)
                 }
                 is IssuesViewModel.IssuesViewState.FetchDataFail -> {
                     showSnackBar(binding.background, it.error?.message ?: "")

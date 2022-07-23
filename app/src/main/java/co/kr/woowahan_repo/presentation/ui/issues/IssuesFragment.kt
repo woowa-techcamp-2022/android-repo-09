@@ -12,6 +12,7 @@ import co.kr.woowahan_repo.domain.GithubApiDateFormat
 import co.kr.woowahan_repo.domain.model.GithubIssueModel
 import co.kr.woowahan_repo.presentation.ui.base.BaseFragment
 import co.kr.woowahan_repo.presentation.viewmodel.IssuesViewModel
+import co.kr.woowahan_repo.util.scrollToTop
 import co.kr.woowahan_repo.util.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -89,6 +90,7 @@ class IssuesFragment: BaseFragment<FragmentIssuesBinding>() {
             when(it){
                 is IssuesViewModel.IssuesViewState.Issues -> {
                     issuesAdapter.updateList(it.issues ?: listOf())
+                    binding.rvIssues.scrollToTop(false)
                 }
                 is IssuesViewModel.IssuesViewState.FetchDataFail -> {
                     showSnackBar(binding.background, it.error?.message ?: "")

@@ -18,6 +18,7 @@ import co.kr.woowahan_repo.presentation.PagingListener
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel
 import co.kr.woowahan_repo.presentation.viewmodel.woowahanViewModelFactory
+import co.kr.woowahan_repo.util.scrollToTop
 import co.kr.woowahan_repo.util.showSnackBar
 import co.kr.woowahan_repo.util.showToast
 import timber.log.Timber
@@ -37,12 +38,7 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
         setUpRecyclerView()
         setListener()
         observeData()
-
-        // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
-        binding.etSearch.let {
-            it.requestFocus()
-            setKeyboardShown(true, it)
-        }
+        openSearchKeyboard()
     }
 
     private fun setUpHeader(){
@@ -89,6 +85,7 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
         }
 
         etSearch.addTextChangedListener { // 일단 임시
+            if(it.isNullOrBlank()) openSearchKeyboard()
             tlSearch.isStartIconVisible = it.isNullOrBlank() // 이런건 커스텀 뷰로 생성했다면 뷰 내부 코드로 존재하는 것이니 activity 에 유지
             viewModel.onTextChanged(it.toString())
         }
@@ -119,12 +116,23 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
                     searchAdapter.updateList(it.searchResList ?: listOf())
                 }
 
+                is SearchRepositoryViewModel.SearchViewState.SearchScrollToTop -> {
+                    binding.rvSearch.scrollToTop(false)
+                }
+
                 is SearchRepositoryViewModel.SearchViewState.SearchQueryFail -> {
                     Timber.tag("search fail").d(it.error?.message)
                     binding.layoutEmptyResponse.isVisible = true
                     showToast(it.error?.message ?: return@observe)
                 }
             }
+        }
+    }
+
+    private fun openSearchKeyboard(){
+        binding.etSearch.let {
+            it.requestFocus()
+            setKeyboardShown(true, it)
         }
     }
 

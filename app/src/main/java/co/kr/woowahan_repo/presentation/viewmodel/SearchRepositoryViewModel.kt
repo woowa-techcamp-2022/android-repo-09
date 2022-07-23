@@ -61,6 +61,7 @@ class SearchRepositoryViewModel(
                 if(currentList.isEmpty())
                     _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))
                 _viewState.value = SearchViewState.SearchResList(it)
+                _viewState.value = SearchViewState.SearchScrollToTop()
                 fetchGithubSearchLimit()
             }.onFailure {
                 it.printStackTrace()
@@ -152,6 +153,7 @@ class SearchRepositoryViewModel(
     ){
         class ErrorMessage(error: Throwable): SearchViewState(null, error)
         class SearchResList(searchResList: List<GithubRepositorySearchModel>): SearchViewState(searchResList)
+        class SearchScrollToTop: SearchViewState(null, null)
         class SearchQueryFail(error: Throwable): SearchViewState(null, error)
     }
 }

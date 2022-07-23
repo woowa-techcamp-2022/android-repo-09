@@ -1,6 +1,7 @@
 package co.kr.woowahan_repo.di
 
 import co.kr.woowahan_repo.data.datasource.WoowahanSharedPreferences
+import co.kr.woowahan_repo.domain.datasource.GithubProfileDataSource
 import co.kr.woowahan_repo.domain.datasource.GithubTokenDataSource
 import dagger.Binds
 import dagger.Module
@@ -13,5 +14,8 @@ abstract class DataSourceModule {
 
     @Binds
     abstract fun bindGithubTokenDataSource(impl: WoowahanSharedPreferences): GithubTokenDataSource
+    
+    @Binds
+    abstract fun bindGithubProfileSource(impl: WoowahanSharedPreferences): GithubProfileDataSource
 
 }

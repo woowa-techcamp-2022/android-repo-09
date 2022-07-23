@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface GithubIssuesService {
-    @GET("issues")
+    @GET("user/issues")
     suspend fun fetchIssues(
         @Query("state")state: String,
         @Query("filter")filter: String = "all",

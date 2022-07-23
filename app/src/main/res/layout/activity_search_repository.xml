@@ -133,8 +133,8 @@
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:indeterminate="true"
+        <ProgressBar
+            android:layout_gravity="center"
             android:id="@+id/progress"
             android:visibility="gone"
             android:layout_width="match_parent"

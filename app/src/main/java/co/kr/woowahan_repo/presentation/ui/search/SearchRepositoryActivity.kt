@@ -2,8 +2,6 @@ package co.kr.woowahan_repo.presentation.ui.search
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -15,8 +13,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kr.woowahan_repo.R
-import co.kr.woowahan_repo.presentation.PagingListener
 import co.kr.woowahan_repo.databinding.ActivitySearchRepositoryBinding
+import co.kr.woowahan_repo.presentation.PagingListener
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel
 import co.kr.woowahan_repo.util.scrollToTop

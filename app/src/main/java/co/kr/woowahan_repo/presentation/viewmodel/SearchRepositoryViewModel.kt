@@ -98,7 +98,7 @@ class SearchRepositoryViewModel @Inject constructor(
                 prevQuery!!, currentPage + 1
             ).onSuccess {
                 when(it.isEmpty()) {
-                    true -> _viewState.value = SearchViewState.ErrorMessage(Throwable("검색 결과가 없습니다"))
+                    true -> _viewState.value = SearchViewState.ErrorMessage(Throwable("다음 검색 결과가 없습니다"))
                     else -> {
                         currentPage++
                         currentList.addAll(it)

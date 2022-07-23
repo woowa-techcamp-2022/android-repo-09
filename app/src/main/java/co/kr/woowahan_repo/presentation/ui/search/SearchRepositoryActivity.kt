@@ -19,6 +19,7 @@ import co.kr.woowahan_repo.presentation.PagingListener
 import co.kr.woowahan_repo.databinding.ActivitySearchRepositoryBinding
 import co.kr.woowahan_repo.presentation.ui.base.BaseActivity
 import co.kr.woowahan_repo.presentation.viewmodel.SearchRepositoryViewModel
+import co.kr.woowahan_repo.util.scrollToTop
 import co.kr.woowahan_repo.util.showSnackBar
 import co.kr.woowahan_repo.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -116,6 +117,10 @@ class SearchRepositoryActivity : BaseActivity<ActivitySearchRepositoryBinding>()
                 is SearchRepositoryViewModel.SearchViewState.SearchResList -> {
                     binding.layoutEmptyResponse.isVisible = it.searchResList.isNullOrEmpty()
                     searchAdapter.updateList(it.searchResList ?: listOf())
+                }
+
+                is SearchRepositoryViewModel.SearchViewState.SearchScrollToTop -> {
+                    binding.rvSearch.scrollToTop(false)
                 }
 
                 is SearchRepositoryViewModel.SearchViewState.SearchQueryFail -> {

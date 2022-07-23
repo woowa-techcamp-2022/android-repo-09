@@ -37,6 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 
+            android:gravity="end"
             android:textColor="@color/grey_74869B"
             android:textSize="14sp"
             android:id="@+id/tv_date"
